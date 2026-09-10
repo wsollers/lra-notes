@@ -93,6 +93,52 @@ One-line sketch:
 
 > To hit `y : B`, use `g y : A` as the preimage; the right-inverse hypothesis proves `f (g y) = y`.
 
+Stuck-state repair:
+
+> If the goal asks for an existential witness, give Lean the witness expression directly with `use g b`; then the right-inverse hypothesis should match the remaining equality.
+
+Failure mode:
+
+```lean
+have a : A := g b
+use a
+exact hrI b
+```
+
+This can get sticky because the goal after `use a` is `f a = b`, while
+`hrI b` has type `f (g b) = b`. Mathematically `a` was defined to be `g b`,
+but the visible goal no longer shows the expression that `hrI b` talks about.
+For a first pass, prefer the direct witness.
+
+Beginner-clean version:
+
+```lean
+use g b
+exact hrI b
+```
+
+What `use` does:
+
+- `use t` is for goals of the form `Exists`.
+- It gives Lean the witness `t`.
+- Lean then replaces the existential goal with the property that must be shown
+  for that witness.
+
+Proof-state transition:
+
+```text
+Goal:
+  exists a : A, f a = b
+
+After `use g b`:
+  f (g b) = b
+
+Known:
+  hrI b : f (g b) = b
+
+Then `exact hrI b` solves the goal.
+```
+
 Operational sketch:
 
 1. Introduce `y`.
