@@ -22,6 +22,16 @@ One-line sketch:
 
 > To show `x = y`, rewrite `x` as `g (f x)` and `y` as `g (f y)`, then use the hypothesis `f x = f y`.
 
+Stuck-state repair:
+
+> If the goal is `x = y` and `hxy : f x = f y`, use the left-inverse facts to rewrite both sides back through the inverse candidate, then rewrite by `hxy`.
+
+Lean move tested:
+
+```lean
+rw [← hlI x, ← hlI y, hxy]
+```
+
 Operational sketch:
 
 1. Introduce `x y hxy`.
@@ -97,4 +107,3 @@ Operational sketch:
 2. Obtain `b` with `g b = c` from `hg c`.
 3. Obtain `a` with `f a = b` from `hf b`.
 4. Use witness `a` and compose the equalities.
-

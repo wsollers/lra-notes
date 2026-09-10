@@ -61,6 +61,9 @@ answer. Prefer cards that repair a real hesitation or failed proof attempt.
 
 ### Failure Repairs
 
+- Q: In proving injectivity from a left inverse, what should you do when the goal is `x = y` and `hxy : f x = f y`?
+  A: Rewrite `x` and `y` using the left-inverse facts, then rewrite with `hxy`.
+
 - Q: What should you do before writing the conclusion of a theorem header?
   A: Account for the types, givens, and hypotheses in the source statement.
 
