@@ -32,6 +32,45 @@ Lean move tested:
 rw [← hlI x, ← hlI y, hxy]
 ```
 
+Expanded learner proof:
+
+```lean
+have heq : e (f x) = e (f y) :=
+  congrArg e hxy
+rw [hlI x, hlI y] at heq
+exact heq
+```
+
+What each line does:
+
+- `have heq : e (f x) = e (f y) := ...` creates an intermediate fact and
+  names it `heq`.
+- `congrArg e hxy` applies the same function `e` to both sides of the equality
+  `hxy : f x = f y`.
+- `rw [hlI x, hlI y] at heq` rewrites inside the hypothesis `heq`, not in the
+  main goal.
+- `exact heq` closes the goal because, after rewriting, `heq` has type `x = y`.
+
+Proof-state transition:
+
+```text
+Goal:
+  x = y
+
+Known:
+  hxy : f x = f y
+  hlI x : e (f x) = x
+  hlI y : e (f y) = y
+
+After `have heq : e (f x) = e (f y) := congrArg e hxy`:
+  heq : e (f x) = e (f y)
+
+After `rw [hlI x, hlI y] at heq`:
+  heq : x = y
+
+Then `exact heq` solves the goal.
+```
+
 Operational sketch:
 
 1. Introduce `x y hxy`.
