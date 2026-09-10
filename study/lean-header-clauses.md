@@ -103,3 +103,22 @@ Reading:
 Use the clause table in the Google Doc for first exposure. Use the emphasized
 views only when a specific clause causes confusion.
 
+## Lemma 2.1: Types And Givens
+
+Use this order while learning:
+
+1. Identify the type clause.
+2. Identify the given functions.
+3. Identify the hypotheses about those functions.
+4. Identify the conclusion.
+
+For Lemma 2.1, the first two stages are:
+
+| Stage | Question | Answer |
+| --- | --- | --- |
+| Types | What are the source and target objects? | `A` and `B`. |
+| Givens | What is the main function? | `f` from `A` to `B`. |
+| Givens | What inverse candidates are supplied? | Two functions from `B` to `A`. |
+
+Note: Munkres names the inverse candidates `g` and `h`. In Lean notes, prefer
+`g` and `r` because `h` is commonly used for proof hypotheses.
