@@ -1,4 +1,4 @@
-import Mathlib
+import Munkres.Common
 
 namespace Munkres.Topology.Chapter01
 
