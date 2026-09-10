@@ -21,6 +21,9 @@ answer. Prefer cards that repair a real hesitation or failed proof attempt.
 
 ### Lean Vocabulary
 
+- Q: In a Lean theorem about functions between Munkres-style sets `A` and `B`, what is the first clause to identify?
+  A: The type clause, usually `{A B : Type*}`.
+
 - Q: What is the mathlib predicate for injectivity?
   A: `Function.Injective f`.
 
@@ -39,6 +42,12 @@ answer. Prefer cards that repair a real hesitation or failed proof attempt.
 - Q: What does `variable {A B C : Type*}` do?
   A: It declares reusable implicit type variables for later declarations.
 
+- Q: For Munkres Lemma 2.1, after the types, what are the first givens?
+  A: The functions: `f : A -> B` and two inverse candidates from `B -> A`.
+
+- Q: Why use `r` instead of Munkres's `h` for the second inverse candidate?
+  A: In Lean notes, `h` is usually reserved for proof hypotheses.
+
 ### Proof Patterns
 
 - Q: To prove `Function.Injective f`, what should you introduce?
@@ -52,9 +61,11 @@ answer. Prefer cards that repair a real hesitation or failed proof attempt.
 
 ### Failure Repairs
 
+- Q: What should you do before writing the conclusion of a theorem header?
+  A: Account for the types, givens, and hypotheses in the source statement.
+
 - Q: What is a common mistake with `g ∘ f`?
   A: Reading it backwards; `g ∘ f` means first `f`, then `g`.
 
 - Q: What should you check before proving a function theorem?
   A: Whether mathlib already has the right predicate, such as `Function.Injective`.
-
