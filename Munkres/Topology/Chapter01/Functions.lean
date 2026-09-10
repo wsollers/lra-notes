@@ -1,3 +1,4 @@
+import Munkres.Common
 import Mathlib
 
 namespace Munkres.Topology.Chapter01
@@ -21,8 +22,10 @@ lemma Munkres_2_1_BijectiveOfLeftRightInverse
     . -- prove injectivity
       unfold Function.Injective
       intro x y hxy
-
-      sorry
+      have heq : e (f x) = e (f y) :=
+        congrArg e hxy
+      rw [hlI x, hlI y] at heq
+      exact heq
     . -- prove surjectivity
       sorry
   . -- prove e = g
