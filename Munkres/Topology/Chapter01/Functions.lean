@@ -27,10 +27,16 @@ lemma Munkres_2_1_BijectiveOfLeftRightInverse
       rw [hlI x, hlI y] at heq
       exact heq
     . -- prove surjectivity
-      sorry
-  . -- prove e = g
+      unfold Function.Surjective
+      intro b
+      have a : A := g b
 
+
+      sorry
+
+  . -- prove e = g
     sorry
+
 
 
 
