@@ -50,6 +50,18 @@ answer. Prefer cards that repair a real hesitation or failed proof attempt.
 
 ### Proof Patterns
 
+- Q: What does `have heq : P := proof` do in Lean?
+  A: It creates a named intermediate fact `heq` whose type is `P`.
+
+- Q: What does `congrArg e hxy` do when `hxy : f x = f y`?
+  A: It applies `e` to both sides, producing `e (f x) = e (f y)`.
+
+- Q: What does `rw [hlI x, hlI y] at heq` mean?
+  A: Rewrite inside the hypothesis `heq` using the equalities `hlI x` and `hlI y`.
+
+- Q: What does `exact heq` do?
+  A: It closes the goal when `heq` has exactly the goal's type.
+
 - Q: To prove `Function.Injective f`, what should you introduce?
   A: Introduce two inputs and a proof their images are equal.
 
@@ -63,6 +75,9 @@ answer. Prefer cards that repair a real hesitation or failed proof attempt.
 
 - Q: In proving injectivity from a left inverse, what should you do when the goal is `x = y` and `hxy : f x = f y`?
   A: Rewrite `x` and `y` using the left-inverse facts, then rewrite with `hxy`.
+
+- Q: Failure mode: why can `hxy : f x = f y` feel useless when the goal is `x = y`?
+  A: It relates the images, not the inputs; you need injectivity data, here supplied by the left inverse.
 
 - Q: What should you do before writing the conclusion of a theorem header?
   A: Account for the types, givens, and hypotheses in the source statement.
