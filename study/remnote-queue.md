@@ -68,6 +68,15 @@ answer. Prefer cards that repair a real hesitation or failed proof attempt.
 - Q: To prove `Function.Surjective f`, what should you introduce?
   A: Introduce an arbitrary target value and provide a preimage witness.
 
+- Q: To prove `Function.Bijective f`, what should you prove?
+  A: Prove both `Function.Injective f` and `Function.Surjective f`.
+
+- Q: What tactic starts a proof of equality between two functions?
+  A: `funext x`, reducing function equality to equality of outputs at an arbitrary input.
+
+- Q: After `funext b` changes `e = g` into `e b = g b`, what kind of proof is needed?
+  A: A pointwise proof that the two functions agree at the arbitrary input `b`.
+
 - Q: To prove a goal of the form `exists x, P x`, what tactic usually starts the proof?
   A: `use x`, where `x` is the witness.
 
@@ -87,6 +96,12 @@ answer. Prefer cards that repair a real hesitation or failed proof attempt.
 
 - Q: Failure mode: in a surjectivity proof, what should you do if the witness is obvious?
   A: Use the witness expression directly, such as `use g b`.
+
+- Q: Failure mode: why can `rw [← hrI b]` rewrite too much in `e b = g b`?
+  A: It rewrites every matching `b`, including the one inside `g b`, so the right side changes too.
+
+- Q: How do you rewrite only one matching occurrence?
+  A: Use `nth_rewrite`, such as `nth_rewrite 1 [← hrI b]`.
 
 - Q: What should you do before writing the conclusion of a theorem header?
   A: Account for the types, givens, and hypotheses in the source statement.

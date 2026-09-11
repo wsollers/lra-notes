@@ -6,6 +6,49 @@ what theorem shape to unfold.
 
 ## Functions.lean
 
+### Bijection Toolkit
+
+Use this as the short map for the four recurring proof shapes.
+
+Injectivity:
+
+> To prove `Function.Injective f`, introduce two inputs and a proof that their
+> images are equal; then show the inputs are equal.
+
+Surjectivity:
+
+> To prove `Function.Surjective f`, introduce a target output; then give a
+> preimage witness and prove it maps to the target.
+
+Bijectivity:
+
+> To prove `Function.Bijective f`, split it into injectivity and surjectivity.
+
+Function equality:
+
+> To prove `e = g`, use `funext b` and prove `e b = g b` for an arbitrary input
+> `b`.
+
+Occurrence-control failure mode:
+
+```lean
+rw [← hrI b]
+```
+
+This can rewrite too much. In the goal `e b = g b`, using `hrI b` backwards
+rewrites every visible `b`, including the `b` inside `g b`. The goal becomes
+`e (f (g b)) = g (f (g b))`, but the left-inverse fact only proves
+`e (f (g b)) = g b`.
+
+Repair:
+
+```lean
+nth_rewrite 1 [← hrI b]
+```
+
+This rewrites only the first matching occurrence, changing `e b` into
+`e (f (g b))` while leaving the right side as `g b`.
+
 ### `InjectiveOfLeftInverse`
 
 Statement shape:
