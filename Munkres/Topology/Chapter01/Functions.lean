@@ -15,8 +15,7 @@ lemma Munkres_2_1_BijectiveOfLeftRightInverse
     -- To prove that f is bijective, we need to show it is both injective and surjective.
     -- To prove injectivity, assume f a₁ = f a₂ and show a₁ = a₂ using the left inverse e.
     -- To prove surjectivity, for any b : B, show there exists a : A such that f a = b using the right inverse g.
-    --unfold Function.LeftInverse at hlI
-    --unfold Function.RightInverse at hrI
+
     unfold Function.Bijective
     constructor
     . -- prove injectivity
@@ -29,13 +28,15 @@ lemma Munkres_2_1_BijectiveOfLeftRightInverse
     . -- prove surjectivity
       unfold Function.Surjective
       intro b
-      have a : A := g b
-
-
-      sorry
+      use g b
+      exact hrI b
 
   . -- prove e = g
+    unfold Function.LeftInverse at hlI
+    unfold Function.RightInverse Function.LeftInverse at hrI
+
     sorry
+
 
 
 
