@@ -22,7 +22,9 @@ Mathematical definitions and theorem statements are facts. Proofs are authored
 work: personal proof attempts should be preserved as personal artifacts, while
 polished proofs should be written independently rather than copied from a text.
 
-## First Track
+## Active Tracks
+
+### Munkres: Topology
 
 The first track is James R. Munkres, *Topology*, Second Edition.
 
@@ -44,11 +46,56 @@ preimages, relations, equivalence relations, partitions, and basic set
 manipulation. Later chapters should formalize only the load-bearing material:
 definitions, propositions, examples, and selected exercises.
 
+### Ó Searcóid: Metric Spaces
+
+Forward metric-space track:
+
+- `SRC-000401`
+- Mícheál Ó Searcóid, *Metric Spaces*, Second Edition, Springer London, 2006.
+- PDF: `D:\Readings\Sources\Analysis\Metric Spaces\Metric Spaces - Searc id.pdf`
+- searchable extract:
+  `F:\repos\lra-source-profiles\volumes\volume-iii\_sources\markdown\SRC-000401.md`
+
+Lean modules start under:
+
+```text
+Searcoid/MetricSpaces/
+```
+
+This track should lean hard on mathlib's existing metric-space API. The first
+pass should prioritize theorem statements, examples, and selected exercises,
+with definitions modeled only when they clarify the book/mathlib translation.
+
+### Thomson/Bruckner: Real Analysis
+
+Support track for real analysis:
+
+- `SRC-000115`
+- Catalog title: *Elementary Real Analysis Second Edition. [Part One]*
+- Catalog author: Brian S. Thomson
+- User-facing PDF filename: `Elementary Real Analysis - Bruckner.pdf`
+- PDF: `D:\Readings\Sources\Analysis\Real Analysis\Elementary Real Analysis - Bruckner.pdf`
+- searchable extract:
+  `F:\repos\lra-source-profiles\volumes\volume-iii\_sources\markdown\SRC-000115.md`
+
+Lean modules start under:
+
+```text
+Bruckner/RealAnalysis/
+```
+
+### Integration And Measure
+
+Integration is now reserved as a forward track. Measure spaces will come later.
+When those tracks begin, use mathlib's measure and integration API rather than
+rebuilding foundations.
+
 ## Build
 
 This project uses the same Lean/mathlib pin as `lra-lean` initially.
 
 ```powershell
+lake build
 lake build Munkres
+lake build LRANotes
 ```
-

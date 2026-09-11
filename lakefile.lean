@@ -10,3 +10,6 @@ require mathlib from git
 lean_lib Munkres where
   roots := #[`Munkres]
 
+@[default_target]
+lean_lib LRANotes where
+  roots := #[`LRANotes, `Searcoid, `Bruckner, `Integration]
