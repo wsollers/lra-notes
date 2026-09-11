@@ -71,6 +71,12 @@ answer. Prefer cards that repair a real hesitation or failed proof attempt.
 - Q: To prove a goal of the form `exists x, P x`, what tactic usually starts the proof?
   A: `use x`, where `x` is the witness.
 
+- Q: What does `use g b` do in a surjectivity proof?
+  A: It supplies `g b` as the preimage witness and leaves the goal `f (g b) = b`.
+
+- Q: Why can `have a : A := g b; use a` make the next step harder?
+  A: The goal becomes `f a = b`, while the right-inverse hypothesis is about `f (g b) = b`.
+
 ### Failure Repairs
 
 - Q: In proving injectivity from a left inverse, what should you do when the goal is `x = y` and `hxy : f x = f y`?
@@ -78,6 +84,9 @@ answer. Prefer cards that repair a real hesitation or failed proof attempt.
 
 - Q: Failure mode: why can `hxy : f x = f y` feel useless when the goal is `x = y`?
   A: It relates the images, not the inputs; you need injectivity data, here supplied by the left inverse.
+
+- Q: Failure mode: in a surjectivity proof, what should you do if the witness is obvious?
+  A: Use the witness expression directly, such as `use g b`.
 
 - Q: What should you do before writing the conclusion of a theorem header?
   A: Account for the types, givens, and hypotheses in the source statement.
