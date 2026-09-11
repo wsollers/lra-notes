@@ -35,7 +35,7 @@ lemma Munkres_2_1_BijectiveOfLeftRightInverse
     unfold Function.LeftInverse at hlI
     unfold Function.RightInverse Function.LeftInverse at hrI
     funext b
-    rw  [<- hrI b]
+    nth_rewrite 1 [<- hrI b]
     exact hlI (g b)
 
 
