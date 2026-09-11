@@ -13,6 +13,29 @@ pattern without adding a named theorem to the chapter API.
 
 section Functions
 
+section Exercise01
+
+variable {A B : Type*} (f : A → B)
+variable (A₀ : Set A) (B₀ : Set B)
+
+/- Image/preimage comparison. These are the first warning that `image` and
+   `preimage` are not inverse operations unless `f` has the right function
+   property. -/
+
+exercise : A₀ ⊆ f ⁻¹' (f '' A₀) := by
+  sorry
+
+exercise : Function.Injective f → f ⁻¹' (f '' A₀) = A₀ := by
+  sorry
+
+exercise : f '' (f ⁻¹' B₀) ⊆ B₀ := by
+  sorry
+
+exercise : Function.Surjective f → f '' (f ⁻¹' B₀) = B₀ := by
+  sorry
+
+end Exercise01
+
 section Exercise02
 
 variable {A B : Type*} (f : A → B)
