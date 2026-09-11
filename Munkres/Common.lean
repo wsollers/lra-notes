@@ -30,9 +30,19 @@ syntax (name := corollaryCommand) declModifiers
     stx.setKind ``Parser.Command.theorem
   pure <| stx.setKind ``Parser.Command.declaration
 
-/-- `exercise` is a textbook-facing synonym for an anonymous `example`. -/
-syntax (name := exerciseCommand) "exercise " ":" term " := " term : command
+/-- `exercise` is a textbook-facing synonym for a named `theorem`. -/
+syntax (name := exerciseCommand) declModifiers
+  group("exercise " declId ppIndent(declSig) declVal) : command
+
+@[macro exerciseCommand] def expandExercise : Macro := fun stx =>
+  let stx := stx.modifyArg 1 fun stx =>
+    let stx := stx.modifyArg 0 (mkAtomFrom · "theorem" (canonical := true))
+    stx.setKind ``Parser.Command.theorem
+  pure <| stx.setKind ``Parser.Command.declaration
+
+/-- `counterexample` is a textbook-facing synonym for an anonymous `example`. -/
+syntax (name := counterexampleCommand) "counterexample " ":" term " := " term : command
 
 macro_rules
-  | `(exercise : $ty:term := $val:term) =>
+  | `(counterexample : $ty:term := $val:term) =>
       `(example : $ty := $val)
