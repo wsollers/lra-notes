@@ -29,3 +29,10 @@ syntax (name := corollaryCommand) declModifiers
     let stx := stx.modifyArg 0 (mkAtomFrom · "theorem" (canonical := true))
     stx.setKind ``Parser.Command.theorem
   pure <| stx.setKind ``Parser.Command.declaration
+
+/-- `exercise` is a textbook-facing synonym for an anonymous `example`. -/
+syntax (name := exerciseCommand) "exercise " ":" term " := " term : command
+
+macro_rules
+  | `(exercise : $ty:term := $val:term) =>
+      `(example : $ty := $val)
