@@ -34,8 +34,9 @@ lemma Munkres_2_1_BijectiveOfLeftRightInverse
   . -- prove e = g
     unfold Function.LeftInverse at hlI
     unfold Function.RightInverse Function.LeftInverse at hrI
-
-    sorry
+    funext b
+    rw  [<- hrI b]
+    exact hlI (g b)
 
 
 
