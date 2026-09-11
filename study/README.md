@@ -13,3 +13,12 @@ The files are deliberately lightweight. Add rough observations here during a
 proof session; refine them later into RemNote cards, Google Doc sections, or
 Lean comments only when they earn that permanence.
 
+## Pacing Rule
+
+Model definitions when they are needed to state the book faithfully or to make a
+theorem reusable. Do not try to formalize every definition-like sentence on the
+first pass.
+
+The main learning loop is theorem-driven: pick load-bearing propositions,
+examples, and selected exercises; prove them; record the Lean and mathematical
+failure modes that appear.
