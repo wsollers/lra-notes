@@ -77,9 +77,18 @@ theorem AdditiveIdentityUnique (z : R)
     z = sys.add z sys.zero := by rw [add_zero_right sys z]
     _ = sys.zero := zLeftIdentity sys.zero
 
-theorem AdditiveInverseUnique (x : R)
-  (yInverse : ∀ y : R, sys.add x y = sys.zero ∧ sys.add y x = sys.zero)
-  (zInverse : ∀ z : R, sys.add x z = sys.zero ∧ sys.add z x = sys.zero) : y = z := by
+lemma AdditiveInverseExists (x : R) :
+  ∃ y : R, sys.add x y = sys.zero ∧ sys.add y x = sys.zero :=
+  sys.exists_neg x
+
+lemma LeftAdditiveInverse {x y: R} :
+  sys.add x y = sys.zero := by
+  have ⟨y,hy⟩ := sys.exists_neg x
+  exact hy.1
+
+theorem AdditiveInverseUnique (x y z : R)
+  (yInverse : sys.add x y = sys.zero ∧ sys.add y x = sys.zero)
+  (zInverse : sys.add x z = sys.zero ∧ sys.add z x = sys.zero) : y = z := by
 
 
   sorry
