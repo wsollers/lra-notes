@@ -77,5 +77,10 @@ theorem AdditiveIdentityUnique (z : R)
     z = sys.add z sys.zero := by rw [add_zero_right sys z]
     _ = sys.zero := zLeftIdentity sys.zero
 
+theorem AdditiveInverseUnique (x : R)
+  (yInverse : ∀ y : R, sys.add x y = sys.zero ∧ sys.add y x = sys.zero)
+  (zInverse : ∀ z : R, sys.add x z = sys.zero ∧ sys.add z x = sys.zero) : y = z := by
 
+
+  sorry
 end Laczkovich.RealAnalysis.Chapter03
