@@ -81,15 +81,32 @@ lemma AdditiveInverseExists (x : R) :
   ∃ y : R, sys.add x y = sys.zero ∧ sys.add y x = sys.zero :=
   sys.exists_neg x
 
-lemma LeftAdditiveInverse {x y: R} :
-  sys.add x y = sys.zero := by
+lemma LeftAdditiveInverse {x : R} :
+  ∃ y : R, sys.add x y = sys.zero := by
   have ⟨y,hy⟩ := sys.exists_neg x
-  exact hy.1
+  use y
+  rw [<-sys.add_comm x y] at hy
+  exact hy.2
+
+lemma RightAdditiveInverse {x : R} :
+  ∃ y : R, sys.add y x = sys.zero := by
+  have ⟨y,hy⟩ := sys.exists_neg x
+  use y
+  rw [<-sys.add_comm y x] at hy
+  exact hy.2
 
 theorem AdditiveInverseUnique (x y z : R)
   (yInverse : sys.add x y = sys.zero ∧ sys.add y x = sys.zero)
   (zInverse : sys.add x z = sys.zero ∧ sys.add z x = sys.zero) : y = z := by
 
+  have hy := yInverse.1
+  have hz := zInverse.1.symm
+  have hyz := hy.trans hz
+  rw [<-sys.add_comm y x] at hyz
+  ---calc
+  --have li := LeftAdditiveInverse x
 
   sorry
+
+
 end Laczkovich.RealAnalysis.Chapter03
