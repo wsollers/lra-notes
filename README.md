@@ -84,11 +84,46 @@ Lean modules start under:
 Bruckner/RealAnalysis/
 ```
 
-### Integration And Measure
+Active chapters:
 
-Integration is now reserved as a forward track. Measure spaces will come later.
-When those tracks begin, use mathlib's measure and integration API rather than
-rebuilding foundations.
+- Chapter 1
+- Chapter 8
+
+### Bartle: Real Analysis
+
+Lean modules start under:
+
+```text
+Bartle/RealAnalysis/
+```
+
+Active chapters:
+
+- Chapter 2
+
+### Zorich: Real Analysis
+
+Lean modules start under:
+
+```text
+Zorich/RealAnalysis/
+```
+
+Active chapters:
+
+- Chapter 2
+
+### Laczkovich: Real Analysis
+
+Lean modules start under:
+
+```text
+Laczkovich/RealAnalysis/
+```
+
+Active chapters:
+
+- Chapter 3
 
 ## Build
 
