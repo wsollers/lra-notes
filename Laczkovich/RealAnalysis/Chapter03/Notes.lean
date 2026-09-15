@@ -73,13 +73,29 @@ lemma zero_add_left {R : Type u} (sys : RealAxiomSystem R) (x : R) :
 theorem ZeroUnique (z : R)
   (zeroUniqueRight : ∀ x : R, sys.add x z = x)
   (zeroUniqueLeft : ∀ x : R, sys.add z x = x) : z = sys.zero := by
+  have h0Z : sys.add z sys.zero = z := zeroUniqueLeft sys.zero
 
+/-
   calc
     z = sys.add z sys.zero := by rw [add_zero_right sys z]
     _ = sys.zero := zeroUniqueLeft sys.zero
+-/
+  sorry
+
+theorem AdditiveIdentityUnique (z : R)
+    (zeroUniqueRight : ∀ x : R, sys.add x z = x)
+    (zeroUniqueLeft : ∀ x : R, sys.add z x = x) : z = sys.zero := by
+
+  -- 1. Specialize zeroUniqueRight to x = 0:
+  have h0Z : sys.add sys.zero z = sys.zero := zeroUniqueRight sys.zero
+  have hZ0 : sys.add z sys.zero = sys.zero := zeroUniqueLeft sys.zero
+  have z0 : z = sys.zero := by
+    rw [hZ0]
+    exact h0Z
 
 
 
 
+  sorry
 
 end Laczkovich.RealAnalysis.Chapter03
