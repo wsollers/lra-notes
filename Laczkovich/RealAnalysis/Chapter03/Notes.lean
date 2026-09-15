@@ -103,10 +103,23 @@ theorem AdditiveInverseUnique (x y z : R)
   have hz := zInverse.1.symm
   have hyz := hy.trans hz
   rw [<-sys.add_comm y x] at hyz
-  ---calc
-  --have li := LeftAdditiveInverse x
+  obtain ⟨xi, hxi⟩ := sys.exists_neg x
+  have hx_xi : sys.add x xi = sys.zero := hxi.1
+  have hxi_x : sys.add xi x = sys.zero := hxi.2
 
-  sorry
+  have yz :
+    sys.add (sys.add y x) xi = sys.add (sys.add x z) xi := by
+    exact congrArg (fun t => sys.add t xi) hyz
+  rw [sys.add_comm x z] at yz
+  rw [← sys.add_assoc y x xi] at yz
+  rw [← sys.add_assoc z x xi] at yz
+  rw [hx_xi] at yz
+  rw [add_zero_right sys y] at yz
+  rw [add_zero_right sys z] at yz
+
+  exact yz
+
+
 
 
 end Laczkovich.RealAnalysis.Chapter03
