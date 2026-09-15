@@ -71,11 +71,11 @@ lemma zero_add_left {R : Type u} (sys : RealAxiomSystem R) (x : R) :
 
 
 theorem AdditiveIdentityUnique (z : R)
-    (zeroUniqueLeft : ∀ x : R, sys.add z x = x) : z = sys.zero := by
+    (zLeftIdentity : ∀ x : R, sys.add z x = x) : z = sys.zero := by
 
   calc
     z = sys.add z sys.zero := by rw [add_zero_right sys z]
-    _ = sys.zero := zeroUniqueLeft sys.zero
+    _ = sys.zero := zLeftIdentity sys.zero
 
 
 end Laczkovich.RealAnalysis.Chapter03
