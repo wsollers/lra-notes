@@ -61,15 +61,15 @@ def IsIdentityElement {R : Type u} (op : R → R → R) (e : R) : Prop :=
 def IdentityExists {R : Type u} (op : R → R → R) : Prop :=
   (∃ e : R, ∀ x : R, IsIdentity op x e)
 
-
-
-
 def OperationIsAssociative {R : Type u} (op : R → R → R) : Prop :=
   ∀ x y z : R, op (op x y) z = op x (op y z)
 
 def OperationIsCommutative {R : Type u} (op : R → R → R) : Prop :=
   ∀ x y : R, op x y = op y x
 
+def DistinguishedElementsAreDistinct {R : Type u}
+  (zero : R) (one : R) : Prop :=
+  (¬ (zero = one ))
 
 structure FieldFragment (R : Type u) where
   zero : R
@@ -135,16 +135,6 @@ example : MultiplicativeFieldFragment ℝ where
       exact inv_mul_cancel₀ hx
     · show x * x⁻¹ = 1
       exact mul_inv_cancel₀ hx
-  multiplication_is_commutative := by
-    unfold OperationIsCommutative
-    intro x y
-    show x * y = y * x
-    exact mul_comm x y
-  multiplication_is_associative := by
-    unfold OperationIsAssociative
-    intro x y z
-    show (x * y) * z = x * (y * z)
-    exact mul_assoc x y z
   one_is_multiplicative_identity := by
     unfold IsIdentityElement
     intro x
@@ -156,9 +146,31 @@ example : MultiplicativeFieldFragment ℝ where
     . -- RightIdentity
       show x * 1 = x
       simp
+  multiplication_is_commutative := by
+    unfold OperationIsCommutative
+    intro x y
+    show x * y = y * x
+    exact mul_comm x y
+  multiplication_is_associative := by
+    unfold OperationIsAssociative
+    intro x y z
+    show (x * y) * z = x * (y * z)
+    exact mul_assoc x y z
 
+def IsLeftDistributive {R : Type u}
+  (times : R → R → R) (plus : R → R → R)
+  (x y z : R) : Prop :=
+  times x (plus y z) = plus (times x y) (times x z)
 
+def IsRightDistributive {R : Type u}
+  (times : R → R → R) (plus : R → R → R)
+  (x y z : R) : Prop :=
+  times (plus x y) z = plus (times x z) (times y z)
 
+def IsDistributive {R : Type u}
+  (times : R → R → R) (plus : R → R → R)
+  (x y z : R) : Prop :=
+  IsLeftDistributive times plus x y z ∧ IsRightDistributive times plus x y z
 
 
 end Zorich.RealAnalysis.Chapter02
