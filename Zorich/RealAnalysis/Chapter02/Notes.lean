@@ -292,8 +292,8 @@ structure OrderFragment (R : Type u) [Add R] where
   order_transitive : OrderIsTransitive le
   order_anti_symmetric : OrderIsAntiSymmetric le
   order_is_total : OrderIsTotal le
-  addition_preserves_order : AdditionPerservesOrder le add
-  multiplication_preserves_order : MultiplicationPerservesNonNegativity le mul zero
+  addition_preserves_order : AdditionPreservesOrder le add
+  multiplication_preserves_order : MultiplicationPreservesNonNegativity le mul zero
 
 example : OrderFragment ℝ where
   zero := 0
