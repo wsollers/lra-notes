@@ -281,4 +281,53 @@ def AdditionPerservesOrder  {R : Type u} (le : R → R → Prop) ( add :R → R 
 def MultiplicationPerservesNonNegativity  {R : Type u} (le : R → R → Prop) ( mul :R → R → R) (zero : R): Prop :=
   ∀ x y : R, le x y → le zero x ∧ le zero y → le zero ( mul x y)
 
+structure OrderFragment (R : Type u) [Add R] where
+  zero : R
+
+  le : R → R → Prop
+  add : R → R → R := fun x y => x + y
+  mul : R → R → R := fun x y => x + y
+
+  order_reflexive : OrderIsReflexive le
+  order_transitive : OrderIsTransitive le
+  order_anti_symmetric : OrderIsAntiSymmetric le
+  order_is_total : OrderIsTotal le
+  addition_preserves_order : AdditionPerservesOrder le add
+  multiplication_preserves_order : MultiplicationPerservesNonNegativity le mul zero
+
+example : OrderFragment ℝ where
+  zero := 0
+
+  le := fun x y => x ≤ y
+  add := fun x y => x + y
+  mul := fun x y => x * y
+
+  order_reflexive := by
+    unfold OrderIsReflexive
+    intro x
+    show x ≤ x
+    simp
+
+  order_transitive := by
+    unfold OrderIsTransitive
+    intro x y z
+    show x ≤ y ∧ y ≤ z → x ≤ z
+
+    sorry
+
+  order_anti_symmetric := by
+    unfold OrderIsAntiSymmetric
+    intro x y
+    show x ≤ y ∧ y ≤ x → x = y
+    sorry
+
+  order_is_total := by
+    sorry
+
+  addition_preserves_order := by
+    sorry
+
+  multiplication_preserves_order := by
+    sorry
+
 end Zorich.RealAnalysis.Chapter02
