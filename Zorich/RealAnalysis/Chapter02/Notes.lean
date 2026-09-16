@@ -158,19 +158,18 @@ example : MultiplicativeFieldFragment ℝ where
     exact mul_assoc x y z
 
 def IsLeftDistributive {R : Type u}
-  (times : R → R → R) (plus : R → R → R)
-  (∀ x y z : R),
+  (times : R → R → R) (plus : R → R → R) : Prop :=
+  ∀ x y z : R,
   times x (plus y z) = plus (times x y) (times x z)
 
 def IsRightDistributive {R : Type u}
-  (times : R → R → R) (plus : R → R → R)
-  (∀ x y z : R),
+  (times : R → R → R) (plus : R → R → R) : Prop :=
+  ∀ x y z : R,
   times (plus x y) z = plus (times x z) (times y z)
 
 def IsDistributive {R : Type u}
-  (times : R → R → R) (plus : R → R → R)
-  (∀ x y z : R),
-  IsLeftDistributive times plus x y z ∧ IsRightDistributive times plus x y z
+  (times : R → R → R) (plus : R → R → R) : Prop :=
+  IsLeftDistributive times plus ∧ IsRightDistributive times plus
 
 
 end Zorich.RealAnalysis.Chapter02
