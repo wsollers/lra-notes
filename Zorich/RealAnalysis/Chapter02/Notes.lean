@@ -69,7 +69,7 @@ def OperationIsCommutative {R : Type u} (op : R → R → R) : Prop :=
 
 def DistinguishedElementsAreDistinct {R : Type u}
   (zero : R) (one : R) : Prop :=
-  (¬ (zero = one ))
+  (zero ≠ one)
 
 structure FieldFragment (R : Type u) where
   zero : R
@@ -159,17 +159,17 @@ example : MultiplicativeFieldFragment ℝ where
 
 def IsLeftDistributive {R : Type u}
   (times : R → R → R) (plus : R → R → R)
-  (x y z : R) : Prop :=
+  (∀ x y z : R),
   times x (plus y z) = plus (times x y) (times x z)
 
 def IsRightDistributive {R : Type u}
   (times : R → R → R) (plus : R → R → R)
-  (x y z : R) : Prop :=
+  (∀ x y z : R),
   times (plus x y) z = plus (times x z) (times y z)
 
 def IsDistributive {R : Type u}
   (times : R → R → R) (plus : R → R → R)
-  (x y z : R) : Prop :=
+  (∀ x y z : R),
   IsLeftDistributive times plus x y z ∧ IsRightDistributive times plus x y z
 
 
