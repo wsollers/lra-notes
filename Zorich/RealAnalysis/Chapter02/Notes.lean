@@ -275,10 +275,10 @@ def OrderIsAntiSymmetric  {R : Type u} (le : R → R → Prop) : Prop :=
 def OrderIsTotal  {R : Type u} (le : R → R → Prop) : Prop :=
   ∀ x y: R, le x y  ∨ le y x
 
-def AdditionPerservesOrder  {R : Type u} (le : R → R → Prop) ( add :R → R → R) : Prop :=
+def AdditionPreservesOrder  {R : Type u} (le : R → R → Prop) ( add :R → R → R) : Prop :=
   ∀ x y z: R, le x y → le (add x z) (add y z)
 
-def MultiplicationPerservesNonNegativity  {R : Type u} (le : R → R → Prop) ( mul :R → R → R) (zero : R): Prop :=
-  ∀ x y : R, le x y → le zero x ∧ le zero y → le zero ( mul x y)
+def MultiplicationPreservesNonNegativity  {R : Type u} (le : R → R → Prop) ( mul :R → R → R) (zero : R): Prop :=
+  ∀ x y : R, le zero x ∧ le zero y → le zero ( mul x y)
 
 end Zorich.RealAnalysis.Chapter02
