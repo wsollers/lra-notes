@@ -1,4 +1,5 @@
 import Mathlib
+import Mathlib.Data.Real.Basic
 import Mathlib.Tactic.Basic
 import Mathlib.Tactic.Bound.Init
 import Mathlib.Util.CompileInductive
@@ -16,84 +17,147 @@ and proof-pattern observations for Chapter 2.
 namespace Zorich.RealAnalysis.Chapter02
 
 /-- Definition 1 (Zorich, 2.1.1): The Axiom System for the Set of Real Numbers. -/
-structure RealAxiomSystem (R : Type u) where
-  -- Operations (Data)
+
+/- Axiom system for the real numbers -/
+
+def IsLeftInverse {R : Type u} (op : R → R → R)(zero : R)
+  (e x : R) : Prop :=
+  op e x = zero
+
+def IsRightInverse {R : Type u} (op : R → R → R)(zero : R)
+  (x e : R) : Prop :=
+  op x e = zero
+
+def IsInverse {R : Type u} (op : R → R → R) (zero : R)
+  (x y : R) : Prop :=
+  IsLeftInverse op zero y x ∧ IsRightInverse op zero x y
+
+def InverseExists {R : Type u} (zero : R) (op : R → R → R) : Prop :=
+  (∀ x : R, ∃ e : R, IsInverse op zero x e)
+
+def NonzeroInverseExists {R : Type u} (zero one : R)
+    (op : R → R → R) : Prop :=
+  ∀ x : R, x ≠ zero → ∃ e : R, IsInverse op one x e
+
+
+
+
+
+def IsLeftIdentity {R : Type u} (op : R → R → R)
+  (e x : R) : Prop :=
+  op e x = x
+
+def IsRightIdentity {R : Type u} (op : R → R → R)
+  (x e : R) : Prop :=
+  op x e = x
+
+def IsIdentity {R : Type u} (op : R → R → R)
+  (x y : R) : Prop :=
+  IsLeftIdentity op y x ∧ IsRightIdentity op x y
+
+def IsIdentityElement {R : Type u} (op : R → R → R) (e : R) : Prop :=
+  ∀ x : R, IsIdentity op x e
+
+def IdentityExists {R : Type u} (op : R → R → R) : Prop :=
+  (∃ e : R, ∀ x : R, IsIdentity op x e)
+
+
+
+
+def OperationIsAssociative {R : Type u} (op : R → R → R) : Prop :=
+  ∀ x y z : R, op (op x y) z = op x (op y z)
+
+def OperationIsCommutative {R : Type u} (op : R → R → R) : Prop :=
+  ∀ x y : R, op x y = op y x
+
+
+structure FieldFragment (R : Type u) where
+  zero : R
   add : R → R → R
-  mul : R → R → R
-  le : R → R → Prop
+  additive_inverse_exists : InverseExists zero add
+  zero_is_additive_identity : IsIdentityElement add zero
+  addition_is_commutative : OperationIsCommutative add
+  addition_is_associative : OperationIsAssociative add
+
+structure MultiplicativeFieldFragment (R : Type u) where
   zero : R
   one : R
-  neg : R → R
-  inv : R → R
-  sSup : (R → Prop) → R
+  mul : R → R → R
+  nonzero_multiplicative_inverse_exists : NonzeroInverseExists zero one mul
+  one_is_multiplicative_identity : IsIdentityElement mul one
+  multiplication_is_commutative : OperationIsCommutative mul
+  multiplication_is_associative : OperationIsAssociative mul
 
-  -- (I) AXIOMS FOR ADDITION
-  -- 1+: Identity element 0
-  add_zero : ∀ x : R, add x zero = x ∧ add zero x = x
-  -- 2+: Additive inverse (-x)
-  add_left_neg : ∀ x : R, add x (neg x) = zero ∧ add (neg x) x = zero
-  -- 3+: Associativity of addition
-  add_assoc : ∀ x y z : R, add x (add y z) = add (add x y) z
-  -- 4+: Commutativity of addition
-  add_comm : ∀ x y : R, add x y = add y x
+example : FieldFragment ℝ where
+  zero := 0
+  add := fun x y => x + y
+  additive_inverse_exists := by
+    unfold InverseExists
+    intro x
+    use -x
+    constructor
+    · show (-x) + x = 0
+      simp
+    · show x + (-x) = 0
+      simp
+  addition_is_commutative := by
+    unfold OperationIsCommutative
+    intro x y
+    show x + y = y + x
+    exact add_comm x y
+  addition_is_associative := by
+    unfold OperationIsAssociative
+    intro x y z
+    show (x + y) + z = x + (y + z)
+    exact add_assoc x y z
+  zero_is_additive_identity := by
+    unfold IsIdentityElement
+    intro x
+    constructor
+    . -- LeftIdentity
+      show 0 + x = x
+      simp
 
-  -- (II) AXIOMS FOR MULTIPLICATION
-  mul_one : ∀ x : R, mul x one = x ∧ mul one x = x
-  mul_inv : ∀ x : R, x ≠ zero → mul x (inv x) = one ∧ mul (inv x) x = one
-  mul_assoc : ∀ x y z : R, mul x (mul y z) = mul (mul x y) z
-  mul_comm : ∀ x y : R, mul x y = mul y x
-  distrib : ∀ x y z : R, mul (add x y) z = add (mul x z) (mul y z)
-  zero_ne_one : zero ≠ one
+    . -- RightIdentity
+      show x + 0 = x
+      simp
 
-  -- (III) ORDER AXIOMS & COMPATIBILITY
-  le_refl : ∀ x : R, le x x
-  le_trans : ∀ x y z : R, le x y → le y z → le x z
-  le_antisymm : ∀ x y : R, le x y → le y x → x = y
-  le_total : ∀ x y : R, le x y ∨ le y x
-  add_le_add : ∀ x y z : R, le x y → le (add x z) (add y z)
-  mul_pos : ∀ x y : R, le zero x → le zero y → le zero (mul x y)
+example : MultiplicativeFieldFragment ℝ where
+  zero := 0
+  one := 1
+  mul := fun x y => x * y
+  nonzero_multiplicative_inverse_exists := by
+    unfold NonzeroInverseExists
+    intro x hx
+    use x⁻¹
+    constructor
+    · show x⁻¹ * x = 1
+      exact inv_mul_cancel₀ hx
+    · show x * x⁻¹ = 1
+      exact mul_inv_cancel₀ hx
+  multiplication_is_commutative := by
+    unfold OperationIsCommutative
+    intro x y
+    show x * y = y * x
+    exact mul_comm x y
+  multiplication_is_associative := by
+    unfold OperationIsAssociative
+    intro x y z
+    show (x * y) * z = x * (y * z)
+    exact mul_assoc x y z
+  one_is_multiplicative_identity := by
+    unfold IsIdentityElement
+    intro x
+    constructor
+    . -- LeftIdentity
+      show 1 * x = x
+      simp
 
-  -- (IV) COMPLETENESS AXIOM (Least Upper Bound Property)
-  cSup_upper : ∀ (S : R → Prop) (M : R),
-    (∃ x, S x) → (∀ x, S x → le x M) → ∀ x, S x → le x (sSup S)
-  cSup_least : ∀ (S : R → Prop) (M : R),
-    (∃ x, S x) → (∀ x, S x → le x M) → le (sSup S) M
-
-attribute [class] RealAxiomSystem
-
-variable {R : Type u} [sys : RealAxiomSystem R]
-
--- Set up textbook notation for this section
-local infixl:65 " + " => sys.add
-local infixl:70 " * " => sys.mul
-local prefix:100 "-" => sys.neg
-local postfix:102 "⁻¹" => sys.inv
-local infix:50 " ≤ " => sys.le
-
--- Enable numeral literals 0 and 1
-local instance : OfNat R 0 where
-  ofNat := sys.zero
-
-local instance : OfNat R 1 where
-  ofNat := sys.one
-
-/-
-  Theorem 1: Uniqueness of the Neutral Element (0)
-  In any real number system, the additive identity is unique.
-  If an element z acts as an additive identity (that is, x + z = x and z + x = x for all x), then z must equal 0.
-
--/
-theorem AdditiveIdentityUnique (z : R)
-    (zeroUniqueRight : ∀ x : R, x + z = x)
-    (zeroUniqueLeft : ∀ x : R, z + x = x) : z = 0 := by
-
-  -- 1. Specialize zeroUniqueRight to x = 0:
-  have h0Z : (0 : R) + z = 0 := zeroUniqueRight 0
-  have hZ0 : z + (0 : R) = (0 : R) := zeroUniqueLeft 0
-  have z0 := hZ0.trans h0Z.symm
+    . -- RightIdentity
+      show x * 1 = x
+      simp
 
 
-  sorry
 
 
 
