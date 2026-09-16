@@ -60,7 +60,6 @@ variable {R : Type u} (sys : RealAxiomSystem R)
 def lt (x y : R) : Prop :=
   sys.le x y ∧ x ≠ y
 
-
 lemma add_zero_right {R : Type u} (sys : RealAxiomSystem R) (x : R) :
     sys.add x sys.zero = x :=
   (sys.add_zero x).1
@@ -68,7 +67,6 @@ lemma add_zero_right {R : Type u} (sys : RealAxiomSystem R) (x : R) :
 lemma zero_add_left {R : Type u} (sys : RealAxiomSystem R) (x : R) :
     sys.add sys.zero x = x :=
   (sys.add_zero x).2
-
 
 theorem AdditiveIdentityUnique (z : R)
     (zLeftIdentity : ∀ x : R, sys.add z x = x) : z = sys.zero := by
@@ -120,7 +118,7 @@ theorem AdditiveInverseUnique (x y z : R)
   exact yz
 --
 --theorem LinearEquationUniqueSolution (a b x : R) :
-  
+
 
 
 end Laczkovich.RealAnalysis.Chapter03
