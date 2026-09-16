@@ -263,5 +263,22 @@ example : FieldFragment ℝ where
     show 0 ≠ 1
     simp
 
+def OrderIsReflexive  {R : Type u} (le : R → R → Prop) : Prop :=
+  ∀ x : R, le x x
+
+def OrderIsTransitive  {R : Type u} (le : R → R → Prop) : Prop :=
+  ∀ x y z: R, le x y ∧ le y z → le x z
+
+def OrderIsAntiSymmetric  {R : Type u} (le : R → R → Prop) : Prop :=
+  ∀ x y: R, le x y  ∧ le y x → x = y
+
+def OrderIsTotal  {R : Type u} (le : R → R → Prop) : Prop :=
+  ∀ x y: R, le x y  ∨ le y x
+
+def AdditionPerservesOrder  {R : Type u} (le : R → R → Prop) ( add :R → R → R) : Prop :=
+  ∀ x y z: R, le x y → le (add x z) (add y z)
+
+def MultiplicationPerservesNonNegativity  {R : Type u} (le : R → R → Prop) ( mul :R → R → R) (zero : R): Prop :=
+  ∀ x y : R, le x y → le zero x ∧ le zero y → le zero ( mul x y)
 
 end Zorich.RealAnalysis.Chapter02
