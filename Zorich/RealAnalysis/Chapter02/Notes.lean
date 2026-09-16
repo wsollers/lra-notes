@@ -249,9 +249,19 @@ example : FieldFragment ℝ where
     show (x * y) * z = x * (y * z)
     exact mul_assoc x y z
   multiplication_distributes_over_addition := by
-    sorry
+    constructor
+    . -- Left
+      intro x y z
+      show x * (y + z) = (x * y) + (x * z)
+      ring
+    . -- Right
+      intro x y z
+      show (x + y) * z = (x * z) + (y * z)
+      ring
   zero_ne_one := by
-    sorry
+    unfold DistinguishedElementsAreDistinct
+    show 0 ≠ 1
+    simp
 
 
 end Zorich.RealAnalysis.Chapter02
