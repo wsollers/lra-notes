@@ -281,12 +281,12 @@ def AdditionPreservesOrder  {R : Type u} (le : R → R → Prop) ( add :R → R 
 def MultiplicationPreservesNonNegativity  {R : Type u} (le : R → R → Prop) ( mul :R → R → R) (zero : R): Prop :=
   ∀ x y : R, le zero x ∧ le zero y → le zero ( mul x y)
 
-structure OrderFragment (R : Type u) [Add R] where
+structure OrderFragment (R : Type u) where
   zero : R
 
   le : R → R → Prop
-  add : R → R → R := fun x y => x + y
-  mul : R → R → R := fun x y => x + y
+  add : R → R → R
+  mul : R → R → R
 
   order_reflexive : OrderIsReflexive le
   order_transitive : OrderIsTransitive le
