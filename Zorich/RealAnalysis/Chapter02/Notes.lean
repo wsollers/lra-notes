@@ -39,10 +39,6 @@ def NonzeroInverseExists {R : Type u} (zero one : R)
     (op : R → R → R) : Prop :=
   ∀ x : R, x ≠ zero → ∃ e : R, IsInverse op one x e
 
-
-
-
-
 def IsLeftIdentity {R : Type u} (op : R → R → R)
   (e x : R) : Prop :=
   op e x = x
@@ -71,7 +67,7 @@ def DistinguishedElementsAreDistinct {R : Type u}
   (zero : R) (one : R) : Prop :=
   (zero ≠ one)
 
-structure FieldFragment (R : Type u) where
+structure AdditiveFieldFragment (R : Type u) where
   zero : R
   add : R → R → R
   additive_inverse_exists : InverseExists zero add
@@ -88,7 +84,7 @@ structure MultiplicativeFieldFragment (R : Type u) where
   multiplication_is_commutative : OperationIsCommutative mul
   multiplication_is_associative : OperationIsAssociative mul
 
-example : FieldFragment ℝ where
+example : AdditiveFieldFragment ℝ where
   zero := 0
   add := fun x y => x + y
   additive_inverse_exists := by
@@ -170,6 +166,22 @@ def IsRightDistributive {R : Type u}
 def IsDistributive {R : Type u}
   (times : R → R → R) (plus : R → R → R) : Prop :=
   IsLeftDistributive times plus ∧ IsRightDistributive times plus
+
+structure FieldFragment (R : Type u) where
+  zero : R
+  one : R
+  add : R → R → R
+  additive_inverse_exists : InverseExists zero add
+  zero_is_additive_identity : IsIdentityElement add zero
+  addition_is_commutative : OperationIsCommutative add
+  addition_is_associative : OperationIsAssociative add
+  mul : R → R → R
+  nonzero_multiplicative_inverse_exists : NonzeroInverseExists zero one mul
+  one_is_multiplicative_identity : IsIdentityElement mul one
+  multiplication_is_commutative : OperationIsCommutative mul
+  multiplication_is_associative : OperationIsAssociative mul
+  multiplication_distributes_over_addition : IsDistributive mul add
+  one_ne_zero : DistinguishedElementsAreDistinct zero one
 
 
 end Zorich.RealAnalysis.Chapter02
