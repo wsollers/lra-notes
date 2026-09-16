@@ -312,22 +312,33 @@ example : OrderFragment ℝ where
     unfold OrderIsTransitive
     intro x y z
     show x ≤ y ∧ y ≤ z → x ≤ z
-
-    sorry
+    intro h
+    exact le_trans h.1 h.2
 
   order_anti_symmetric := by
     unfold OrderIsAntiSymmetric
     intro x y
-    show x ≤ y ∧ y ≤ x → x = y
-    sorry
+    intro h
+    exact le_antisymm h.1 h.2
 
   order_is_total := by
-    sorry
+    intro x y
+    exact le_total x y
 
   addition_preserves_order := by
-    sorry
+    unfold AdditionPreservesOrder
+    intro x y z
+    intro h
+    show x + z ≤ y + z
+    simp
+    exact h
 
   multiplication_preserves_order := by
-    sorry
+    unfold MultiplicationPreservesNonNegativity
+    intro x y
+    intro h
+    exact mul_nonneg h.1 h.2
+
+
 
 end Zorich.RealAnalysis.Chapter02
