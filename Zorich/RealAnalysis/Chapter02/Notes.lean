@@ -339,6 +339,10 @@ example : OrderFragment ℝ where
     intro h
     exact mul_nonneg h.1 h.2
 
+def OrderFragmentTrichotomy {R : Type u} (O : OrderFragment R) : Prop :=
+  ∀ x y : R, O.le x y ∨ x = y ∨ O.le y x
 
+theorem RealTrichotomy (x y : ℝ) : x < y ∨ x = y ∨ y < x :=
+  lt_trichotomy x y
 
 end Zorich.RealAnalysis.Chapter02
