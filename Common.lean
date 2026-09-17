@@ -1,7 +1,7 @@
-import Mathlib
+import Lean
 
 /-!
-# Shared Munkres Note Commands
+# Shared Note Commands
 
 This module provides small command aliases for textbook-facing declarations.
 Lean still elaborates these declarations as ordinary theorems; the aliases are

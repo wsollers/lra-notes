@@ -1,5 +1,4 @@
-import Munkres.Common
-import Mathlib
+import Common
 
 /-!
 # Bartle, Real Analysis, Chapter 2

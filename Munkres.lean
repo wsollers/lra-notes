@@ -1,2 +1,2 @@
-import Munkres.Common
+import Common
 import Munkres.Topology

@@ -1,9 +1,5 @@
-import Mathlib
 import Mathlib.Data.Real.Basic
-import Mathlib.Tactic.Basic
-import Mathlib.Tactic.Bound.Init
-import Mathlib.Util.CompileInductive
-import Mathlib.Order.ConditionallyCompleteLattice.Basic
+import Mathlib.Tactic
 
 import Zorich.RealAnalysis.Chapter02.Basic
 
@@ -359,5 +355,10 @@ theorem LinearEquationUniqueSolutionInReals
   field_simp
   simpa [mul_comm] using h
 
+theorem MulEquationUniqueSolutionInReals
+    {a b x : ℝ} (ha : a ≠ 0) (h : a * x = b) :
+    x = b / a := by
+  apply (eq_div_iff ha).2
+  simpa [mul_comm] using h
 
 end Zorich.RealAnalysis.Chapter02

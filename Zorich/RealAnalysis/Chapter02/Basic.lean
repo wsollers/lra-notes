@@ -1,5 +1,4 @@
-import Munkres.Common
-import Mathlib
+import Common
 
 /-!
 # Zorich, Mathematical Analysis, Chapter 2

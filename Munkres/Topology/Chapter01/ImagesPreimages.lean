@@ -1,4 +1,4 @@
-import Munkres.Common
+import Common
 
 namespace Munkres.Topology.Chapter01
 

@@ -1,5 +1,4 @@
-import Munkres.Common
-import Mathlib
+import Common
 
 /-!
 # Laczkovich, Real Analysis, Chapter 3

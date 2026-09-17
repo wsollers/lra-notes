@@ -60,11 +60,11 @@ variable {R : Type u} (sys : RealAxiomSystem R)
 def lt (x y : R) : Prop :=
   sys.le x y ∧ x ≠ y
 
-lemma add_zero_right {R : Type u} (sys : RealAxiomSystem R) (x : R) :
+theorem add_zero_right {R : Type u} (sys : RealAxiomSystem R) (x : R) :
     sys.add x sys.zero = x :=
   (sys.add_zero x).1
 
-lemma zero_add_left {R : Type u} (sys : RealAxiomSystem R) (x : R) :
+theorem zero_add_left {R : Type u} (sys : RealAxiomSystem R) (x : R) :
     sys.add sys.zero x = x :=
   (sys.add_zero x).2
 
@@ -75,22 +75,20 @@ theorem AdditiveIdentityUnique (z : R)
     z = sys.add z sys.zero := by rw [add_zero_right sys z]
     _ = sys.zero := zLeftIdentity sys.zero
 
-lemma AdditiveInverseExists (x : R) :
+theorem AdditiveInverseExists (x : R) :
   ∃ y : R, sys.add x y = sys.zero ∧ sys.add y x = sys.zero :=
   sys.exists_neg x
 
-lemma LeftAdditiveInverse {x : R} :
+theorem LeftAdditiveInverse {x : R} :
   ∃ y : R, sys.add x y = sys.zero := by
   have ⟨y,hy⟩ := sys.exists_neg x
-  use y
-  rw [<-sys.add_comm x y] at hy
-  exact hy.2
+  refine ⟨y, ?_⟩
+  exact hy.1
 
-lemma RightAdditiveInverse {x : R} :
+theorem RightAdditiveInverse {x : R} :
   ∃ y : R, sys.add y x = sys.zero := by
   have ⟨y,hy⟩ := sys.exists_neg x
-  use y
-  rw [<-sys.add_comm y x] at hy
+  refine ⟨y, ?_⟩
   exact hy.2
 
 theorem AdditiveInverseUnique (x y z : R)
@@ -100,7 +98,7 @@ theorem AdditiveInverseUnique (x y z : R)
   have hy := yInverse.1
   have hz := zInverse.1.symm
   have hyz := hy.trans hz
-  rw [<-sys.add_comm y x] at hyz
+  rw [← sys.add_comm y x] at hyz
   obtain ⟨xi, hxi⟩ := sys.exists_neg x
   have hx_xi : sys.add x xi = sys.zero := hxi.1
   have hxi_x : sys.add xi x = sys.zero := hxi.2

@@ -1,5 +1,4 @@
-import Munkres.Common
-import Mathlib
+import Common
 
 /-!
 # Thomson/Bruckner, Elementary Real Analysis, Chapter 1

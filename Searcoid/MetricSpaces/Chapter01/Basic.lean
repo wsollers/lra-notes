@@ -1,5 +1,4 @@
-import Munkres.Common
-import Mathlib
+import Common
 
 /-!
 # Ó Searcóid, Metric Spaces, Chapter 1

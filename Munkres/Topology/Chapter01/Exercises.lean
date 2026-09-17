@@ -1,6 +1,8 @@
 import Munkres.Topology.Chapter01.Functions
 import Munkres.Topology.Chapter01.ImagesPreimages
 import Munkres.Topology.Chapter01.EquivalenceRelations
+import Mathlib.Data.Set.Lattice
+import Mathlib.Data.Set.Function
 
 namespace Munkres.Topology.Chapter01
 
@@ -87,18 +89,22 @@ variable (S : ι → Set A) (T : ι → Set B)
 
 /- Arbitrary versions of selected parts of Exercise 2. -/
 
-exercise Munkres_Section02_Exercise03_part1 : f ⁻¹' (⋃ i, T i) = ⋃ i, f ⁻¹' T i := by
+exercise Munkres_Section02_Exercise03_part1 :
+    f ⁻¹' (⋃ i, T i) = ⋃ i, f ⁻¹' T i := by
   sorry
 
-exercise Munkres_Section02_Exercise03_part2 : f ⁻¹' (⋂ i, T i) = ⋂ i, f ⁻¹' T i := by
+exercise Munkres_Section02_Exercise03_part2 :
+    f ⁻¹' (⋂ i, T i) = ⋂ i, f ⁻¹' T i := by
   sorry
 
-exercise Munkres_Section02_Exercise03_part3 : f '' (⋃ i, S i) = ⋃ i, f '' S i := by
+exercise Munkres_Section02_Exercise03_part3 :
+    f '' (⋃ i, S i) = ⋃ i, f '' S i := by
   sorry
 
 variable [Nonempty ι]
 
-exercise Munkres_Section02_Exercise03_part4 : f '' (⋂ i, S i) ⊆ ⋂ i, f '' S i := by
+exercise Munkres_Section02_Exercise03_part4 :
+    f '' (⋂ i, S i) ⊆ ⋂ i, f '' S i := by
   sorry
 
 exercise Munkres_Section02_Exercise03_part5 :
@@ -114,7 +120,8 @@ variable (C₀ : Set C)
 
 /- Composition and function properties. -/
 
-exercise Munkres_Section02_Exercise04_part1 : (g ∘ f) ⁻¹' C₀ = f ⁻¹' (g ⁻¹' C₀) := by
+exercise Munkres_Section02_Exercise04_part1 :
+    (g ∘ f) ⁻¹' C₀ = f ⁻¹' (g ⁻¹' C₀) := by
   sorry
 
 exercise Munkres_Section02_Exercise04_part2 :

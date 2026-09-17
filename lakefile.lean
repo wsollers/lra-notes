@@ -8,8 +8,8 @@ require mathlib from git
 
 @[default_target]
 lean_lib Munkres where
-  roots := #[`Munkres]
+  roots := #[`Munkres, `Common]
 
 @[default_target]
 lean_lib LRANotes where
-  roots := #[`LRANotes, `Searcoid, `Bruckner, `Bartle, `Zorich, `Laczkovich]
+  roots := #[`LRANotes, `Searcoid, `Bruckner, `Bartle, `Zorich, `Laczkovich, `Rudin, `Common]
