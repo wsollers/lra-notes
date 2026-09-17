@@ -345,4 +345,19 @@ def OrderFragmentTrichotomy {R : Type u} (O : OrderFragment R) : Prop :=
 theorem RealTrichotomy (x y : ℝ) : x < y ∨ x = y ∨ y < x :=
   lt_trichotomy x y
 
+theorem ZeroUniqueInReals (z : ℝ) (h : ∀ x : ℝ, x + z = x) : z = 0 := by
+  simpa using h 0
+
+theorem AdditiveInverseUniqueInReals (x y : ℝ) (h : ∀ x y : ℝ, x + y = 0) : y = -x := by
+  specialize h x
+  specialize h y
+  linarith
+
+theorem LinearEquationUniqueSolutionInReals
+    {a b x : ℝ} (ha : a ≠ 0) (h : a * x = b) :
+    x = b / a := by
+  field_simp
+  simpa [mul_comm] using h
+
+
 end Zorich.RealAnalysis.Chapter02

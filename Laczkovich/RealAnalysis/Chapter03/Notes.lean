@@ -116,8 +116,7 @@ theorem AdditiveInverseUnique (x y z : R)
   rw [add_zero_right sys z] at yz
 
   exact yz
---
---theorem LinearEquationUniqueSolution (a b x : R) :
+
 
 
 
