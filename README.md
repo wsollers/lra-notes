@@ -125,6 +125,30 @@ Active chapters:
 
 - Chapter 3
 
+### Enderton: Set Theory
+
+Lean modules start under:
+
+```text
+Enderton/SetTheory/
+```
+
+Active chapters:
+
+- Chapter 1
+
+### Fefferman: Number Systems
+
+Lean modules start under:
+
+```text
+Fefferman/NumberSystems/
+```
+
+Active chapters:
+
+- Chapter 3
+
 ## Build
 
 This project uses the same Lean/mathlib pin as `lra-lean` initially.
