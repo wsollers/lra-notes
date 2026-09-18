@@ -1,4 +1,4 @@
-import Lean
+import Lean.Parser.Command
 
 /-!
 # Shared Note Commands
@@ -45,4 +45,4 @@ syntax (name := counterexampleCommand) "counterexample " ":" term " := " term : 
 
 macro_rules
   | `(counterexample : $ty:term := $val:term) =>
-      `(example : $ty := $val)
+      `(example : $ty :=$val)
