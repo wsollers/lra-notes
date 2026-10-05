@@ -1,3 +1,5 @@
+import Mathlib.Data.Real.Basic
+import Mathlib.Algebra.Order.Field.Basic
 import Laczkovich.RealAnalysis.Chapter03.Basic
 
 /-!
@@ -116,6 +118,11 @@ theorem AdditiveInverseUnique (x y z : R)
   exact yz
 
 
+-- Theorem 3.2 There exists a Rational between any 2 reals
+theorem Archimedes (x y : ℝ) (hOrder : x < y) :
+  ∃ q : ℚ, x < (q : ℝ) ∧ (q : ℝ) < y := by
+
+  sorry
 
 
 end Laczkovich.RealAnalysis.Chapter03

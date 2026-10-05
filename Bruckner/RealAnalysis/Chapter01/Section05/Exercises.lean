@@ -1,13 +1,16 @@
 import Common
+
 import Mathlib.Data.Nat.Basic
 import Mathlib.Data.Real.Basic
-import Mathlib.Data.Real.Sqrt
-import Bruckner.RealAnalysis.Chapter01.Basic
+import Mathlib.Analysis.Real.Sqrt
 
-namespace Bruckner.RealAnalysis.Chapter01
+import Bruckner.RealAnalysis.Chapter01.Basic
+import Bruckner.RealAnalysis.Chapter01.Section05.Notes
+
+namespace Bruckner.RealAnalysis.Chapter01.Section05
 
 /-!
-# Chapter 1 Exercises
+# Chapter 1, Section 1.5 Exercises
 
 Reserve this file for selected real-analysis exercises that support the
 metric, topology, and integration tracks.
@@ -16,6 +19,7 @@ metric, topology, and integration tracks.
 
 
 open Real
+
 
 exercise gm_le_am (a b : ℝ) (ha : a > 0) (hb : b > 0) :
     sqrt (a * b) ≤ (a + b) / 2 := by
@@ -69,4 +73,13 @@ exercise ggg (a b c d : ℝ) (ha_lt_b : a < b) (hc_lt_d : c < d) :
   have h_prod : 0 < (b - a) * (d - c) := mul_pos h1 h2
   linarith
 
-end Bruckner.RealAnalysis.Chapter01
+
+--Show that a set of real numbers E is bounded if and only if
+--there is a positive number r so that |x| < r for
+--all x ∈ E.
+theorem bounded_sets_have_bounds (E : Set ℝ) :
+  IsBounded E ↔ ∃ r : ℝ, r > 0 ∧ ∀ x ∈ E, |x| < r := by
+
+  sorry
+
+end Bruckner.RealAnalysis.Chapter01.Section05
