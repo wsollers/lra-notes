@@ -80,6 +80,18 @@ exercise ggg (a b c d : ℝ) (ha_lt_b : a < b) (hc_lt_d : c < d) :
 theorem bounded_sets_have_bounds (E : Set ℝ) :
   IsBounded E ↔ ∃ r : ℝ, r > 0 ∧ ∀ x ∈ E, |x| < r := by
 
-  sorry
+  constructor
+  . --
+    intro h_bounded
+    unfold IsBounded at h_bounded
+    unfold BoundedAbove at h_bounded
+    unfold BoundedBelow at h_bounded
+    --let bnd :=
+    --have ub := UpperBound E
+    sorry
+  . --
+
+    sorry
+
 
 end Bruckner.RealAnalysis.Chapter01.Section05
