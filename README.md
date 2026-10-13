@@ -161,10 +161,12 @@ layouts:
 | sections only | `Author/Topic/SectionNN/` | Halmos, *Naive Set Theory* |
 
 Create section folders as you reach them; do not pre-scaffold empty ones.
+Material that precedes a chapter's first section (Laczkovich's axioms, for
+example) lives in the chapter-level files beside the section folders.
 
 Each unit (a chapter, or a section where the book has them) holds:
 
-- `Definitions.lean` — the author's definitions and notation;
+- `Definitions.lean` — the author's definitions, notation, and axioms;
 - `Connections.lean` — iff bridges from those definitions to mathlib, when needed;
 - `Theorems.lean` — the unit's theorems and their proofs;
 - `Examples.lean` — worked examples and `counterexample`s;

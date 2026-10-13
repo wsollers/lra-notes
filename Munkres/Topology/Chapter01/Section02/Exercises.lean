@@ -1,13 +1,11 @@
-import Munkres.Topology.Chapter01.Functions
-import Munkres.Topology.Chapter01.ImagesPreimages
-import Munkres.Topology.Chapter01.EquivalenceRelations
+import Munkres.Topology.Chapter01.Section02.Theorems
 import Mathlib.Data.Set.Lattice
 import Mathlib.Data.Set.Function
 
 namespace Munkres.Topology.Chapter01
 
 /-!
-# Chapter 1 Exercises
+# Chapter 1, §2 Functions — Exercises
 
 Use `exercise` for named textbook exercises that should become reusable chapter
 facts. Use `counterexample` for anonymous scratch checks.

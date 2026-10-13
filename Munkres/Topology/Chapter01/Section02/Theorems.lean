@@ -1,8 +1,16 @@
 import Common
 import Mathlib.Logic.Function.Basic
+import Munkres.Topology.Chapter01.Section02.Definitions
+
+/-!
+# Munkres, Topology, Chapter 1, §2 Functions — Theorems
+-/
 
 namespace Munkres.Topology.Chapter01
 
+/-- **Lemma 2.1** (§2). A function with a left inverse and a right inverse is
+bijective, and the two inverses agree. The book also concludes that both equal
+`f⁻¹`; that part is not yet stated here. Exercise 2.5(e) restates this lemma. -/
 theorem Munkres_2_1_BijectiveOfLeftRightInverse
   {A B : Type*}
   (f : A → B) (e g : B → A)

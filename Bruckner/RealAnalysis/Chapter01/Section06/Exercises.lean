@@ -1,9 +1,8 @@
 import Common
 
 import Mathlib.Data.Real.Basic
+import Mathlib.Data.Set.Finite.Basic
 
-import Bruckner.RealAnalysis.Chapter01.Definitions
-import Bruckner.RealAnalysis.Chapter01.Section05
 import Bruckner.RealAnalysis.Chapter01.Section06.Theorems
 
 open Set
@@ -41,7 +40,7 @@ theorem exercise_1_6_4 (hne : E.Nonempty) (hfin : E.Finite) :
   sorry
 
 /--
-**Exercise 1.6.6 & 1.6.7 (Reflection $-A$)** [[Thomson2008, §1.6, p. 14](http://classicalrealanalysis.com)]
+**Exercise 1.6.7 (Reflection $-A$)** — Exercise 1.6.6, the max/min version, is not yet formalized. [[Thomson2008, §1.6, p. 14](http://classicalrealanalysis.com)]
 Let $B = \{-x : x \in A\}$. Then $\sup A = M \iff \inf B = -M$.
 -/
 def NegSet (A : Set ℝ) : Set ℝ := {y : ℝ | ∃ x ∈ A, y = -x}
@@ -145,7 +144,7 @@ theorem exercise_1_6_19 (hne : E.Nonempty) (hbdd : BoundedBelow E) :
   sorry
 
 /--
-**Exercise 1.6.23 (Set Distance)** [[Thomson2008, §1.6, p. 16](http://classicalrealanalysis.com)]
+**Exercise 1.6.23(a) (Set Distance)** — parts (b)–(d) are not yet formalized. [[Thomson2008, §1.6, p. 16](http://classicalrealanalysis.com)]
 $\delta(A, B) = \inf \{|a - b| : a \in A, b \in B\}$.
 -/
 def SetDist (A B : Set ℝ) : Set ℝ := {d : ℝ | ∃ a ∈ A, ∃ b ∈ B, d = |a - b|}
@@ -153,5 +152,24 @@ def SetDist (A B : Set ℝ) : Set ℝ := {d : ℝ | ∃ a ∈ A, ∃ b ∈ B, d 
 theorem exercise_1_6_23_nat_complement_dist (δ : ℝ) :
     IsGLB (SetDist {x : ℝ | ∃ n : ℕ, n ≥ 1 ∧ x = (n : ℝ)} (univ \ {x : ℝ | ∃ n : ℕ, n ≥ 1 ∧ x = (n : ℝ)})) 0 := by
   sorry
+
+
+/-- An in-progress attempt at **Exercise 1.6.1** [Thomson2008, §1.6, p. 14];
+`exercise_1_6_1` above states the same result. -/
+theorem bounded_sets_have_bounds (E : Set ℝ) :
+  IsBounded E ↔ ∃ r : ℝ, r > 0 ∧ ∀ x ∈ E, |x| < r := by
+
+  constructor
+  . --
+    intro h_bounded
+    unfold IsBounded at h_bounded
+    unfold BoundedAbove at h_bounded
+    unfold BoundedBelow at h_bounded
+    --let bnd :=
+    --have ub := UpperBound E
+    sorry
+  . --
+
+    sorry
 
 end Bruckner.RealAnalysis.Chapter01
