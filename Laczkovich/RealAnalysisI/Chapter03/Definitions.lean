@@ -3,91 +3,111 @@ import Common
 /-!
 # Laczkovich–Sós, Real Analysis: Foundations and Functions of One Variable, Chapter 3 — Definitions
 
-The axioms of the real numbers (Chapter 3, pp. 28–33), packaged as a structure.
+The axioms of the real numbers, as the book states them at the start of
+Chapter 3 [Laczkovich–Sós, Ch. 3, pp. 28–33].
 
-**Not yet the book's axiom system.** The book takes `<` as primitive and lists
-fifteen axioms: field axioms 1–9 (group I), order axioms 10–13 (group II), the
-axiom of Archimedes 14 (group III), and Cantor's nested-interval axiom 15
-(group IV). The structure below takes `≤` as primitive, uses two-sided field
-axioms, omits Archimedes, and states completeness in Zorich's separation form.
-The group labels in its comments follow that arrangement, not the book's. See
-`study/source-audit.md` for the book-faithful field statements.
+The book numbers fifteen axioms in four groups. This file states groups I and II
+(p. 29) and the definitions that follow them (p. 30):
+
+* `FieldAxioms` — group I, the field axioms 1–9, with the two distinct elements
+  0 and 1 assumed in the group's preamble. The book calls any set satisfying
+  them a field.
+* `OrderedFieldAxioms` — group II, the order axioms 10–13, on top of a field.
+  Order is the primitive strict relation `<`.
+* `le`, `gt`, `ge`, `IsPositive`, … — the derived notions of p. 30.
+
+Group III (the axiom of Archimedes, Axiom 14, p. 31) and group IV (Cantor's
+axiom, Axiom 15, p. 33) are not yet stated.
+
+The book writes the axioms for the real numbers ℝ. They are stated here for an
+arbitrary carrier `R`, so that mathlib's `ℝ` and other models can be checked
+against them; the book itself uses another ordered field in Remark 3.3 (p. 31).
 -/
+
+universe u
 
 namespace Laczkovich.RealAnalysisI.Chapter03
 
-/-- The axioms of the real numbers, Chapter 3 [Laczkovich–Sós, Ch. 3, p. 28–33]. Not yet the book's system; see the module docstring. -/
-structure RealAxiomSystem (R : Type u) where
-  -- Data
-  /-- Addition, a primitive operation. -/
+/-- Exactly one of three propositions holds. Used by trichotomy, **Axiom 10**
+[Laczkovich–Sós, Ch. 3, p. 29]. -/
+def ExactlyOneOf (p q r : Prop) : Prop :=
+  (p ∧ ¬ q ∧ ¬ r) ∨ (¬ p ∧ q ∧ ¬ r) ∨ (¬ p ∧ ¬ q ∧ r)
+
+/-- **Group I, the field axioms 1–9** [Laczkovich–Sós, Ch. 3, p. 29].
+
+Two operations, addition and multiplication, and two distinct elements 0 and 1.
+Every identity and inverse is on the right, as in the book. -/
+structure FieldAxioms (R : Type u) where
+  /-- Addition, a primitive operation (group I preamble, p. 29). -/
   add : R → R → R
-  /-- Multiplication, a primitive operation. -/
+  /-- Multiplication, a primitive operation (group I preamble, p. 29). -/
   mul : R → R → R
-  /-- The element 0. -/
+  /-- The element 0 (group I preamble, p. 29). -/
   zero : R
-  /-- The element 1. -/
+  /-- The element 1 (group I preamble, p. 29). -/
   one : R
-  /-- The order. The book's primitive is `<` instead [Laczkovich–Sós, Ch. 3, p. 30]. -/
-  le : R → R → Prop
+  /-- 0 and 1 are distinct. Assumed in the group I preamble, not numbered (p. 29). -/
+  zero_ne_one : zero ≠ one
+  /-- **Axiom 1** (p. 29): addition is commutative. -/
+  add_comm : ∀ a b : R, add a b = add b a
+  /-- **Axiom 2** (p. 29): addition is associative. -/
+  add_assoc : ∀ a b c : R, add (add a b) c = add a (add b c)
+  /-- **Axiom 3** (p. 29): 0 is a right identity for addition. -/
+  add_zero : ∀ a : R, add a zero = a
+  /-- **Axiom 4** (p. 29): every element has a right additive inverse. -/
+  exists_neg : ∀ a : R, ∃ b : R, add a b = zero
+  /-- **Axiom 5** (p. 29): multiplication is commutative. -/
+  mul_comm : ∀ a b : R, mul a b = mul b a
+  /-- **Axiom 6** (p. 29): multiplication is associative. -/
+  mul_assoc : ∀ a b c : R, mul (mul a b) c = mul a (mul b c)
+  /-- **Axiom 7** (p. 29): 1 is a right identity for multiplication. -/
+  mul_one : ∀ a : R, mul a one = a
+  /-- **Axiom 8** (p. 29): every nonzero element has a right multiplicative inverse. -/
+  exists_inv : ∀ a : R, a ≠ zero → ∃ b : R, mul a b = one
+  /-- **Axiom 9** (p. 29): multiplication distributes over addition from the left. -/
+  mul_add : ∀ a b c : R, mul a (add b c) = add (mul a b) (mul a c)
 
-  -- I. Addition axioms
-  /-- **Axiom 3** [Laczkovich–Sós, Ch. 3, p. 29]: a + 0 = a. Two-sided here; the book states the right identity only. -/
-  add_zero : ∀ x : R, add x zero = x ∧ add zero x = x
-  /-- **Axiom 4** [Laczkovich–Sós, Ch. 3, p. 29]: every element has a negative. Two-sided here. -/
-  exists_neg : ∀ x : R, ∃ y : R, add x y = zero ∧ add y x = zero
-  /-- **Axiom 2** [Laczkovich–Sós, Ch. 3, p. 29]: associativity of addition. -/
-  add_assoc : ∀ x y z : R, add x (add y z) = add (add x y) z
-  /-- **Axiom 1** [Laczkovich–Sós, Ch. 3, p. 29]: commutativity of addition. -/
-  add_comm : ∀ x y : R, add x y = add y x
+/-- **Group II, the order axioms 10–13** [Laczkovich–Sós, Ch. 3, p. 29], on a field.
 
-  -- II. Multiplication axioms
-  /-- **Axiom 7** [Laczkovich–Sós, Ch. 3, p. 29]: a · 1 = a. Two-sided here. -/
-  mul_one : ∀ x : R, mul x one = x ∧ mul one x = x
-  /-- 0 ≠ 1, assumed before the axioms are numbered [Laczkovich–Sós, Ch. 3, p. 29]. -/
-  one_ne_zero : one ≠ zero
-  /-- **Axiom 8** [Laczkovich–Sós, Ch. 3, p. 29]: every nonzero element has an inverse. Two-sided here. -/
-  exists_inv :
-    ∀ x : R, x ≠ zero → ∃ y : R, mul x y = one ∧ mul y x = one
-  /-- **Axiom 6** [Laczkovich–Sós, Ch. 3, p. 29]: associativity of multiplication. -/
-  mul_assoc : ∀ x y z : R, mul x (mul y z) = mul (mul x y) z
-  /-- **Axiom 5** [Laczkovich–Sós, Ch. 3, p. 29]: commutativity of multiplication. -/
-  mul_comm : ∀ x y : R, mul x y = mul y x
+The primitive is the strict order `<`: for any `a`, `b`, the statement `a < b`
+is either true or false. Nothing else about `<` is assumed. -/
+structure OrderedFieldAxioms (R : Type u) extends FieldAxioms R where
+  /-- The strict order `<`, a primitive relation (group II preamble, p. 29). -/
+  lt : R → R → Prop
+  /-- **Axiom 10** (p. 29): trichotomy — exactly one of `a < b`, `a = b`, `b < a` holds. -/
+  trichotomy : ∀ a b : R, ExactlyOneOf (lt a b) (a = b) (lt b a)
+  /-- **Axiom 11** (p. 29): `<` is transitive. -/
+  lt_trans : ∀ a b c : R, lt a b ∧ lt b c → lt a c
+  /-- **Axiom 12** (p. 29): adding the same element on the right preserves `<`. -/
+  add_lt_add_right : ∀ a b c : R, lt a b → lt (add a c) (add b c)
+  /-- **Axiom 13** (p. 29): multiplying on the right by a positive element preserves `<`. -/
+  mul_lt_mul_of_pos_right : ∀ a b c : R, lt a b ∧ lt zero c → lt (mul a c) (mul b c)
 
-  -- I/II. Distributivity
-  /-- Distributivity, (x + y)z = xz + yz. The book's **Axiom 9** [Laczkovich–Sós, Ch. 3, p. 29] is the left-hand form a(b + c) = ab + ac. -/
-  distrib : ∀ x y z : R, mul (add x y) z = add (mul x z) (mul y z)
+namespace OrderedFieldAxioms
 
-  -- III. Order axioms
-  /-- Reflexivity of `≤`. Not a book axiom: the book's order axioms 10–13 [Laczkovich–Sós, Ch. 3, p. 29] are stated for `<`. -/
-  le_refl : ∀ x : R, le x x
-  /-- Antisymmetry of `≤`. Not a book axiom; compare trichotomy, **Axiom 10** [Laczkovich–Sós, Ch. 3, p. 29]. -/
-  le_antisymm : ∀ x y : R, le x y → le y x → x = y
-  /-- Transitivity of `≤`. Compare **Axiom 11** [Laczkovich–Sós, Ch. 3, p. 29], transitivity of `<`. -/
-  le_trans : ∀ x y z : R, le x y → le y z → le x z
-  /-- Totality of `≤`. Compare trichotomy, **Axiom 10** [Laczkovich–Sós, Ch. 3, p. 29]. -/
-  le_total : ∀ x y : R, le x y ∨ le y x
+variable {R : Type u} (O : OrderedFieldAxioms R)
 
-  -- I/III. Addition and order
-  /-- Compare **Axiom 12** [Laczkovich–Sós, Ch. 3, p. 29], stated in the book for `<`. -/
-  add_le_add_right : ∀ x y z : R, le x y → le (add x z) (add y z)
+/-- `a ≤ b` means `a < b` or `a = b` [Laczkovich–Sós, Ch. 3, p. 30]. -/
+def le (a b : R) : Prop := O.lt a b ∨ a = b
 
-  -- II/III. Multiplication and order
-  /-- Non-negativity of products. A different statement from **Axiom 13** [Laczkovich–Sós, Ch. 3, p. 29] (a < b and 0 < c give ac < bc). -/
-  mul_nonneg : ∀ x y : R, le zero x → le zero y → le zero (mul x y)
+/-- `a > b` means `b < a` [Laczkovich–Sós, Ch. 3, p. 30]. -/
+def gt (a b : R) : Prop := O.lt b a
 
-  -- IV. Completeness, Zorich cut/separation form
-  /-- Completeness in Zorich's separation form. Not this book's axiom: its group IV is Cantor's nested-interval axiom, **Axiom 15** [Laczkovich–Sós, Ch. 3, p. 33], and the book also needs **Axiom 14** (Archimedes, p. 31), which is missing here. -/
-  completeness :
-    ∀ X Y : R → Prop,
-      (∃ x, X x) →
-      (∃ y, Y y) →
-      (∀ x y, X x → Y y → le x y) →
-      ∃ c : R, (∀ x, X x → le x c) ∧ (∀ y, Y y → le c y)
+/-- `a ≥ b` means `b ≤ a` [Laczkovich–Sós, Ch. 3, p. 30]. -/
+def ge (a b : R) : Prop := O.le b a
 
-variable {R : Type u} (sys : RealAxiomSystem R)
+/-- `a` is positive when `a > 0` [Laczkovich–Sós, Ch. 3, p. 30]. -/
+def IsPositive (a : R) : Prop := O.gt a O.zero
 
-/-- Strict order defined from `≤`. The book does the reverse: `<` is primitive and `≤` is defined from it [Laczkovich–Sós, Ch. 3, p. 30]. -/
-def lt (x y : R) : Prop :=
-  sys.le x y ∧ x ≠ y
+/-- `a` is negative when `a < 0` [Laczkovich–Sós, Ch. 3, p. 30]. -/
+def IsNegative (a : R) : Prop := O.lt a O.zero
+
+/-- `a` is nonnegative when `a ≥ 0` [Laczkovich–Sós, Ch. 3, p. 30]. -/
+def IsNonnegative (a : R) : Prop := O.ge a O.zero
+
+/-- `a` is nonpositive when `a ≤ 0` [Laczkovich–Sós, Ch. 3, p. 30]. -/
+def IsNonpositive (a : R) : Prop := O.le a O.zero
+
+end OrderedFieldAxioms
 
 end Laczkovich.RealAnalysisI.Chapter03
