@@ -277,3 +277,34 @@ lake build
 lake build Munkres
 lake build LRANotes
 ```
+
+## Documentation Site
+
+`scripts/build-docs.sh` builds browsable API documentation with
+[doc-gen4](https://github.com/leanprover/doc-gen4): one page per module, every
+declaration's signature, its docstring (including the book reference), and a
+link to its source. Output lands in `.lake/build/doc/`.
+
+doc-gen4 is required only under `-Kenv=dev`, so `lake build` never fetches it.
+The `Documentation` workflow builds the site on every push to `main` and
+publishes it to GitHub Pages (enable Pages with *Source: GitHub Actions*).
+
+## Upgrading Lean
+
+The toolchain, mathlib, and doc-gen4 move together. When upgrading, update all
+three in one change:
+
+1. `lean-toolchain` — the new Lean version, e.g. `leanprover/lean4:v4.33.0`.
+2. `lakefile.lean` — the `mathlib` tag to the release for that Lean version.
+3. `lakefile.lean` — the `doc-gen4` tag to the **same** Lean version. doc-gen4
+   is tagged per Lean release (`v4.32.1`, `v4.33.0`, …) and will not build
+   against a different toolchain.
+4. Refresh the manifest, including the dev-only doc-gen4 entries:
+   ```bash
+   lake -R -Kenv=dev update
+   ```
+   Without `-R -Kenv=dev`, Lake drops or ignores doc-gen4 and the docs build
+   breaks.
+5. Check both builds: `lake build` and `scripts/build-docs.sh`.
+
+`lra-lean` shares this pin; upgrade the two repositories together.

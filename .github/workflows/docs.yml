@@ -1,0 +1,60 @@
+name: Documentation
+
+# Builds the doc-gen4 site and publishes it to GitHub Pages.
+# Pages must be enabled with "Source: GitHub Actions" (Settings → Pages).
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install elan
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh \
+            | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      # Rendered pages for mathlib modules rarely change; keep them between runs.
+      # The key changes whenever the toolchain or any pinned dependency does.
+      - name: Restore documentation cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            .lake/build
+            .lake/packages/doc-gen4/.lake
+          key: docs-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: |
+            docs-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+
+      - name: Build documentation
+        run: scripts/build-docs.sh
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .lake/build/doc
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
