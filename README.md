@@ -169,12 +169,14 @@ The two Mendelsons are different authors and get distinct roots.
 | `Halmos/MeasureTheory/` | Paul R. Halmos, *Measure Theory* |
 | `Halmos/LinearAlgebra/` | Paul R. Halmos, *Finite-Dimensional Vector Spaces* |
 | `Halmos/BooleanAlgebras/` | Steven Givant and Paul Halmos, *Introduction to Boolean Algebras* |
+| `Givant/RelationAlgebras/` | Steven Givant, *Introduction to Relation Algebras* |
 | `Axler/LinearAlgebra/` | Sheldon Axler, *Linear Algebra Done Right* |
+| `Axler/MeasureTheory/` | Sheldon Axler, *Measure, Integration & Real Analysis* |
 | `Suppes/SetTheory/` | Patrick Suppes, *Axiomatic Set Theory* |
-| `Thurston/Geometry/` | William P. Thurston, *Three-Dimensional Geometry and Topology* |
-| `Olmsted/RealVariables/` | John M. H. Olmsted, *Real Variables* |
-| `MendelsonE/Logic/` | Elliott Mendelson, *Introduction to Mathematical Logic* |
-| `MendelsonB/Topology/` | Bert Mendelson, *Introduction to Topology* |
+| `Thurston/NumberSystems/` | H. A. Thurston, *The Number-System* |
+| `Olmsted/NumberSystems/` | John M. H. Olmsted, *The Real Number System* |
+| `MendelsonE/NumberSystems/` | Elliott Mendelson, *Number Systems and the Foundations of Analysis* |
+| `MendelsonB/Topology/` | Bert Mendelson, *Introduction to Topology* (point-set) |
 | `Spivak/Calculus/` | Michael Spivak, *Calculus* |
 | `Spivak/CalculusOnManifolds/` | Michael Spivak, *Calculus on Manifolds* |
 | `Spivak/DifferentialGeometry/` | Michael Spivak, *A Comprehensive Introduction to Differential Geometry* |

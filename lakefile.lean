@@ -13,4 +13,4 @@ lean_lib Munkres where
 @[default_target]
 lean_lib LRANotes where
   roots := #[`LRANotes, `Searcoid, `Bruckner, `Bartle, `Zorich, `Laczkovich, `Rudin, `Enderton, `Fefferman,
-    `Tao, `Lebl, `Tarski, `Su, `Dieudonne, `Kolmogorov, `Halmos, `Axler, `Suppes, `Thurston, `Olmsted, `MendelsonE, `MendelsonB, `Spivak, `Apostol, `Common]
+    `Tao, `Lebl, `Tarski, `Su, `Dieudonne, `Kolmogorov, `Halmos, `Givant, `Axler, `Suppes, `Thurston, `Olmsted, `MendelsonE, `MendelsonB, `Spivak, `Apostol, `Common]

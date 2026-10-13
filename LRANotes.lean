@@ -14,6 +14,7 @@ import Su
 import Dieudonne
 import Kolmogorov
 import Halmos
+import Givant
 import Axler
 import Suppes
 import Thurston
