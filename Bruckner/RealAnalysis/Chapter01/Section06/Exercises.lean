@@ -1,15 +1,13 @@
 import Common
 
 import Mathlib.Data.Real.Basic
+import Mathlib.Data.Set.Finite.Basic
 
-import Bruckner.RealAnalysis.Chapter01.Basic
-import Bruckner.RealAnalysis.Chapter01.Section05
-import Bruckner.RealAnalysis.Chapter01.Section06.Notes
+import Bruckner.RealAnalysis.Chapter01.Section06.Theorems
 
 open Set
-open Bruckner.RealAnalysis.Chapter01.Section05
 
-namespace Bruckner.RealAnalysis.Chapter01.Section06
+namespace Bruckner.RealAnalysis.Chapter01
 
 variable (E A B : Set ℝ)
 variable (M M' M₁ M₂ m m' m₁ m₂ : ℝ)
@@ -42,15 +40,17 @@ theorem exercise_1_6_4 (hne : E.Nonempty) (hfin : E.Finite) :
   sorry
 
 /--
-**Exercise 1.6.6 & 1.6.7 (Reflection $-A$)** [[Thomson2008, §1.6, p. 14](http://classicalrealanalysis.com)]
+**Exercise 1.6.7 (Reflection $-A$)** — Exercise 1.6.6, the max/min version, is not yet formalized. [[Thomson2008, §1.6, p. 14](http://classicalrealanalysis.com)]
 Let $B = \{-x : x \in A\}$. Then $\sup A = M \iff \inf B = -M$.
 -/
 def NegSet (A : Set ℝ) : Set ℝ := {y : ℝ | ∃ x ∈ A, y = -x}
 
+/-- **Exercise 1.6.7** [Thomson2008, §1.6, p. 14]: if sup A = M then inf(−A) = −M. -/
 theorem exercise_1_6_7_sup_to_inf (hA : IsLUB A M) :
     IsGLB (NegSet A) (-M) := by
   sorry
 
+/-- **Exercise 1.6.7** [Thomson2008, §1.6, p. 14]: if inf A = m then sup(−A) = −m. -/
 theorem exercise_1_6_7_inf_to_sup (hA : IsGLB A m) :
     IsLUB (NegSet A) (-m) := by
   sorry
@@ -61,6 +61,7 @@ Let $B = \{x + r : x \in A\}$. Then $\sup B = \sup A + r$.
 -/
 def ShiftSet (A : Set ℝ) (r : ℝ) : Set ℝ := {y : ℝ | ∃ x ∈ A, y = x + r}
 
+/-- **Exercise 1.6.8** [Thomson2008, §1.6, p. 14]: translating A by r translates its supremum by r. -/
 theorem exercise_1_6_8 (hA : IsLUB A M) (r : ℝ) :
     IsLUB (ShiftSet A r) (M + r) := by
   sorry
@@ -71,10 +72,12 @@ Let $B = \{xr : x \in A\}$ for $r > 0$. Then $\sup B = r \cdot \sup A$.
 -/
 def ScaleSet (A : Set ℝ) (r : ℝ) : Set ℝ := {y : ℝ | ∃ x ∈ A, y = x * r}
 
+/-- **Exercise 1.6.9** [Thomson2008, §1.6, p. 15]: for r > 0, sup(rA) = r · sup A. -/
 theorem exercise_1_6_9_pos (hA : IsLUB A M) {r : ℝ} (hr : r > 0) :
     IsLUB (ScaleSet A r) (M * r) := by
   sorry
 
+/-- **Exercise 1.6.9** [Thomson2008, §1.6, p. 15]: for r < 0, scaling by r turns sup A into inf(rA). -/
 theorem exercise_1_6_9_neg (hA : IsLUB A M) {r : ℝ} (hr : r < 0) :
     IsGLB (ScaleSet A r) (M * r) := by
   sorry
@@ -87,6 +90,7 @@ theorem exercise_1_6_10_sup (hsub : A ⊆ B) (hA : IsLUB A M) (hB : IsLUB B M') 
     M ≤ M' := by
   sorry
 
+/-- **Exercise 1.6.10** [Thomson2008, §1.6, p. 15]: if A ⊆ B then inf B ≤ inf A. -/
 theorem exercise_1_6_10_inf (hsub : A ⊆ B) (hA : IsGLB A m) (hB : IsGLB B m') :
     m' ≤ m := by
   sorry
@@ -105,6 +109,7 @@ Let $C = \{x + y : x \in A, y \in B\}$. Then $\sup C = \sup A + \sup B$.
 -/
 def AddSet (A B : Set ℝ) : Set ℝ := {z : ℝ | ∃ x ∈ A, ∃ y ∈ B, z = x + y}
 
+/-- **Exercise 1.6.13** [Thomson2008, §1.6, p. 15]: sup(A + B) = sup A + sup B. -/
 theorem exercise_1_6_13 (hA : IsLUB A M₁) (hB : IsLUB B M₂) :
     IsLUB (AddSet A B) (M₁ + M₂) := by
   sorry
@@ -146,13 +151,33 @@ theorem exercise_1_6_19 (hne : E.Nonempty) (hbdd : BoundedBelow E) :
   sorry
 
 /--
-**Exercise 1.6.23 (Set Distance)** [[Thomson2008, §1.6, p. 16](http://classicalrealanalysis.com)]
+**Exercise 1.6.23(a) (Set Distance)** — parts (b)–(d) are not yet formalized. [[Thomson2008, §1.6, p. 16](http://classicalrealanalysis.com)]
 $\delta(A, B) = \inf \{|a - b| : a \in A, b \in B\}$.
 -/
 def SetDist (A B : Set ℝ) : Set ℝ := {d : ℝ | ∃ a ∈ A, ∃ b ∈ B, d = |a - b|}
 
+/-- **Exercise 1.6.23(a)** [Thomson2008, §1.6, p. 16]: the distance between ℕ and its complement is 0. -/
 theorem exercise_1_6_23_nat_complement_dist (δ : ℝ) :
     IsGLB (SetDist {x : ℝ | ∃ n : ℕ, n ≥ 1 ∧ x = (n : ℝ)} (univ \ {x : ℝ | ∃ n : ℕ, n ≥ 1 ∧ x = (n : ℝ)})) 0 := by
   sorry
 
-end Bruckner.RealAnalysis.Chapter01.Section06
+
+/-- An in-progress attempt at **Exercise 1.6.1** [Thomson2008, §1.6, p. 14];
+`exercise_1_6_1` above states the same result. -/
+theorem bounded_sets_have_bounds (E : Set ℝ) :
+  IsBounded E ↔ ∃ r : ℝ, r > 0 ∧ ∀ x ∈ E, |x| < r := by
+
+  constructor
+  . --
+    intro h_bounded
+    unfold IsBounded at h_bounded
+    unfold BoundedAbove at h_bounded
+    unfold BoundedBelow at h_bounded
+    --let bnd :=
+    --have ub := UpperBound E
+    sorry
+  . --
+
+    sorry
+
+end Bruckner.RealAnalysis.Chapter01

@@ -1,0 +1,55 @@
+% Zorich, Mathematical Analysis I, Chapter 2 — study notes.
+%
+% Prose is authored here; every formal statement is pulled from the compiled
+% Lean with \leanstatement, so it cannot drift from what Lean has checked.
+% Build from the repo root: scripts/build-notes.sh Zorich/RealAnalysisI/Chapter02/notes.tex
+\documentclass[12pt, a4paper]{report}
+\input{common/volume-preamble}
+\usepackage{leanstatement}
+
+\title{Zorich, \emph{Mathematical Analysis I}\\Chapter 2: The Real Numbers}
+\author{Study notes}
+\date{}
+
+\begin{document}
+\maketitle
+
+\chapter{The axioms of the real numbers}
+
+\section{Operations and their laws}
+
+The axioms are stated over an arbitrary set $R$ with a binary operation, so
+the same predicates serve for addition and multiplication.
+
+\leanstatement{Zorich.RealAnalysisI.Chapter02.OperationIsAssociative}
+\leanstatement{Zorich.RealAnalysisI.Chapter02.OperationIsCommutative}
+\leanstatement{Zorich.RealAnalysisI.Chapter02.IsIdentityElement}
+\leanstatement{Zorich.RealAnalysisI.Chapter02.IsInverse}
+\leanstatement{Zorich.RealAnalysisI.Chapter02.NonzeroInverseExists}
+
+\begin{remark}[Recollection]
+This is where your own explanation goes: the intuition, what each hypothesis
+is for, and what fails without it. The statements above and below are
+generated; only this prose is hand-written.
+\end{remark}
+
+\section{Order}
+
+\leanstatement{Zorich.RealAnalysisI.Chapter02.OrderIsTransitive}
+\leanstatement{Zorich.RealAnalysisI.Chapter02.OrderIsTotal}
+\leanstatement{Zorich.RealAnalysisI.Chapter02.AdditionPreservesOrder}
+\leanstatement{Zorich.RealAnalysisI.Chapter02.OrderFragmentTrichotomy}
+
+\section{First consequences in \texorpdfstring{$\leanReal$}{R}}
+
+\leanstatement{Zorich.RealAnalysisI.Chapter02.RealTrichotomy}
+\leanstatement{Zorich.RealAnalysisI.Chapter02.ZeroUniqueInReals}
+
+With the Lean source shown beneath the statement:
+
+\leanstatement*{Zorich.RealAnalysisI.Chapter02.LinearEquationUniqueSolutionInReals}
+
+Statements can be referenced by their Lean name, as in
+\leanref{Zorich.RealAnalysisI.Chapter02.ZeroUniqueInReals}.
+
+\end{document}

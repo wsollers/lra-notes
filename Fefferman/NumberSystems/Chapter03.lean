@@ -1,3 +1,4 @@
-import Fefferman.NumberSystems.Chapter03.Basic
+import Fefferman.NumberSystems.Chapter03.Definitions
 import Fefferman.NumberSystems.Chapter03.Exercises
-import Fefferman.NumberSystems.Chapter03.Notes
+import Fefferman.NumberSystems.Chapter03.Theorems
+import Fefferman.NumberSystems.Chapter03.Examples

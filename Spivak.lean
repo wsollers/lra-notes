@@ -1,0 +1,3 @@
+import Spivak.Calculus
+import Spivak.CalculusOnManifolds
+import Spivak.DifferentialGeometry

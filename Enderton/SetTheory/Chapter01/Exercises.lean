@@ -1,4 +1,4 @@
-import Enderton.SetTheory.Chapter01.Basic
+import Enderton.SetTheory.Chapter01.Definitions
 
 /-!
 # Enderton, Elements of Set Theory, Chapter 1 Exercises

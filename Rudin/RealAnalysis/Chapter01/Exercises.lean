@@ -1,4 +1,4 @@
-import Rudin.RealAnalysis.Chapter01.Basic
+import Rudin.RealAnalysis.Chapter01.Definitions
 
 /-!
 # Rudin, Principles of Mathematical Analysis, Chapter 1 Exercises

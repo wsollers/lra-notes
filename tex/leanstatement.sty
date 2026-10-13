@@ -1,0 +1,77 @@
+% leanstatement.sty — typeset Lean declarations exported by `lake exe texexport`.
+%
+%   \leanstatement{Full.Lean.Name}    the statement as mathematics, in the
+%                                     lra-common environment (theorem/definition)
+%   \leanstatement*{Full.Lean.Name}   the same, followed by the Lean source of
+%                                     the statement (up to :=)
+%   \leanref{Full.Lean.Name}          a cleveref reference to that statement
+%
+% Snippets are read from generated/lean/, which must be on TEXINPUTS (the
+% notes build script arranges this). A missing name is an error, so a rename
+% in Lean breaks the notes build instead of leaving a stale statement behind.
+%
+% Requires LuaLaTeX (the Lean source is Unicode) and lra-common's
+% volume-preamble, which provides amsthm environments, mathtools and \coloniff.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{leanstatement}[2026/10/13 Lean statement export]
+
+\RequirePackage{iftex}
+\RequireLuaTeX
+\RequirePackage{fontspec}
+\RequirePackage{fancyvrb}
+\RequirePackage{xcolor}
+
+% ── Notation, generated from lra-governance/notation.yaml ──────────────
+\InputIfFileExists{generated/lean/notation.tex}{}{%
+  \PackageError{leanstatement}{generated/lean/notation.tex not found}%
+    {Run scripts/notation_macros.py (or scripts/build-notes.sh).}}
+
+% ── Macros emitted by the exporter ─────────────────────────────────────
+% Predicates and functions defined in a track, e.g. IsInverse(op, e, x, y).
+\providecommand{\leanpred}[1]{\operatorname{#1}}
+% Types and structures, e.g. ZFSet, OrderFragment(R).
+\providecommand{\leantype}[1]{\mathsf{#1}}
+% Multi-letter variable names, e.g. op, zero.
+\providecommand{\leanvar}[1]{\mathit{#1}}
+% A Lean term the exporter cannot render yet; shown in red so gaps stay visible.
+\providecommand{\leanraw}[1]{\text{\textcolor{red!70!black}{\ttfamily #1}}}
+% Emitted inside a theorem whose Lean proof still contains `sorry`.
+\providecommand{\leanunproved}{%
+  \par\smallskip\noindent{\small\textcolor{red!70!black}{%
+    \textbf{Unproved in Lean:} the proof still contains \texttt{sorry}.}}}
+
+% A displayed definition  head :⟺ body. Set on one line when it fits the
+% text width; otherwise the body moves to an indented second line.
+\NewDocumentCommand{\leandefinition}{m m m}{%
+  \begingroup
+  \sbox0{$\displaystyle #1 #2 #3$}%
+  \ifdim\wd0>\linewidth
+    \[\begin{aligned}[t] & #1 #2 \\ & \qquad #3 \end{aligned}\]%
+  \else
+    \[ #1 #2 #3 \]%
+  \fi
+  \endgroup}
+
+% ── Lean source ────────────────────────────────────────────────────────
+\newfontfamily\leanfont{DejaVu Sans Mono}[Scale=MatchLowercase, NFSSFamily=leanmono]
+\DefineVerbatimEnvironment{leansource}{Verbatim}{fontfamily=leanmono,
+  fontsize=\small, frame=leftline, framerule=0.6pt, rulecolor=\color{gray!60},
+  xleftmargin=1em, framesep=0.75em}
+
+% ── User commands ──────────────────────────────────────────────────────
+\NewDocumentCommand{\leanstatement}{s m}{%
+  \IfFileExists{generated/lean/#2.tex}%
+    {\input{generated/lean/#2.tex}}%
+    {\PackageError{leanstatement}{No exported Lean declaration `#2'}%
+      {Check the name, then run lake exe texexport.}}%
+  \IfBooleanT{#1}{%
+    \IfFileExists{generated/lean/#2.lean}%
+      {\VerbatimInput[fontfamily=leanmono, fontsize=\small, frame=leftline,
+         framerule=0.6pt, rulecolor=\color{gray!60}, xleftmargin=1em,
+         framesep=0.75em]{generated/lean/#2.lean}}%
+      {\PackageWarning{leanstatement}{No Lean source exported for `#2'}}}%
+}
+
+\NewDocumentCommand{\leanref}{m}{\cref{lean:#1}}
+
+\endinput
