@@ -19,6 +19,15 @@ what the book says when it proves a result "from Axioms 1–3".
 **Names** follow the Lean naming conventions: each axiom is named after the
 Lean name of its statement (Axiom 1 is `AddComm`, after `add_comm`). Where Lean
 has no declaration with that statement, the name is built the same way.
+`AddZero` and `MulOne` are also mathlib class names (a type with `+` and `0`, or
+`*` and `1`); inside this namespace these definitions take precedence.
+
+**Core Lean's names for the laws.** Where core Lean has a class for a law, the
+axiom is defined *as* that class, so unfolding it shows Lean's name:
+`unfold AddComm at h` gives `h : Std.Commutative (· + ·)`, and
+`obtain ⟨comm⟩ := h` then gives `comm : ∀ a b, a + b = b + a`. The field can also
+be used directly, as `h.comm a b`. Axioms 1–3 and 5–7 are defined this way; the
+others have no core class and are stated directly.
 
 **Derived notions (p. 30).** `a > b` and `a ≥ b` are core Lean's definitions,
 `b < a` and `b ≤ a`, which are the book's. `≤` is a second relation tied to `<`
@@ -41,19 +50,25 @@ def ZeroNeOne (R : Type u) [Zero R] [One R] : Prop :=
   (0 : R) ≠ 1
 
 /-- **Axiom 1** [Laczkovich–Sós, Ch. 3, p. 29]: addition is commutative.
-Lean: `add_comm`. -/
-def AddComm (R : Type u) [Add R] : Prop :=
-  ∀ a b : R, a + b = b + a
+Lean: `add_comm`.
+Defined as core Lean's `Std.Commutative`; its field `comm` states
+`∀ a b : R, a + b = b + a`. -/
+abbrev AddComm (R : Type u) [Add R] : Prop :=
+  Std.Commutative (α := R) (· + ·)
 
 /-- **Axiom 2** [Laczkovich–Sós, Ch. 3, p. 29]: addition is associative.
-Lean: `add_assoc`. -/
-def AddAssoc (R : Type u) [Add R] : Prop :=
-  ∀ a b c : R, (a + b) + c = a + (b + c)
+Lean: `add_assoc`.
+Defined as core Lean's `Std.Associative`; its field `assoc` states
+`∀ a b c : R, (a + b) + c = a + (b + c)`. -/
+abbrev AddAssoc (R : Type u) [Add R] : Prop :=
+  Std.Associative (α := R) (· + ·)
 
 /-- **Axiom 3** [Laczkovich–Sós, Ch. 3, p. 29]: 0 is a right identity for
-addition. Lean: `add_zero`. -/
-def AddZero (R : Type u) [Add R] [Zero R] : Prop :=
-  ∀ a : R, a + 0 = a
+addition. Lean: `add_zero`.
+Defined as core Lean's `Std.LawfulRightIdentity`; its field `right_id` states
+`∀ a : R, a + 0 = a`. -/
+abbrev AddZero (R : Type u) [Add R] [Zero R] : Prop :=
+  Std.LawfulRightIdentity (α := R) (β := R) (· + ·) 0
 
 /-- **Axiom 4** [Laczkovich–Sós, Ch. 3, p. 29]: every element has a right
 additive inverse. No Lean declaration has this statement: mathlib's
@@ -63,19 +78,25 @@ def ExistsAddEqZero (R : Type u) [Add R] [Zero R] : Prop :=
   ∀ a : R, ∃ b : R, a + b = 0
 
 /-- **Axiom 5** [Laczkovich–Sós, Ch. 3, p. 29]: multiplication is commutative.
-Lean: `mul_comm`. -/
-def MulComm (R : Type u) [Mul R] : Prop :=
-  ∀ a b : R, a * b = b * a
+Lean: `mul_comm`.
+Defined as core Lean's `Std.Commutative`; its field `comm` states
+`∀ a b : R, a * b = b * a`. -/
+abbrev MulComm (R : Type u) [Mul R] : Prop :=
+  Std.Commutative (α := R) (· * ·)
 
 /-- **Axiom 6** [Laczkovich–Sós, Ch. 3, p. 29]: multiplication is associative.
-Lean: `mul_assoc`. -/
-def MulAssoc (R : Type u) [Mul R] : Prop :=
-  ∀ a b c : R, (a * b) * c = a * (b * c)
+Lean: `mul_assoc`.
+Defined as core Lean's `Std.Associative`; its field `assoc` states
+`∀ a b c : R, (a * b) * c = a * (b * c)`. -/
+abbrev MulAssoc (R : Type u) [Mul R] : Prop :=
+  Std.Associative (α := R) (· * ·)
 
 /-- **Axiom 7** [Laczkovich–Sós, Ch. 3, p. 29]: 1 is a right identity for
-multiplication. Lean: `mul_one`. -/
-def MulOne (R : Type u) [Mul R] [One R] : Prop :=
-  ∀ a : R, a * 1 = a
+multiplication. Lean: `mul_one`.
+Defined as core Lean's `Std.LawfulRightIdentity`; its field `right_id` states
+`∀ a : R, a * 1 = a`. -/
+abbrev MulOne (R : Type u) [Mul R] [One R] : Prop :=
+  Std.LawfulRightIdentity (α := R) (β := R) (· * ·) 1
 
 /-- **Axiom 8** [Laczkovich–Sós, Ch. 3, p. 29]: every nonzero element has a right
 multiplicative inverse. No Lean declaration has this statement; compare Axiom 4. -/

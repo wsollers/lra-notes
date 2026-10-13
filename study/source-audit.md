@@ -48,46 +48,25 @@ Book references are paraphrased; page numbers are the printed ones.
 
 ## Laczkovich–Sós, *Real Analysis: Foundations and Functions of One Variable*, Ch. 3
 
-- [ ] **`RealAxiomSystem` is not this book's axiom system** (pp. 29–33):
-  - the book's group IV is **Cantor's nested-interval axiom** (Axiom 15); the
-    Lean uses Zorich's separation (cut) form;
-  - the **axiom of Archimedes (14, group III) is missing** — with Cantor's
-    axiom it is independent and required;
-  - the book's primitive is **`<`** (with `≤` defined from it), not `≤`;
-  - the field axioms are one-sided in the book (3, 4, 7, 8) and distributivity
-    is left-sided (9); the Lean versions are two-sided / right-sided;
-  - group labels in the comments do not match the book (I = field, II = order,
-    III = Archimedes, IV = Cantor).
-
-  Book-faithful fields, with `lt` primitive, `le a b := lt a b ∨ a = b`, and
-  `nat : ℕ → R` the embedding built from `one`:
+- [x] **Groups I and II restated from the book** (p. 29) on the `laczkovich-p29`
+  branch: 0 ≠ 1, Axioms 1–13 and the definition of `≤` (p. 30) are individual
+  `Prop`s over core notation classes, with `<` primitive and one-sided field
+  axioms as in the book. The old `RealAxiomSystem` (with `≤` primitive,
+  two-sided axioms and Zorich's cut axiom) was removed.
+- [ ] **Axiom 14** (Archimedes, group III, p. 31) and **Axiom 15** (Cantor's
+  nested-interval axiom, group IV, p. 33) are not yet stated:
   ```lean
-  add_comm   : ∀ a b, add a b = add b a                                  -- 1
-  add_assoc  : ∀ a b c, add (add a b) c = add a (add b c)                -- 2
-  add_zero   : ∀ a, add a zero = a                                       -- 3
-  exists_neg : ∀ a, ∃ b, add a b = zero                                  -- 4
-  mul_comm   : ∀ a b, mul a b = mul b a                                  -- 5
-  mul_assoc  : ∀ a b c, mul (mul a b) c = mul a (mul b c)                -- 6
-  mul_one    : ∀ a, mul a one = a                                        -- 7
-  exists_inv : ∀ a, a ≠ zero → ∃ b, mul a b = one                        -- 8
-  distrib    : ∀ a b c, mul a (add b c) = add (mul a b) (mul a c)        -- 9
-  trichotomy : ∀ a b, (lt a b ∧ a ≠ b ∧ ¬ lt b a) ∨ (¬ lt a b ∧ a = b ∧ ¬ lt b a)
-                      ∨ (¬ lt a b ∧ a ≠ b ∧ lt b a)                      -- 10
-  lt_trans   : ∀ a b c, lt a b → lt b c → lt a c                         -- 11
-  add_lt_add_right : ∀ a b c, lt a b → lt (add a c) (add b c)            -- 12
-  mul_lt_mul_pos   : ∀ a b c, lt a b → lt zero c → lt (mul a c) (mul b c) -- 13
-  archimedes : ∀ b : R, ∃ n : ℕ, lt b (nat n)                            -- 14
-  cantor : ∀ a b : ℕ → R, (∀ n, lt (a n) (b n)) →
-             (∀ n, le (a n) (a (n+1)) ∧ le (b (n+1)) (b n)) →
-             ∃ x, ∀ n, le (a n) x ∧ le x (b n)                           -- 15
+  archimedes : ∀ b : R, ∃ n : ℕ, b < nat n                                 -- 14
+  cantor : ∀ a b : ℕ → R, (∀ n, a n < b n) →
+             (∀ n, a n ≤ a (n+1) ∧ b (n+1) ≤ b n) →
+             ∃ x, ∀ n, a n ≤ x ∧ x ≤ b n                                   -- 15
   ```
-  `one_ne_zero` stays: the book assumes it before numbering the axioms. If you
-  want the cut form too, keep it in a separate Zorich-attributed structure and
-  prove the equivalence.
-- [ ] **Theorem 3.2** (renamed from `Archimedes` to `RationalBetweenReals`) is
-  stated over mathlib's ℝ, not over `RealAxiomSystem`, and is `sorry`.
-- `AdditiveIdentityUnique` and the three `…Inverse…` restatements are not book
-  results; `AdditiveInverseUnique` is Theorem 3.28 (§3.4, p. 48).
+  where `nat : ℕ → R` embeds 1, 1 + 1, … (the book's ℕ⁺, p. 30).
+- [ ] **Theorem 3.2** (a rational between two reals, p. 31; Lean `exists_rat_btwn`)
+  waits for Axiom 14 and the book's ℚ (p. 30).
+- Lean's order facts (`lt_trichotomy`, `lt_irrefl`, `lt_asymm`, `le_refl`,
+  `le_antisymm`, `le_trans`, `le_total`) are stated as non-book lemmas from
+  Axioms 10–11; the book never states them (searched: no occurrences).
 
 ## Thomson–Bruckner–Bruckner, *Elementary Real Analysis*, §§1.4–1.6
 
