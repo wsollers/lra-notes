@@ -106,7 +106,7 @@ Active chapters:
 Lean modules start under:
 
 ```text
-Zorich/RealAnalysis/
+Zorich/RealAnalysisI/
 ```
 
 Active chapters:
@@ -118,7 +118,7 @@ Active chapters:
 Lean modules start under:
 
 ```text
-Laczkovich/RealAnalysis/
+Laczkovich/RealAnalysisI/
 ```
 
 Active chapters:
@@ -153,18 +153,32 @@ Active chapters:
 
 Scaffolded with an empty `Chapter01` (`Basic`, `Notes`, `Exercises`). Promote a
 stub to Active Tracks once a source record and active chapters are assigned.
-Authors with several books keep one root and use a subject folder per book.
+Authors with several books keep one root and use a topic folder per book.
 The two Mendelsons are different authors and get distinct roots.
+
+Topic folders use a fixed vocabulary, not book titles: `RealAnalysis`,
+`ComplexAnalysis`, `ModernAnalysis`, `FunctionalAnalysis`, `MeasureTheory`,
+`Probability`, `Topology`, `MetricSpaces`, `Logic`, `SetTheory`,
+`NumberSystems`, `LinearAlgebra`, `BooleanAlgebras`, `RelationAlgebras`,
+`Calculus`, `CalculusOnManifolds`, `DifferentialGeometry`. A multi-volume
+work on one topic takes a volume suffix: `RealAnalysisI`, `RealAnalysisII`.
 
 | Lean root | Source |
 | --- | --- |
-| `Tao/Analysis/` | Terence Tao, *Analysis I* |
-| `Lebl/BasicAnalysis/` | Jiří Lebl, *Basic Analysis I* |
+| `Tao/RealAnalysisI/` | Terence Tao, *Analysis I* |
+| `Tao/RealAnalysisII/` | Terence Tao, *Analysis II* |
+| `Tao/MeasureTheory/` | Terence Tao, *An Introduction to Measure Theory* |
+| `Lebl/RealAnalysisI/` | Jiří Lebl, *Basic Analysis I* |
+| `Lebl/RealAnalysisII/` | Jiří Lebl, *Basic Analysis II* |
 | `Tarski/Logic/` | Alfred Tarski, *Introduction to Logic and to the Methodology of the Deductive Sciences* |
 | `Su/RealAnalysis/` | Francis Su, *Real Analysis* (Harvey Mudd lectures) |
 | `Su/Topology/` | Michael Starbird and Francis Su, *Topology Through Inquiry* |
 | `Dieudonne/ModernAnalysis/` | Jean Dieudonné, *Foundations of Modern Analysis* |
-| `Kolmogorov/RealAnalysis/` | A. N. Kolmogorov and S. V. Fomin, *Introductory Real Analysis* |
+| `Kolmogorov/FunctionalAnalysis/` | A. N. Kolmogorov and S. V. Fomin, *Elements of the Theory of Functions and Functional Analysis* (also translated as *Introductory Real Analysis*) |
+| `Kolmogorov/Probability/` | A. N. Kolmogorov, *Foundations of the Theory of Probability* |
+| `Enderton/Logic/` | Herbert B. Enderton, *A Mathematical Introduction to Logic* |
+| `Laczkovich/RealAnalysisII/` | Miklós Laczkovich and Vera T. Sós, *Real Analysis: Series, Functions of Several Variables, and Applications* |
+| `Zorich/RealAnalysisII/` | Vladimir A. Zorich, *Mathematical Analysis II* |
 | `Halmos/SetTheory/` | Paul R. Halmos, *Naive Set Theory* |
 | `Halmos/MeasureTheory/` | Paul R. Halmos, *Measure Theory* |
 | `Halmos/LinearAlgebra/` | Paul R. Halmos, *Finite-Dimensional Vector Spaces* |
@@ -180,7 +194,7 @@ The two Mendelsons are different authors and get distinct roots.
 | `Spivak/Calculus/` | Michael Spivak, *Calculus* |
 | `Spivak/CalculusOnManifolds/` | Michael Spivak, *Calculus on Manifolds* |
 | `Spivak/DifferentialGeometry/` | Michael Spivak, *A Comprehensive Introduction to Differential Geometry* |
-| `Apostol/MathematicalAnalysis/` | Tom M. Apostol, *Mathematical Analysis* |
+| `Apostol/RealAnalysis/` | Tom M. Apostol, *Mathematical Analysis* |
 
 ## Build
 
