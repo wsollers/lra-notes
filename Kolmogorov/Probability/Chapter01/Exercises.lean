@@ -1,4 +1,4 @@
-import Kolmogorov.Probability.Chapter01.Basic
+import Kolmogorov.Probability.Chapter01.Definitions
 
 /-!
 # Kolmogorov, Foundations of the Theory of Probability, Chapter 1 Exercises

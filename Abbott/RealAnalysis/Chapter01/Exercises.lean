@@ -1,4 +1,4 @@
-import Abbott.RealAnalysis.Chapter01.Basic
+import Abbott.RealAnalysis.Chapter01.Definitions
 
 /-!
 # Abbott, Understanding Analysis, Chapter 1 Exercises

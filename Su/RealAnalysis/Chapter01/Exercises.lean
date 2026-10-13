@@ -1,4 +1,4 @@
-import Su.RealAnalysis.Chapter01.Basic
+import Su.RealAnalysis.Chapter01.Definitions
 
 /-!
 # Su, Real Analysis, Chapter 1 Exercises

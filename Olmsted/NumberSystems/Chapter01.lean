@@ -1,3 +1,4 @@
-import Olmsted.NumberSystems.Chapter01.Basic
+import Olmsted.NumberSystems.Chapter01.Definitions
 import Olmsted.NumberSystems.Chapter01.Exercises
-import Olmsted.NumberSystems.Chapter01.Notes
+import Olmsted.NumberSystems.Chapter01.Theorems
+import Olmsted.NumberSystems.Chapter01.Examples

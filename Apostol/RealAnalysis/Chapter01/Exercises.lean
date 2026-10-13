@@ -1,4 +1,4 @@
-import Apostol.RealAnalysis.Chapter01.Basic
+import Apostol.RealAnalysis.Chapter01.Definitions
 
 /-!
 # Apostol, Mathematical Analysis, Chapter 1 Exercises

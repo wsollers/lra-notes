@@ -1,4 +1,4 @@
-import Spivak.DifferentialGeometry.Chapter01.Basic
+import Spivak.DifferentialGeometry.Chapter01.Definitions
 
 /-!
 # Spivak, Comprehensive Introduction to Differential Geometry, Chapter 1 Exercises

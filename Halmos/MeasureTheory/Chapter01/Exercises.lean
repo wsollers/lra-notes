@@ -1,4 +1,4 @@
-import Halmos.MeasureTheory.Chapter01.Basic
+import Halmos.MeasureTheory.Chapter01.Definitions
 
 /-!
 # Halmos, Measure Theory, Chapter 1 Exercises

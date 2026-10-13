@@ -1,4 +1,4 @@
-import MendelsonB.Topology.Chapter01.Basic
+import MendelsonB.Topology.Chapter01.Definitions
 
 /-!
 # B. Mendelson, Introduction to Topology, Chapter 1 Exercises

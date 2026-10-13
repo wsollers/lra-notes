@@ -1,1 +1,1 @@
-import Halmos.SetTheory.Chapter01
+import Halmos.SetTheory.Section01

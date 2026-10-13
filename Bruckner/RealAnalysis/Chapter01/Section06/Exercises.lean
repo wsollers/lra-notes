@@ -2,14 +2,13 @@ import Common
 
 import Mathlib.Data.Real.Basic
 
-import Bruckner.RealAnalysis.Chapter01.Basic
+import Bruckner.RealAnalysis.Chapter01.Definitions
 import Bruckner.RealAnalysis.Chapter01.Section05
-import Bruckner.RealAnalysis.Chapter01.Section06.Notes
+import Bruckner.RealAnalysis.Chapter01.Section06.Theorems
 
 open Set
-open Bruckner.RealAnalysis.Chapter01.Section05
 
-namespace Bruckner.RealAnalysis.Chapter01.Section06
+namespace Bruckner.RealAnalysis.Chapter01
 
 variable (E A B : Set ℝ)
 variable (M M' M₁ M₂ m m' m₁ m₂ : ℝ)
@@ -155,4 +154,4 @@ theorem exercise_1_6_23_nat_complement_dist (δ : ℝ) :
     IsGLB (SetDist {x : ℝ | ∃ n : ℕ, n ≥ 1 ∧ x = (n : ℝ)} (univ \ {x : ℝ | ∃ n : ℕ, n ≥ 1 ∧ x = (n : ℝ)})) 0 := by
   sorry
 
-end Bruckner.RealAnalysis.Chapter01.Section06
+end Bruckner.RealAnalysis.Chapter01

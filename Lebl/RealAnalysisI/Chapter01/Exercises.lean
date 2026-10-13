@@ -1,4 +1,4 @@
-import Lebl.RealAnalysisI.Chapter01.Basic
+import Lebl.RealAnalysisI.Chapter01.Definitions
 
 /-!
 # Lebl, Basic Analysis I, Chapter 1 Exercises

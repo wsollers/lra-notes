@@ -1,4 +1,4 @@
-import MendelsonE.NumberSystems.Chapter01.Basic
+import MendelsonE.NumberSystems.Chapter01.Definitions
 
 /-!
 # E. Mendelson, Number Systems and the Foundations of Analysis, Chapter 1 Exercises

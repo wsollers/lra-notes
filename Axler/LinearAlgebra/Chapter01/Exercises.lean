@@ -1,4 +1,4 @@
-import Axler.LinearAlgebra.Chapter01.Basic
+import Axler.LinearAlgebra.Chapter01.Definitions
 
 /-!
 # Axler, Linear Algebra Done Right, Chapter 1 Exercises

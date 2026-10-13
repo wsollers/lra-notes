@@ -1,3 +1,4 @@
-import Laczkovich.RealAnalysisII.Chapter01.Basic
+import Laczkovich.RealAnalysisII.Chapter01.Definitions
 import Laczkovich.RealAnalysisII.Chapter01.Exercises
-import Laczkovich.RealAnalysisII.Chapter01.Notes
+import Laczkovich.RealAnalysisII.Chapter01.Theorems
+import Laczkovich.RealAnalysisII.Chapter01.Examples

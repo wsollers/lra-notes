@@ -1,4 +1,4 @@
-import Thurston.NumberSystems.Chapter01.Basic
+import Thurston.NumberSystems.Chapter01.Definitions
 
 /-!
 # H. A. Thurston, The Number-System, Chapter 1 Exercises

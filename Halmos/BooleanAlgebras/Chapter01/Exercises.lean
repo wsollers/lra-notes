@@ -1,4 +1,4 @@
-import Halmos.BooleanAlgebras.Chapter01.Basic
+import Halmos.BooleanAlgebras.Chapter01.Definitions
 
 /-!
 # Givant–Halmos, Introduction to Boolean Algebras, Chapter 1 Exercises

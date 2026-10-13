@@ -1,4 +1,4 @@
-import Spivak.CalculusOnManifolds.Chapter01.Basic
+import Spivak.CalculusOnManifolds.Chapter01.Definitions
 
 /-!
 # Spivak, Calculus on Manifolds, Chapter 1 Exercises

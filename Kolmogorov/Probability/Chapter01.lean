@@ -1,3 +1,4 @@
-import Kolmogorov.Probability.Chapter01.Basic
+import Kolmogorov.Probability.Chapter01.Definitions
 import Kolmogorov.Probability.Chapter01.Exercises
-import Kolmogorov.Probability.Chapter01.Notes
+import Kolmogorov.Probability.Chapter01.Theorems
+import Kolmogorov.Probability.Chapter01.Examples

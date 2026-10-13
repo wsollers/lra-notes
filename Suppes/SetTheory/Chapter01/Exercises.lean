@@ -1,4 +1,4 @@
-import Suppes.SetTheory.Chapter01.Basic
+import Suppes.SetTheory.Chapter01.Definitions
 
 /-!
 # Suppes, Axiomatic Set Theory, Chapter 1 Exercises

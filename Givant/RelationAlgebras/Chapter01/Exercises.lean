@@ -1,4 +1,4 @@
-import Givant.RelationAlgebras.Chapter01.Basic
+import Givant.RelationAlgebras.Chapter01.Definitions
 
 /-!
 # Givant, Introduction to Relation Algebras, Chapter 1 Exercises

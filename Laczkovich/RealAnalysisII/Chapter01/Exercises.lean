@@ -1,4 +1,4 @@
-import Laczkovich.RealAnalysisII.Chapter01.Basic
+import Laczkovich.RealAnalysisII.Chapter01.Definitions
 
 /-!
 # Laczkovich–Sós, Real Analysis: Series, Functions of Several Variables, and Applications, Chapter 1 Exercises

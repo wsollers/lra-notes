@@ -1,3 +1,4 @@
-import Thurston.NumberSystems.Chapter01.Basic
+import Thurston.NumberSystems.Chapter01.Definitions
 import Thurston.NumberSystems.Chapter01.Exercises
-import Thurston.NumberSystems.Chapter01.Notes
+import Thurston.NumberSystems.Chapter01.Theorems
+import Thurston.NumberSystems.Chapter01.Examples

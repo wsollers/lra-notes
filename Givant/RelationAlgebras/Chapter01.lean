@@ -1,3 +1,4 @@
-import Givant.RelationAlgebras.Chapter01.Basic
+import Givant.RelationAlgebras.Chapter01.Definitions
 import Givant.RelationAlgebras.Chapter01.Exercises
-import Givant.RelationAlgebras.Chapter01.Notes
+import Givant.RelationAlgebras.Chapter01.Theorems
+import Givant.RelationAlgebras.Chapter01.Examples

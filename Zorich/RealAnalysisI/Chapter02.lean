@@ -1,3 +1,4 @@
-import Zorich.RealAnalysisI.Chapter02.Basic
+import Zorich.RealAnalysisI.Chapter02.Definitions
 import Zorich.RealAnalysisI.Chapter02.Exercises
-import Zorich.RealAnalysisI.Chapter02.Notes
+import Zorich.RealAnalysisI.Chapter02.Theorems
+import Zorich.RealAnalysisI.Chapter02.Examples

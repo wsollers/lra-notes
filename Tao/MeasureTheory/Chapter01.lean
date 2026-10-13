@@ -1,3 +1,4 @@
-import Tao.MeasureTheory.Chapter01.Basic
+import Tao.MeasureTheory.Chapter01.Definitions
 import Tao.MeasureTheory.Chapter01.Exercises
-import Tao.MeasureTheory.Chapter01.Notes
+import Tao.MeasureTheory.Chapter01.Theorems
+import Tao.MeasureTheory.Chapter01.Examples

@@ -1,4 +1,4 @@
-import Zorich.RealAnalysisII.Chapter01.Basic
+import Zorich.RealAnalysisII.Chapter01.Definitions
 
 /-!
 # Zorich, Mathematical Analysis II, Chapter 1 Exercises

@@ -1,4 +1,4 @@
-import Halmos.LinearAlgebra.Chapter01.Basic
+import Halmos.LinearAlgebra.Chapter01.Definitions
 
 /-!
 # Halmos, Finite-Dimensional Vector Spaces, Chapter 1 Exercises

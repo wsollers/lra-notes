@@ -1,3 +1,4 @@
-import Dieudonne.ModernAnalysis.Chapter01.Basic
+import Dieudonne.ModernAnalysis.Chapter01.Definitions
 import Dieudonne.ModernAnalysis.Chapter01.Exercises
-import Dieudonne.ModernAnalysis.Chapter01.Notes
+import Dieudonne.ModernAnalysis.Chapter01.Theorems
+import Dieudonne.ModernAnalysis.Chapter01.Examples

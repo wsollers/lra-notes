@@ -1,4 +1,4 @@
-import Dieudonne.ModernAnalysis.Chapter01.Basic
+import Dieudonne.ModernAnalysis.Chapter01.Definitions
 
 /-!
 # Dieudonné, Foundations of Modern Analysis, Chapter 1 Exercises

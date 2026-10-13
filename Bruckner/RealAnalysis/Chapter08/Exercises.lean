@@ -1,4 +1,4 @@
-import Bruckner.RealAnalysis.Chapter08.Basic
+import Bruckner.RealAnalysis.Chapter08.Definitions
 
 /-!
 # Thomson/Bruckner, Elementary Real Analysis, Chapter 8 Exercises

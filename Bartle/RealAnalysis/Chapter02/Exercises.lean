@@ -1,4 +1,4 @@
-import Bartle.RealAnalysis.Chapter02.Basic
+import Bartle.RealAnalysis.Chapter02.Definitions
 
 /-!
 # Bartle, Real Analysis, Chapter 2 Exercises

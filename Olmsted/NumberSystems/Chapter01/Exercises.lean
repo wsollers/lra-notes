@@ -1,4 +1,4 @@
-import Olmsted.NumberSystems.Chapter01.Basic
+import Olmsted.NumberSystems.Chapter01.Definitions
 
 /-!
 # Olmsted, The Real Number System, Chapter 1 Exercises

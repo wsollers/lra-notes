@@ -1,4 +1,4 @@
-import Kolmogorov.FunctionalAnalysis.Chapter01.Basic
+import Kolmogorov.FunctionalAnalysis.Chapter01.Definitions
 
 /-!
 # Kolmogorov–Fomin, Elements of the Theory of Functions and Functional Analysis, Chapter 1 Exercises

@@ -4,10 +4,10 @@ import Mathlib.Data.Nat.Basic
 import Mathlib.Data.Real.Basic
 import Mathlib.Analysis.Real.Sqrt
 
-import Bruckner.RealAnalysis.Chapter01.Basic
-import Bruckner.RealAnalysis.Chapter01.Section05.Notes
+import Bruckner.RealAnalysis.Chapter01.Definitions
+import Bruckner.RealAnalysis.Chapter01.Section05.Theorems
 
-namespace Bruckner.RealAnalysis.Chapter01.Section05
+namespace Bruckner.RealAnalysis.Chapter01
 
 /-!
 # Chapter 1, Section 1.5 Exercises
@@ -94,4 +94,4 @@ theorem bounded_sets_have_bounds (E : Set ℝ) :
     sorry
 
 
-end Bruckner.RealAnalysis.Chapter01.Section05
+end Bruckner.RealAnalysis.Chapter01

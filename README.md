@@ -149,9 +149,37 @@ Active chapters:
 
 - Chapter 3
 
+## Track Layout
+
+Each track mirrors its book's own numbering, so a track uses one of three
+layouts:
+
+| Book structure | Layout | Example |
+| --- | --- | --- |
+| chapters only | `Author/Topic/ChapterNN/` | Spivak, *Calculus* |
+| chapters with sections | `Author/Topic/ChapterNN/SectionNN/` | Bruckner, Abbott, Tao |
+| sections only | `Author/Topic/SectionNN/` | Halmos, *Naive Set Theory* |
+
+Create section folders as you reach them; do not pre-scaffold empty ones.
+
+Each unit (a chapter, or a section where the book has them) holds:
+
+- `Definitions.lean` — the author's definitions and notation;
+- `Connections.lean` — iff bridges from those definitions to mathlib, when needed;
+- `Theorems.lean` — the unit's theorems and their proofs;
+- `Examples.lean` — worked examples and `counterexample`s;
+- `Exercises.lean` — selected exercises.
+
+Imports run Definitions → Connections → Theorems → Examples / Exercises.
+Prose belongs in the chapter's `notes.tex`, not in Lean.
+
+Namespaces stop at the chapter (`Bruckner.RealAnalysis.Chapter01`) — or at the
+book for section-only tracks (`Halmos.SetTheory`) — so moving a result between
+sections never renames it.
+
 ## Stub Tracks
 
-Scaffolded with an empty `Chapter01` (`Basic`, `Notes`, `Exercises`). Promote a
+Scaffolded with an empty first unit (`Definitions`, `Theorems`, `Examples`, `Exercises`). Promote a
 stub to Active Tracks once a source record and active chapters are assigned.
 Authors with several books keep one root and use a topic folder per book.
 The two Mendelsons are different authors and get distinct roots.

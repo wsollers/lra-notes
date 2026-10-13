@@ -1,3 +1,4 @@
-import Spivak.DifferentialGeometry.Chapter01.Basic
+import Spivak.DifferentialGeometry.Chapter01.Definitions
 import Spivak.DifferentialGeometry.Chapter01.Exercises
-import Spivak.DifferentialGeometry.Chapter01.Notes
+import Spivak.DifferentialGeometry.Chapter01.Theorems
+import Spivak.DifferentialGeometry.Chapter01.Examples

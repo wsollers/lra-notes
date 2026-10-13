@@ -1,4 +1,4 @@
-import Spivak.Calculus.Chapter01.Basic
+import Spivak.Calculus.Chapter01.Definitions
 
 /-!
 # Spivak, Calculus, Chapter 1 Exercises

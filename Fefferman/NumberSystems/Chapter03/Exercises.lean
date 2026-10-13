@@ -1,4 +1,4 @@
-import Fefferman.NumberSystems.Chapter03.Basic
+import Fefferman.NumberSystems.Chapter03.Definitions
 
 /-!
 # Feferman, The Number Systems, Chapter 3 Exercises

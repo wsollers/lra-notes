@@ -1,3 +1,4 @@
-import Kolmogorov.FunctionalAnalysis.Chapter01.Basic
+import Kolmogorov.FunctionalAnalysis.Chapter01.Definitions
 import Kolmogorov.FunctionalAnalysis.Chapter01.Exercises
-import Kolmogorov.FunctionalAnalysis.Chapter01.Notes
+import Kolmogorov.FunctionalAnalysis.Chapter01.Theorems
+import Kolmogorov.FunctionalAnalysis.Chapter01.Examples

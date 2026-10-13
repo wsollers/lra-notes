@@ -1,3 +1,4 @@
-import Suppes.SetTheory.Chapter01.Basic
+import Suppes.SetTheory.Chapter01.Definitions
 import Suppes.SetTheory.Chapter01.Exercises
-import Suppes.SetTheory.Chapter01.Notes
+import Suppes.SetTheory.Chapter01.Theorems
+import Suppes.SetTheory.Chapter01.Examples

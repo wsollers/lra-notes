@@ -1,4 +1,4 @@
-import Su.Topology.Chapter01.Basic
+import Su.Topology.Chapter01.Definitions
 
 /-!
 # Starbird–Su, Topology Through Inquiry, Chapter 1 Exercises

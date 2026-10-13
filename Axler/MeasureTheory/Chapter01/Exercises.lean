@@ -1,4 +1,4 @@
-import Axler.MeasureTheory.Chapter01.Basic
+import Axler.MeasureTheory.Chapter01.Definitions
 
 /-!
 # Axler, Measure, Integration & Real Analysis, Chapter 1 Exercises

@@ -1,4 +1,4 @@
-import Tao.RealAnalysisI.Chapter01.Basic
+import Tao.RealAnalysisI.Chapter01.Definitions
 
 /-!
 # Tao, Analysis I, Chapter 1 Exercises

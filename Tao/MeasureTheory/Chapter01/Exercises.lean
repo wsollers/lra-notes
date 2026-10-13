@@ -1,4 +1,4 @@
-import Tao.MeasureTheory.Chapter01.Basic
+import Tao.MeasureTheory.Chapter01.Definitions
 
 /-!
 # Tao, An Introduction to Measure Theory, Chapter 1 Exercises
