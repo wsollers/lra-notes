@@ -8,7 +8,7 @@ import Munkres.Topology.Chapter01.Section02.Definitions
 
 namespace Munkres.Topology.Chapter01
 
-/-- **Lemma 2.1** (§2). A function with a left inverse and a right inverse is
+/-- **Lemma 2.1** [Munkres, §2, p. 19]. A function with a left inverse and a right inverse is
 bijective, and the two inverses agree. The book also concludes that both equal
 `f⁻¹`; that part is not yet stated here. Exercise 2.5(e) restates this lemma. -/
 theorem Munkres_2_1_BijectiveOfLeftRightInverse
