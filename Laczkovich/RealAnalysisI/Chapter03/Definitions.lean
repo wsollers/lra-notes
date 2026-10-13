@@ -3,91 +3,269 @@ import Common
 /-!
 # Laczkovich–Sós, Real Analysis: Foundations and Functions of One Variable, Chapter 3 — Definitions
 
-The axioms of the real numbers (Chapter 3, pp. 28–33), packaged as a structure.
+The field axioms and the order axioms [Laczkovich–Sós, Ch. 3, p. 29], and the
+definition of `≤` (p. 30).
 
-**Not yet the book's axiom system.** The book takes `<` as primitive and lists
-fifteen axioms: field axioms 1–9 (group I), order axioms 10–13 (group II), the
-axiom of Archimedes 14 (group III), and Cantor's nested-interval axiom 15
-(group IV). The structure below takes `≤` as primitive, uses two-sided field
-axioms, omits Archimedes, and states completeness in Zorich's separation form.
-The group labels in its comments follow that arrangement, not the book's. See
-`study/source-audit.md` for the book-faithful field statements.
+**The primitives.** The book assumes two operations, addition and multiplication,
+two distinct elements 0 and 1, and a relation `<`. Here they are a carrier `R`
+with Lean's notation classes `[Add R] [Mul R] [Zero R] [One R] [LT R]`, so the
+axioms read as the book writes them: `a + 0 = a`, `a * (b + c) = …`, `a < b`.
+No mathlib is used.
+
+**The axioms are hypotheses, not a bundle.** Each axiom is a `Prop` about `R`.
+A theorem takes as hypotheses exactly the axioms it uses, so its signature says
+what the book says when it proves a result "from Axioms 1–3".
+
+**Names** follow the Lean naming conventions: each axiom is named after the
+Lean name of its statement (Axiom 1 is `AddComm`, after `add_comm`). Where Lean
+has no declaration with that statement, the name is built the same way.
+`AddZero` and `MulOne` are also mathlib class names (a type with `+` and `0`, or
+`*` and `1`); inside this namespace these definitions take precedence.
+
+**Core Lean's names for the laws.** Where core Lean has a class for a law, the
+axiom is defined *as* that class, so unfolding it shows Lean's name:
+`unfold AddComm at h` gives `h : Std.Commutative (· + ·)`, and
+`obtain ⟨comm⟩ := h` then gives `comm : ∀ a b, a + b = b + a`. The field can also
+be used directly, as `h.comm a b`. Axioms 1–3 and 5–7 are defined this way; the
+others have no core class and are stated directly.
+
+**Derived notions (p. 30).** `a > b` and `a ≥ b` are core Lean's definitions,
+`b < a` and `b ≤ a`, which are the book's. `≤` is a second relation tied to `<`
+by `LeIffLtOrEq`, the book's definition. Positive and negative are written
+`0 < a` and `a < 0`.
+
+Not yet stated: the axiom of Archimedes (Axiom 14, p. 31) and Cantor's axiom
+(Axiom 15, p. 33).
 -/
+
+universe u
 
 namespace Laczkovich.RealAnalysisI.Chapter03
 
-/-- The axioms of the real numbers, Chapter 3 [Laczkovich–Sós, Ch. 3, p. 28–33]. Not yet the book's system; see the module docstring. -/
-structure RealAxiomSystem (R : Type u) where
-  -- Data
-  /-- Addition, a primitive operation. -/
-  add : R → R → R
-  /-- Multiplication, a primitive operation. -/
-  mul : R → R → R
-  /-- The element 0. -/
-  zero : R
-  /-- The element 1. -/
-  one : R
-  /-- The order. The book's primitive is `<` instead [Laczkovich–Sós, Ch. 3, p. 30]. -/
-  le : R → R → Prop
+/-! ### Group I: the field axioms (p. 29) -/
 
-  -- I. Addition axioms
-  /-- **Axiom 3** [Laczkovich–Sós, Ch. 3, p. 29]: a + 0 = a. Two-sided here; the book states the right identity only. -/
-  add_zero : ∀ x : R, add x zero = x ∧ add zero x = x
-  /-- **Axiom 4** [Laczkovich–Sós, Ch. 3, p. 29]: every element has a negative. Two-sided here. -/
-  exists_neg : ∀ x : R, ∃ y : R, add x y = zero ∧ add y x = zero
-  /-- **Axiom 2** [Laczkovich–Sós, Ch. 3, p. 29]: associativity of addition. -/
-  add_assoc : ∀ x y z : R, add x (add y z) = add (add x y) z
-  /-- **Axiom 1** [Laczkovich–Sós, Ch. 3, p. 29]: commutativity of addition. -/
-  add_comm : ∀ x y : R, add x y = add y x
+/-- **0 ≠ 1**, assumed in the preamble to group I, unnumbered
+[Laczkovich–Sós, Ch. 3, p. 29]. Lean: `zero_ne_one`. -/
+def ZeroNeOne (R : Type u) [Zero R] [One R] : Prop :=
+  (0 : R) ≠ 1
 
-  -- II. Multiplication axioms
-  /-- **Axiom 7** [Laczkovich–Sós, Ch. 3, p. 29]: a · 1 = a. Two-sided here. -/
-  mul_one : ∀ x : R, mul x one = x ∧ mul one x = x
-  /-- 0 ≠ 1, assumed before the axioms are numbered [Laczkovich–Sós, Ch. 3, p. 29]. -/
-  one_ne_zero : one ≠ zero
-  /-- **Axiom 8** [Laczkovich–Sós, Ch. 3, p. 29]: every nonzero element has an inverse. Two-sided here. -/
-  exists_inv :
-    ∀ x : R, x ≠ zero → ∃ y : R, mul x y = one ∧ mul y x = one
-  /-- **Axiom 6** [Laczkovich–Sós, Ch. 3, p. 29]: associativity of multiplication. -/
-  mul_assoc : ∀ x y z : R, mul x (mul y z) = mul (mul x y) z
-  /-- **Axiom 5** [Laczkovich–Sós, Ch. 3, p. 29]: commutativity of multiplication. -/
-  mul_comm : ∀ x y : R, mul x y = mul y x
+/-- **Axiom 1** [Laczkovich–Sós, Ch. 3, p. 29]: addition is commutative.
+Lean: `add_comm`.
+Defined as core Lean's `Std.Commutative`; its field `comm` states
+`∀ a b : R, a + b = b + a`. -/
+abbrev AddComm (R : Type u) [Add R] : Prop :=
+  Std.Commutative (α := R) (· + ·)
 
-  -- I/II. Distributivity
-  /-- Distributivity, (x + y)z = xz + yz. The book's **Axiom 9** [Laczkovich–Sós, Ch. 3, p. 29] is the left-hand form a(b + c) = ab + ac. -/
-  distrib : ∀ x y z : R, mul (add x y) z = add (mul x z) (mul y z)
+/-- **Axiom 2** [Laczkovich–Sós, Ch. 3, p. 29]: addition is associative.
+Lean: `add_assoc`.
+Defined as core Lean's `Std.Associative`; its field `assoc` states
+`∀ a b c : R, (a + b) + c = a + (b + c)`. -/
+abbrev AddAssoc (R : Type u) [Add R] : Prop :=
+  Std.Associative (α := R) (· + ·)
 
-  -- III. Order axioms
-  /-- Reflexivity of `≤`. Not a book axiom: the book's order axioms 10–13 [Laczkovich–Sós, Ch. 3, p. 29] are stated for `<`. -/
-  le_refl : ∀ x : R, le x x
-  /-- Antisymmetry of `≤`. Not a book axiom; compare trichotomy, **Axiom 10** [Laczkovich–Sós, Ch. 3, p. 29]. -/
-  le_antisymm : ∀ x y : R, le x y → le y x → x = y
-  /-- Transitivity of `≤`. Compare **Axiom 11** [Laczkovich–Sós, Ch. 3, p. 29], transitivity of `<`. -/
-  le_trans : ∀ x y z : R, le x y → le y z → le x z
-  /-- Totality of `≤`. Compare trichotomy, **Axiom 10** [Laczkovich–Sós, Ch. 3, p. 29]. -/
-  le_total : ∀ x y : R, le x y ∨ le y x
+/-- **Axiom 3** [Laczkovich–Sós, Ch. 3, p. 29]: 0 is a right identity for
+addition. Lean: `add_zero`.
+Defined as core Lean's `Std.LawfulRightIdentity`; its field `right_id` states
+`∀ a : R, a + 0 = a`. -/
+abbrev AddZero (R : Type u) [Add R] [Zero R] : Prop :=
+  Std.LawfulRightIdentity (α := R) (β := R) (· + ·) 0
 
-  -- I/III. Addition and order
-  /-- Compare **Axiom 12** [Laczkovich–Sós, Ch. 3, p. 29], stated in the book for `<`. -/
-  add_le_add_right : ∀ x y z : R, le x y → le (add x z) (add y z)
+/-- **Axiom 4** [Laczkovich–Sós, Ch. 3, p. 29]: every element has a right
+additive inverse. No Lean declaration has this statement: mathlib's
+`add_neg_cancel` presupposes the operation `-a`, which the book defines only
+after uniqueness (Theorem 3.28). -/
+def ExistsAddEqZero (R : Type u) [Add R] [Zero R] : Prop :=
+  ∀ a : R, ∃ b : R, a + b = 0
 
-  -- II/III. Multiplication and order
-  /-- Non-negativity of products. A different statement from **Axiom 13** [Laczkovich–Sós, Ch. 3, p. 29] (a < b and 0 < c give ac < bc). -/
-  mul_nonneg : ∀ x y : R, le zero x → le zero y → le zero (mul x y)
+/-- **Axiom 5** [Laczkovich–Sós, Ch. 3, p. 29]: multiplication is commutative.
+Lean: `mul_comm`.
+Defined as core Lean's `Std.Commutative`; its field `comm` states
+`∀ a b : R, a * b = b * a`. -/
+abbrev MulComm (R : Type u) [Mul R] : Prop :=
+  Std.Commutative (α := R) (· * ·)
 
-  -- IV. Completeness, Zorich cut/separation form
-  /-- Completeness in Zorich's separation form. Not this book's axiom: its group IV is Cantor's nested-interval axiom, **Axiom 15** [Laczkovich–Sós, Ch. 3, p. 33], and the book also needs **Axiom 14** (Archimedes, p. 31), which is missing here. -/
-  completeness :
-    ∀ X Y : R → Prop,
-      (∃ x, X x) →
-      (∃ y, Y y) →
-      (∀ x y, X x → Y y → le x y) →
-      ∃ c : R, (∀ x, X x → le x c) ∧ (∀ y, Y y → le c y)
+/-- **Axiom 6** [Laczkovich–Sós, Ch. 3, p. 29]: multiplication is associative.
+Lean: `mul_assoc`.
+Defined as core Lean's `Std.Associative`; its field `assoc` states
+`∀ a b c : R, (a * b) * c = a * (b * c)`. -/
+abbrev MulAssoc (R : Type u) [Mul R] : Prop :=
+  Std.Associative (α := R) (· * ·)
 
-variable {R : Type u} (sys : RealAxiomSystem R)
+/-- **Axiom 7** [Laczkovich–Sós, Ch. 3, p. 29]: 1 is a right identity for
+multiplication. Lean: `mul_one`.
+Defined as core Lean's `Std.LawfulRightIdentity`; its field `right_id` states
+`∀ a : R, a * 1 = a`. -/
+abbrev MulOne (R : Type u) [Mul R] [One R] : Prop :=
+  Std.LawfulRightIdentity (α := R) (β := R) (· * ·) 1
 
-/-- Strict order defined from `≤`. The book does the reverse: `<` is primitive and `≤` is defined from it [Laczkovich–Sós, Ch. 3, p. 30]. -/
-def lt (x y : R) : Prop :=
-  sys.le x y ∧ x ≠ y
+/-- **Axiom 8** [Laczkovich–Sós, Ch. 3, p. 29]: every nonzero element has a right
+multiplicative inverse. No Lean declaration has this statement; compare Axiom 4. -/
+def ExistsMulEqOneOfNeZero (R : Type u) [Mul R] [Zero R] [One R] : Prop :=
+  ∀ a : R, a ≠ 0 → ∃ b : R, a * b = 1
+
+/-- **Axiom 9** [Laczkovich–Sós, Ch. 3, p. 29]: multiplication distributes over
+addition from the left. Lean: `mul_add`. -/
+def MulAdd (R : Type u) [Add R] [Mul R] : Prop :=
+  ∀ a b c : R, a * (b + c) = a * b + a * c
+
+/-! ### After the field axioms: −a, 1/a, a/c, and "field" (p. 29)
+
+The book names the inverse that Axiom 4 provides `−a`, and the one Axiom 8
+provides `1/a`, as soon as the axioms are stated; their uniqueness is proved
+later (Theorems 3.28 and 3.30). As with `≤`, Lean's own symbols `-a` and `/`
+(`[Neg R] [Div R]`) are used, tied to the book's definitions by a law. Any
+symbol satisfying the law is the book's `−a` or `1/a`, by that uniqueness. -/
+
+/-- **−a** [Laczkovich–Sós, Ch. 3, p. 29]: the element `b` with `a + b = 0`,
+unique by Theorem 3.28. Lean: `add_neg_cancel`. -/
+def AddNegCancel (R : Type u) [Add R] [Neg R] [Zero R] : Prop :=
+  ∀ a : R, a + -a = 0
+
+/-- **1/a** [Laczkovich–Sós, Ch. 3, p. 29], for `a ≠ 0`: the element `b` with
+`a · b = 1`, unique by Theorem 3.30. Lean: `mul_one_div_cancel`. -/
+def MulOneDivCancel (R : Type u) [Mul R] [Div R] [Zero R] [One R] : Prop :=
+  ∀ a : R, a ≠ 0 → a * (1 / a) = 1
+
+/-- **a/c** [Laczkovich–Sós, Ch. 3, p. 29]: `a · (1/c)`, for `c ≠ 0`.
+Lean: `div_eq_mul_one_div`, which mathlib states for every `c`. -/
+def DivEqMulOneDiv (R : Type u) [Mul R] [Div R] [Zero R] [One R] : Prop :=
+  ∀ a c : R, c ≠ 0 → a / c = a * (1 / c)
+
+/-- **Field** [Laczkovich–Sós, Ch. 3, p. 29]: a set with two operations and
+distinct elements 0 and 1 satisfying Axioms 1–9, the **field axioms**.
+Mathlib also has an `IsField`, for rings in which every nonzero element is
+invertible; this one is the book's definition. -/
+structure IsField (R : Type u) [Add R] [Mul R] [Zero R] [One R] : Prop where
+  zero_ne_one : ZeroNeOne R
+  add_comm : AddComm R
+  add_assoc : AddAssoc R
+  add_zero : AddZero R
+  exists_add_eq_zero : ExistsAddEqZero R
+  mul_comm : MulComm R
+  mul_assoc : MulAssoc R
+  mul_one : MulOne R
+  exists_mul_eq_one_of_ne_zero : ExistsMulEqOneOfNeZero R
+  mul_add : MulAdd R
+
+/-! ### Group II: the order axioms (p. 29) -/
+
+/-- **Axiom 10** [Laczkovich–Sós, Ch. 3, p. 29]: for any `a`, `b`, exactly one of
+`a < b`, `a = b`, `b < a` holds.
+
+No Lean declaration has this statement. Lean splits it in three: `lt_trichotomy`
+(at least one holds), `lt_irrefl` and `lt_asymm` (no two hold). Those are
+derived from this axiom in `Theorems.lean`. -/
+def LtTrichotomyExclusive (R : Type u) [LT R] : Prop :=
+  ∀ a b : R,
+    (a < b ∧ ¬ a = b ∧ ¬ b < a) ∨
+    (¬ a < b ∧ a = b ∧ ¬ b < a) ∨
+    (¬ a < b ∧ ¬ a = b ∧ b < a)
+
+/-- **Axiom 11** [Laczkovich–Sós, Ch. 3, p. 29]: `<` is transitive.
+Lean: `lt_trans`, which states it in curried form. -/
+def LtTrans (R : Type u) [LT R] : Prop :=
+  ∀ a b c : R, a < b ∧ b < c → a < c
+
+/-- **Axiom 12** [Laczkovich–Sós, Ch. 3, p. 29]: adding the same element on the
+right preserves `<`. Lean: `add_lt_add_left`. Note that mathlib's
+`add_lt_add_right` adds on the *left* (`a + b < a + c`). -/
+def AddLtAddLeft (R : Type u) [Add R] [LT R] : Prop :=
+  ∀ a b c : R, a < b → a + c < b + c
+
+/-- **Axiom 13** [Laczkovich–Sós, Ch. 3, p. 29]: multiplying on the right by a
+positive element preserves `<`. Lean: `mul_lt_mul_of_pos_right`. -/
+def MulLtMulOfPosRight (R : Type u) [Mul R] [Zero R] [LT R] : Prop :=
+  ∀ a b c : R, a < b ∧ 0 < c → a * c < b * c
+
+/-! ### Definitions after the axioms (p. 30) -/
+
+/-- **Definition of `≤`** [Laczkovich–Sós, Ch. 3, p. 30]: `a ≤ b` means `a < b`
+or `a = b`. Lean: `le_iff_lt_or_eq`. As in mathlib, `≤` is its own relation,
+and this law ties it to `<`. -/
+def LeIffLtOrEq (R : Type u) [LT R] [LE R] : Prop :=
+  ∀ a b : R, a ≤ b ↔ a < b ∨ a = b
+
+/-! ### Vocabulary (p. 30)
+
+The book bolds these terms as definitions it uses from here on. Lean has no
+predicates for them and writes `0 < a`; they are `abbrev`s, so a hypothesis
+`IsPositive a` is `0 < a` to Lean with no unfolding needed. -/
+
+section Vocabulary
+
+variable {R : Type u}
+
+/-- **positive** [Laczkovich–Sós, Ch. 3, p. 30]: `a > 0`. -/
+abbrev IsPositive [Zero R] [LT R] (a : R) : Prop := 0 < a
+
+/-- **negative** [Laczkovich–Sós, Ch. 3, p. 30]: `a < 0`. -/
+abbrev IsNegative [Zero R] [LT R] (a : R) : Prop := a < 0
+
+/-- **nonnegative** [Laczkovich–Sós, Ch. 3, p. 30]: `a ≥ 0`. -/
+abbrev IsNonnegative [Zero R] [LE R] (a : R) : Prop := 0 ≤ a
+
+/-- **nonpositive** [Laczkovich–Sós, Ch. 3, p. 30]: `a ≤ 0`. -/
+abbrev IsNonpositive [Zero R] [LE R] (a : R) : Prop := a ≤ 0
+
+end Vocabulary
+
+/-! ### The natural numbers, integers and rationals (p. 30)
+
+The book introduces these as subsets of the reals without developing them.
+Lean's `ℕ` serves only to count the repeated additions of 1. Core Lean has no
+`Set`, so each subset is a predicate. -/
+
+section NumberSets
+
+variable {R : Type u}
+
+/-- Repeatedly adding 1: `0, 1, 1 + 1, 1 + 1 + 1, …` [Laczkovich–Sós, Ch. 3,
+p. 30]. Lean: `Nat.unaryCast`. -/
+def unaryCast [Zero R] [One R] [Add R] : Nat → R
+  | 0 => 0
+  | n + 1 => unaryCast n + 1
+
+/-- **natural numbers** ℕ⁺ [Laczkovich–Sós, Ch. 3, p. 30]: `1, 1 + 1, 1 + 1 + 1, …`.
+Lean's type of positive naturals is `ℕ+` (`PNat`). -/
+def IsPNat [Zero R] [One R] [Add R] (x : R) : Prop :=
+  ∃ n : Nat, 1 ≤ n ∧ x = unaryCast n
+
+/-- **integers** ℤ [Laczkovich–Sós, Ch. 3, p. 30]: the natural numbers, their
+negatives, and 0. -/
+def IsInt [Zero R] [One R] [Add R] [Neg R] (x : R) : Prop :=
+  IsPNat x ∨ (∃ n : R, IsPNat n ∧ x = -n) ∨ x = 0
+
+/-- ℕ := ℕ⁺ ∪ {0} [Laczkovich–Sós, Ch. 3, p. 30]. -/
+def IsNat [Zero R] [One R] [Add R] (x : R) : Prop :=
+  IsPNat x ∨ x = 0
+
+/-- **rational** [Laczkovich–Sós, Ch. 3, p. 30]: `x = p/q` with `p, q ∈ ℤ` and
+`q ≠ 0`; ℚ is the set of rational numbers. -/
+def IsRat [Zero R] [One R] [Add R] [Neg R] [Div R] (x : R) : Prop :=
+  ∃ p q : R, IsInt p ∧ IsInt q ∧ q ≠ 0 ∧ x = p / q
+
+/-- **irrational** [Laczkovich–Sós, Ch. 3, p. 30]: not rational.
+Lean: `Irrational`. -/
+def Irrational [Zero R] [One R] [Add R] [Neg R] [Div R] (x : R) : Prop :=
+  ¬ IsRat x
+
+end NumberSets
+
+/-! ### Absolute value (p. 30) -/
+
+section AbsoluteValue
+
+variable {R : Type u}
+
+open Classical in
+/-- **Definition 3.1** [Laczkovich–Sós, Ch. 3, p. 30]: the *absolute value* of
+`a` is `a` if `a ≥ 0` and `−a` if `a < 0`. Lean: `abs`, written `|a|`; mathlib
+defines it as `max a (-a)`. The `else` branch is "not `a ≥ 0`", which is the
+book's `a < 0` given Axiom 10 and the definition of `≤`. Noncomputable because
+whether `a ≥ 0` is not decidable for an arbitrary `R`. -/
+noncomputable def abs [Zero R] [LE R] [Neg R] (a : R) : R :=
+  if 0 ≤ a then a else -a
+
+end AbsoluteValue
 
 end Laczkovich.RealAnalysisI.Chapter03
