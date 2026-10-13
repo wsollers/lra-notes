@@ -227,6 +227,20 @@ work on one topic takes a volume suffix: `RealAnalysisI`, `RealAnalysisII`.
 | `Spivak/DifferentialGeometry/` | Michael Spivak, *A Comprehensive Introduction to Differential Geometry* |
 | `Apostol/RealAnalysis/` | Tom M. Apostol, *Mathematical Analysis* |
 
+## Source Verification
+
+Each track root has a `SOURCE.md` locating its book: the source record, the
+local PDF, the Markdown extract, and the Google Drive folder. It is generated
+from the `lra-source-profiles` manifest; regenerate with
+`python scripts/source_files.py` (set `source_id: none` → a real id once a book
+is added to the manifest).
+
+Every definition, axiom, theorem, example, and exercise is checked against the
+book: the **statement** must match the book's meaning (proofs are your own), and
+the docstring carries the book's label, number, section, and printed page, e.g.
+`**Definition 1.1** [Thomson2008, §1.5, p. 11]`. Mathematical mismatches are
+recorded in `study/source-audit.md` rather than silently changed.
+
 ## TeX Notes
 
 Write study notes in TeX beside the Lean, for example
