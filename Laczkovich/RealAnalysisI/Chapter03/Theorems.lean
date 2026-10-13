@@ -27,19 +27,19 @@ variable {R : Type u}
 /-- Corollary of **Axiom 10** [Laczkovich–Sós, Ch. 3, p. 29]; not in the book.
 At least one of `a < b`, `a = b`, `b < a` holds: the axiom's "exactly one"
 weakened to "at least one". Lean: `lt_trichotomy`. -/
-theorem lt_trichotomy [LT R] (h10 : LtTrichotomyExclusive R) (a b : R) :
+corollary lt_trichotomy [LT R] (h10 : LtTrichotomyExclusive R) (a b : R) :
     a < b ∨ a = b ∨ b < a := by
   sorry
 
 /-- Corollary of **Axiom 10** [Laczkovich–Sós, Ch. 3, p. 29]; not in the book.
 No element is less than itself. Lean: `lt_irrefl`. -/
-theorem lt_irrefl [LT R] (h10 : LtTrichotomyExclusive R) (a : R) :
+corollary lt_irrefl [LT R] (h10 : LtTrichotomyExclusive R) (a : R) :
     ¬ a < a := by
   sorry
 
 /-- Corollary of **Axiom 10** [Laczkovich–Sós, Ch. 3, p. 29]; not in the book.
 `a < b` and `b < a` never both hold. Lean: `lt_asymm`. -/
-theorem lt_asymm [LT R] (h10 : LtTrichotomyExclusive R) {a b : R} :
+corollary lt_asymm [LT R] (h10 : LtTrichotomyExclusive R) {a b : R} :
     a < b → ¬ b < a := by
   sorry
 

@@ -8,8 +8,9 @@ for every user-written `theorem` and Prop-valued `def` whose module lies under
 one of the given roots (default: every track), writes
 
 * `generated/lean/<FullName>.tex`  — the statement rendered as mathematics,
-  wrapped in an `lra-common` environment (`theorem`, `corollary` when the
-  docstring opens with "Corollary", or `definition`);
+  wrapped in an `lra-common` environment: `definition`, or for a theorem the
+  keyword it was declared with (`corollary`, `proposition`, `lemma` from
+  `Common.lean`; otherwise `theorem`);
 * `generated/lean/<FullName>.lean` — the statement as written in the source,
   up to `:=`, for `\leanstatement*`.
 
@@ -390,13 +391,17 @@ def envFor (kind title label body : String) : String :=
   "\\begin{" ++ kind ++ "}[" ++ title ++ "]\\label{" ++ label ++ "}\n" ++ body
     ++ "\\end{" ++ kind ++ "}\n"
 
-/-- The `lra-common` environment for a theorem: `corollary` when its docstring
-opens with "Corollary", otherwise `theorem`. Lean has no `corollary` keyword, so
-the docstring carries the label. -/
-def theoremKind (doc? : Option String) : String :=
-  match doc? with
-  | some d => if (d.trimLeft.dropWhile (· == '*')).startsWith "Corollary" then "corollary" else "theorem"
-  | none => "theorem"
+/-- The `lra-common` environment for a theorem, from the keyword it was declared
+with in the source. `Common.lean`'s `corollary`, `proposition` and `lemma`
+expand to `theorem`, so the elaborated declaration no longer knows; the keyword
+sitting just before the name does. `exercise` and anything else map to `theorem`. -/
+def theoremKind (path : System.FilePath) (r : DeclarationRanges) : IO String := do
+  unless ← path.pathExists do return "theorem"
+  let lines := (← IO.FS.readFile path).splitOn "\n"
+  let some line := lines[r.selectionRange.pos.line - 1]? | return "theorem"
+  let before := (line.take r.selectionRange.pos.column).trimAsciiEnd.toString
+  let kw := (before.splitOn " ").getLast!
+  return if ["corollary", "proposition", "lemma"].contains kw then kw else "theorem"
 
 def renderTheorem (name : Name) (type : Expr) (unproved : Bool) (kind : String := "theorem") :
     MetaM String :=
@@ -480,7 +485,12 @@ unsafe def main (args : List String) : IO UInt32 := do
     if skipModules.contains root then continue
     if !roots.isEmpty && !roots.contains root then continue
     if !isUserDecl env n then continue
-    let kind := theoremKind (← findDocString? env n)
+    let ranges? ← (findDeclarationRanges? n : CoreM _).toIO ctx { env := env }
+    let path : System.FilePath :=
+      (mod.components.map Name.toString |> System.mkFilePath).addExtension "lean"
+    let kind ← match ranges? with
+      | (some r, _) => theoremKind path r
+      | _ => pure "theorem"
     let act : MetaM (Option String) := do
       match ci with
       | .thmInfo t => return some (← renderTheorem n t.type t.value.hasSorry kind)
@@ -494,10 +504,7 @@ unsafe def main (args : List String) : IO UInt32 := do
     | .ok (none, _) => pure ()
     | .ok (some tex, _) =>
       IO.FS.writeFile (outDir / (n.toString ++ ".tex")) tex
-      let ranges? ← (findDeclarationRanges? n : CoreM _).toIO ctx { env := env }
       if let (some r, _) := ranges? then
-        let path : System.FilePath :=
-          (mod.components.map Name.toString |> System.mkFilePath).addExtension "lean"
         if let some src ← sourceStatement path r then
           IO.FS.writeFile (outDir / (n.toString ++ ".lean")) (src ++ "\n")
       count := count + 1
