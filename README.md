@@ -196,6 +196,33 @@ work on one topic takes a volume suffix: `RealAnalysisI`, `RealAnalysisII`.
 | `Spivak/DifferentialGeometry/` | Michael Spivak, *A Comprehensive Introduction to Differential Geometry* |
 | `Apostol/RealAnalysis/` | Tom M. Apostol, *Mathematical Analysis* |
 
+## TeX Notes
+
+Write study notes in TeX beside the Lean, for example
+`Zorich/RealAnalysisI/Chapter02/notes.tex`. Prose is authored by hand; formal
+statements are pulled from the compiled Lean, so they cannot drift:
+
+```latex
+\usepackage{leanstatement}
+\leanstatement{Zorich.RealAnalysisI.Chapter02.IsInverse}        % as mathematics
+\leanstatement*{Zorich.RealAnalysisI.Chapter02.IsInverse}       % plus the Lean source
+\leanref{Zorich.RealAnalysisI.Chapter02.IsInverse}              % cross-reference
+```
+
+`lake exe texexport` renders every theorem and Prop-valued definition into
+`generated/lean/` using the `lra-common` environments; symbols come from
+`lra-governance/notation.yaml`. Theorems whose proofs contain `sorry` are
+marked unproved. A misspelled or renamed declaration is a build error.
+
+Build (needs LuaLaTeX and sibling `lra-common` and `lra-governance` checkouts,
+or `LRA_COMMON_ROOT` / `LRA_GOVERNANCE_ROOT`):
+
+```bash
+scripts/build-notes.sh Zorich/RealAnalysisI/Chapter02/notes.tex
+```
+
+PDFs land in `build/notes/`; `generated/` and `build/` are not committed.
+
 ## Build
 
 This project uses the same Lean/mathlib pin as `lra-lean` initially.
