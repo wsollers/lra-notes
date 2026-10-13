@@ -8,7 +8,8 @@ for every user-written `theorem` and Prop-valued `def` whose module lies under
 one of the given roots (default: every track), writes
 
 * `generated/lean/<FullName>.tex`  — the statement rendered as mathematics,
-  wrapped in an `lra-common` environment (`theorem` or `definition`);
+  wrapped in an `lra-common` environment (`theorem`, `corollary` when the
+  docstring opens with "Corollary", or `definition`);
 * `generated/lean/<FullName>.lean` — the statement as written in the source,
   up to `:=`, for `\leanstatement*`.
 
@@ -389,7 +390,16 @@ def envFor (kind title label body : String) : String :=
   "\\begin{" ++ kind ++ "}[" ++ title ++ "]\\label{" ++ label ++ "}\n" ++ body
     ++ "\\end{" ++ kind ++ "}\n"
 
-def renderTheorem (name : Name) (type : Expr) (unproved : Bool) : MetaM String :=
+/-- The `lra-common` environment for a theorem: `corollary` when its docstring
+opens with "Corollary", otherwise `theorem`. Lean has no `corollary` keyword, so
+the docstring carries the label. -/
+def theoremKind (doc? : Option String) : String :=
+  match doc? with
+  | some d => if (d.trimLeft.dropWhile (· == '*')).startsWith "Corollary" then "corollary" else "theorem"
+  | none => "theorem"
+
+def renderTheorem (name : Name) (type : Expr) (unproved : Bool) (kind : String := "theorem") :
+    MetaM String :=
   forallTelescope type fun xs concl => do
     let bs ← xs.filterMapM classify
     let c ← render concl
@@ -397,7 +407,7 @@ def renderTheorem (name : Name) (type : Expr) (unproved : Bool) : MetaM String :
     let stmt := if bs.isEmpty then "\\[\n  " ++ c.1 ++ "\n\\]\n"
       else formula c.1 (lead ++ "Then")
     let stmt := if unproved then stmt ++ "\\leanunproved\n" else stmt
-    return envFor "theorem" (humanize name.getString!) ("lean:" ++ name.toString) stmt
+    return envFor kind (humanize name.getString!) ("lean:" ++ name.toString) stmt
 
 def renderDef (name : Name) (type value : Expr) : MetaM (Option String) := do
   let arity := (← forallTelescope type fun xs _ => pure xs.size)
@@ -470,9 +480,10 @@ unsafe def main (args : List String) : IO UInt32 := do
     if skipModules.contains root then continue
     if !roots.isEmpty && !roots.contains root then continue
     if !isUserDecl env n then continue
+    let kind := theoremKind (← findDocString? env n)
     let act : MetaM (Option String) := do
       match ci with
-      | .thmInfo t => return some (← renderTheorem n t.type t.value.hasSorry)
+      | .thmInfo t => return some (← renderTheorem n t.type t.value.hasSorry kind)
       | .defnInfo d => renderDef n d.type d.value
       | _ => return none
     let res ← (act.run' {} {}).toIO ctx { env := env } |>.toBaseIO
