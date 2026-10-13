@@ -168,6 +168,7 @@ work on one topic takes a volume suffix: `RealAnalysisI`, `RealAnalysisII`.
 | `Tao/RealAnalysisI/` | Terence Tao, *Analysis I* |
 | `Tao/RealAnalysisII/` | Terence Tao, *Analysis II* |
 | `Tao/MeasureTheory/` | Terence Tao, *An Introduction to Measure Theory* |
+| `Abbott/RealAnalysis/` | Stephen Abbott, *Understanding Analysis* |
 | `Lebl/RealAnalysisI/` | Jiří Lebl, *Basic Analysis I* |
 | `Lebl/RealAnalysisII/` | Jiří Lebl, *Basic Analysis II* |
 | `Tarski/Logic/` | Alfred Tarski, *Introduction to Logic and to the Methodology of the Deductive Sciences* |

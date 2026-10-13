@@ -13,7 +13,7 @@ lean_lib Munkres where
 @[default_target]
 lean_lib LRANotes where
   roots := #[`LRANotes, `Searcoid, `Bruckner, `Bartle, `Zorich, `Laczkovich, `Rudin, `Enderton, `Fefferman,
-    `Tao, `Lebl, `Tarski, `Su, `Dieudonne, `Kolmogorov, `Halmos, `Givant, `Axler, `Suppes, `Thurston, `Olmsted, `MendelsonE, `MendelsonB, `Spivak, `Apostol, `Common]
+    `Tao, `Abbott, `Lebl, `Tarski, `Su, `Dieudonne, `Kolmogorov, `Halmos, `Givant, `Axler, `Suppes, `Thurston, `Olmsted, `MendelsonE, `MendelsonB, `Spivak, `Apostol, `Common]
 
 /-- Renders theorem and definition statements as TeX snippets under
 `generated/lean/`. Run after `lake build`: `lake exe texexport [Root ...]`. -/
