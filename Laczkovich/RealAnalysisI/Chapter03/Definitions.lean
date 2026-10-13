@@ -108,6 +108,45 @@ addition from the left. Lean: `mul_add`. -/
 def MulAdd (R : Type u) [Add R] [Mul R] : Prop :=
   ∀ a b c : R, a * (b + c) = a * b + a * c
 
+/-! ### After the field axioms: −a, 1/a, a/c, and "field" (p. 29)
+
+The book names the inverse that Axiom 4 provides `−a`, and the one Axiom 8
+provides `1/a`, as soon as the axioms are stated; their uniqueness is proved
+later (Theorems 3.28 and 3.30). As with `≤`, Lean's own symbols `-a` and `/`
+(`[Neg R] [Div R]`) are used, tied to the book's definitions by a law. Any
+symbol satisfying the law is the book's `−a` or `1/a`, by that uniqueness. -/
+
+/-- **−a** [Laczkovich–Sós, Ch. 3, p. 29]: the element `b` with `a + b = 0`,
+unique by Theorem 3.28. Lean: `add_neg_cancel`. -/
+def AddNegCancel (R : Type u) [Add R] [Neg R] [Zero R] : Prop :=
+  ∀ a : R, a + -a = 0
+
+/-- **1/a** [Laczkovich–Sós, Ch. 3, p. 29], for `a ≠ 0`: the element `b` with
+`a · b = 1`, unique by Theorem 3.30. Lean: `mul_one_div_cancel`. -/
+def MulOneDivCancel (R : Type u) [Mul R] [Div R] [Zero R] [One R] : Prop :=
+  ∀ a : R, a ≠ 0 → a * (1 / a) = 1
+
+/-- **a/c** [Laczkovich–Sós, Ch. 3, p. 29]: `a · (1/c)`, for `c ≠ 0`.
+Lean: `div_eq_mul_one_div`, which mathlib states for every `c`. -/
+def DivEqMulOneDiv (R : Type u) [Mul R] [Div R] [Zero R] [One R] : Prop :=
+  ∀ a c : R, c ≠ 0 → a / c = a * (1 / c)
+
+/-- **Field** [Laczkovich–Sós, Ch. 3, p. 29]: a set with two operations and
+distinct elements 0 and 1 satisfying Axioms 1–9, the **field axioms**.
+Mathlib also has an `IsField`, for rings in which every nonzero element is
+invertible; this one is the book's definition. -/
+structure IsField (R : Type u) [Add R] [Mul R] [Zero R] [One R] : Prop where
+  zero_ne_one : ZeroNeOne R
+  add_comm : AddComm R
+  add_assoc : AddAssoc R
+  add_zero : AddZero R
+  exists_add_eq_zero : ExistsAddEqZero R
+  mul_comm : MulComm R
+  mul_assoc : MulAssoc R
+  mul_one : MulOne R
+  exists_mul_eq_one_of_ne_zero : ExistsMulEqOneOfNeZero R
+  mul_add : MulAdd R
+
 /-! ### Group II: the order axioms (p. 29) -/
 
 /-- **Axiom 10** [Laczkovich–Sós, Ch. 3, p. 29]: for any `a`, `b`, exactly one of
@@ -145,5 +184,88 @@ or `a = b`. Lean: `le_iff_lt_or_eq`. As in mathlib, `≤` is its own relation,
 and this law ties it to `<`. -/
 def LeIffLtOrEq (R : Type u) [LT R] [LE R] : Prop :=
   ∀ a b : R, a ≤ b ↔ a < b ∨ a = b
+
+/-! ### Vocabulary (p. 30)
+
+The book bolds these terms as definitions it uses from here on. Lean has no
+predicates for them and writes `0 < a`; they are `abbrev`s, so a hypothesis
+`IsPositive a` is `0 < a` to Lean with no unfolding needed. -/
+
+section Vocabulary
+
+variable {R : Type u}
+
+/-- **positive** [Laczkovich–Sós, Ch. 3, p. 30]: `a > 0`. -/
+abbrev IsPositive [Zero R] [LT R] (a : R) : Prop := 0 < a
+
+/-- **negative** [Laczkovich–Sós, Ch. 3, p. 30]: `a < 0`. -/
+abbrev IsNegative [Zero R] [LT R] (a : R) : Prop := a < 0
+
+/-- **nonnegative** [Laczkovich–Sós, Ch. 3, p. 30]: `a ≥ 0`. -/
+abbrev IsNonnegative [Zero R] [LE R] (a : R) : Prop := 0 ≤ a
+
+/-- **nonpositive** [Laczkovich–Sós, Ch. 3, p. 30]: `a ≤ 0`. -/
+abbrev IsNonpositive [Zero R] [LE R] (a : R) : Prop := a ≤ 0
+
+end Vocabulary
+
+/-! ### The natural numbers, integers and rationals (p. 30)
+
+The book introduces these as subsets of the reals without developing them.
+Lean's `ℕ` serves only to count the repeated additions of 1. Core Lean has no
+`Set`, so each subset is a predicate. -/
+
+section NumberSets
+
+variable {R : Type u}
+
+/-- Repeatedly adding 1: `0, 1, 1 + 1, 1 + 1 + 1, …` [Laczkovich–Sós, Ch. 3,
+p. 30]. Lean: `Nat.unaryCast`. -/
+def unaryCast [Zero R] [One R] [Add R] : Nat → R
+  | 0 => 0
+  | n + 1 => unaryCast n + 1
+
+/-- **natural numbers** ℕ⁺ [Laczkovich–Sós, Ch. 3, p. 30]: `1, 1 + 1, 1 + 1 + 1, …`.
+Lean's type of positive naturals is `ℕ+` (`PNat`). -/
+def IsPNat [Zero R] [One R] [Add R] (x : R) : Prop :=
+  ∃ n : Nat, 1 ≤ n ∧ x = unaryCast n
+
+/-- **integers** ℤ [Laczkovich–Sós, Ch. 3, p. 30]: the natural numbers, their
+negatives, and 0. -/
+def IsInt [Zero R] [One R] [Add R] [Neg R] (x : R) : Prop :=
+  IsPNat x ∨ (∃ n : R, IsPNat n ∧ x = -n) ∨ x = 0
+
+/-- ℕ := ℕ⁺ ∪ {0} [Laczkovich–Sós, Ch. 3, p. 30]. -/
+def IsNat [Zero R] [One R] [Add R] (x : R) : Prop :=
+  IsPNat x ∨ x = 0
+
+/-- **rational** [Laczkovich–Sós, Ch. 3, p. 30]: `x = p/q` with `p, q ∈ ℤ` and
+`q ≠ 0`; ℚ is the set of rational numbers. -/
+def IsRat [Zero R] [One R] [Add R] [Neg R] [Div R] (x : R) : Prop :=
+  ∃ p q : R, IsInt p ∧ IsInt q ∧ q ≠ 0 ∧ x = p / q
+
+/-- **irrational** [Laczkovich–Sós, Ch. 3, p. 30]: not rational.
+Lean: `Irrational`. -/
+def Irrational [Zero R] [One R] [Add R] [Neg R] [Div R] (x : R) : Prop :=
+  ¬ IsRat x
+
+end NumberSets
+
+/-! ### Absolute value (p. 30) -/
+
+section AbsoluteValue
+
+variable {R : Type u}
+
+open Classical in
+/-- **Definition 3.1** [Laczkovich–Sós, Ch. 3, p. 30]: the *absolute value* of
+`a` is `a` if `a ≥ 0` and `−a` if `a < 0`. Lean: `abs`, written `|a|`; mathlib
+defines it as `max a (-a)`. The `else` branch is "not `a ≥ 0`", which is the
+book's `a < 0` given Axiom 10 and the definition of `≤`. Noncomputable because
+whether `a ≥ 0` is not decidable for an arbitrary `R`. -/
+noncomputable def abs [Zero R] [LE R] [Neg R] (a : R) : R :=
+  if 0 ≤ a then a else -a
+
+end AbsoluteValue
 
 end Laczkovich.RealAnalysisI.Chapter03

@@ -53,6 +53,12 @@ Book references are paraphrased; page numbers are the printed ones.
   `Prop`s over core notation classes, with `<` primitive and one-sided field
   axioms as in the book. The old `RealAxiomSystem` (with `≤` primitive,
   two-sided axioms and Zorich's cut axiom) was removed.
+- [x] **p. 29–30 definitions and facts, through the Triangle Inequality**: −a,
+  1/a and a/c (as laws on Lean's `-` and `/`), "field" (`IsField`), the p. 30
+  vocabulary (positive … nonpositive), ℕ⁺, ℤ, ℕ, rational, irrational,
+  Definition 3.1 (`abs`), and the unnumbered absolute-value facts up to the
+  Triangle Inequality (`abs_add_le`). Proofs are `sorry`.
+- [ ] Next on p. 30: the reverse triangle inequality `||a| − |b|| ≤ |a − b|`.
 - [ ] **Axiom 14** (Archimedes, group III, p. 31) and **Axiom 15** (Cantor's
   nested-interval axiom, group IV, p. 33) are not yet stated:
   ```lean
