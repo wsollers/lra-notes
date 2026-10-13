@@ -149,6 +149,37 @@ Active chapters:
 
 - Chapter 3
 
+## Stub Tracks
+
+Scaffolded with an empty `Chapter01` (`Basic`, `Notes`, `Exercises`). Promote a
+stub to Active Tracks once a source record and active chapters are assigned.
+Authors with several books keep one root and use a subject folder per book.
+The two Mendelsons are different authors and get distinct roots.
+
+| Lean root | Source |
+| --- | --- |
+| `Tao/Analysis/` | Terence Tao, *Analysis I* |
+| `Lebl/BasicAnalysis/` | Jiří Lebl, *Basic Analysis I* |
+| `Tarski/Logic/` | Alfred Tarski, *Introduction to Logic and to the Methodology of the Deductive Sciences* |
+| `Su/RealAnalysis/` | Francis Su, *Real Analysis* (Harvey Mudd lectures) |
+| `Su/Topology/` | Michael Starbird and Francis Su, *Topology Through Inquiry* |
+| `Dieudonne/ModernAnalysis/` | Jean Dieudonné, *Foundations of Modern Analysis* |
+| `Kolmogorov/RealAnalysis/` | A. N. Kolmogorov and S. V. Fomin, *Introductory Real Analysis* |
+| `Halmos/SetTheory/` | Paul R. Halmos, *Naive Set Theory* |
+| `Halmos/MeasureTheory/` | Paul R. Halmos, *Measure Theory* |
+| `Halmos/LinearAlgebra/` | Paul R. Halmos, *Finite-Dimensional Vector Spaces* |
+| `Halmos/BooleanAlgebras/` | Steven Givant and Paul Halmos, *Introduction to Boolean Algebras* |
+| `Axler/LinearAlgebra/` | Sheldon Axler, *Linear Algebra Done Right* |
+| `Suppes/SetTheory/` | Patrick Suppes, *Axiomatic Set Theory* |
+| `Thurston/Geometry/` | William P. Thurston, *Three-Dimensional Geometry and Topology* |
+| `Olmsted/RealVariables/` | John M. H. Olmsted, *Real Variables* |
+| `MendelsonE/Logic/` | Elliott Mendelson, *Introduction to Mathematical Logic* |
+| `MendelsonB/Topology/` | Bert Mendelson, *Introduction to Topology* |
+| `Spivak/Calculus/` | Michael Spivak, *Calculus* |
+| `Spivak/CalculusOnManifolds/` | Michael Spivak, *Calculus on Manifolds* |
+| `Spivak/DifferentialGeometry/` | Michael Spivak, *A Comprehensive Introduction to Differential Geometry* |
+| `Apostol/MathematicalAnalysis/` | Tom M. Apostol, *Mathematical Analysis* |
+
 ## Build
 
 This project uses the same Lean/mathlib pin as `lra-lean` initially.
