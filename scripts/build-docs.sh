@@ -15,5 +15,18 @@ repo="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$repo"
 
 lake exe cache get
+
+# doc-gen4 v4.32.1 decides whether to regenerate HTML from a marker file that
+# does not notice changed modules, so after the first build it silently keeps
+# stale pages. Force that step (about a minute) while keeping the expensive,
+# incrementally updated declaration database. Also clear this repository's own
+# pages so renamed or deleted modules do not linger in the navigation.
+rm -f .lake/build/doc-data/*.docs_built
+for f in *.lean; do
+  root="${f%.lean}"
+  [ "$root" = lakefile ] && continue
+  rm -rf ".lake/build/doc/$root" ".lake/build/doc/$root.html"
+done
+
 lake -R -Kenv=dev build LRANotes:docs Munkres:docs
 echo "build-docs: .lake/build/doc/index.html"
