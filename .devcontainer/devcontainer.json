@@ -22,6 +22,6 @@
       }
     }
   },
-  "postCreateCommand": "lake update && lake exe cache get",
+  "postCreateCommand": "lake exe cache get",
   "postAttachCommand": "lean --version && lake --version"
 }
