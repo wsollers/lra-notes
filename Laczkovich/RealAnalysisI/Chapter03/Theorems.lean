@@ -10,6 +10,10 @@ notes.tex.
 irreflexivity, asymmetry, or any property of `≤`; they are implicit in Axioms
 10 and 11 and used freely from p. 30 on. Each is stated here under its Lean
 name, with exactly the axioms it needs as hypotheses. None is a book result.
+
+The first three are corollaries of Axiom 10 alone: together they say exactly
+what it says, split the way Lean splits it — `lt_trichotomy` (at least one
+holds) and `lt_irrefl`, `lt_asymm` (no two hold).
 -/
 
 universe u
@@ -20,22 +24,22 @@ variable {R : Type u}
 
 /-! ### `<`, from Axiom 10 -/
 
-/-- Not in the book: at least one of `a < b`, `a = b`, `b < a` holds — the
-existence half of **Axiom 10** [Laczkovich–Sós, Ch. 3, p. 29].
-Lean: `lt_trichotomy`. -/
-theorem lt_trichotomy [LT R] (h10 : LtTrichotomyExclusive R) (a b : R) :
+/-- Corollary of **Axiom 10** [Laczkovich–Sós, Ch. 3, p. 29]; not in the book.
+At least one of `a < b`, `a = b`, `b < a` holds: the axiom's "exactly one"
+weakened to "at least one". Lean: `lt_trichotomy`. -/
+corollary lt_trichotomy [LT R] (h10 : LtTrichotomyExclusive R) (a b : R) :
     a < b ∨ a = b ∨ b < a := by
   sorry
 
-/-- Not in the book: no element is less than itself. Implicit in **Axiom 10**
-[Laczkovich–Sós, Ch. 3, p. 29]. Lean: `lt_irrefl`. -/
-theorem lt_irrefl [LT R] (h10 : LtTrichotomyExclusive R) (a : R) :
+/-- Corollary of **Axiom 10** [Laczkovich–Sós, Ch. 3, p. 29]; not in the book.
+No element is less than itself. Lean: `lt_irrefl`. -/
+corollary lt_irrefl [LT R] (h10 : LtTrichotomyExclusive R) (a : R) :
     ¬ a < a := by
   sorry
 
-/-- Not in the book: `a < b` and `b < a` never both hold. Implicit in
-**Axiom 10** [Laczkovich–Sós, Ch. 3, p. 29]. Lean: `lt_asymm`. -/
-theorem lt_asymm [LT R] (h10 : LtTrichotomyExclusive R) {a b : R} :
+/-- Corollary of **Axiom 10** [Laczkovich–Sós, Ch. 3, p. 29]; not in the book.
+`a < b` and `b < a` never both hold. Lean: `lt_asymm`. -/
+corollary lt_asymm [LT R] (h10 : LtTrichotomyExclusive R) {a b : R} :
     a < b → ¬ b < a := by
   sorry
 
