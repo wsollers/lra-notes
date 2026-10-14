@@ -21,4 +21,9 @@ derives it from Leibniz's law. Lean: `Eq.refl`. -/
 theorem refl {I : D → D → Prop} (h_leibniz : LeibnizLaw I) (x : D) : I x x := by
   sorry
 
+/-- **Symmetry** [Tarski, Ch. 3]: if `x` is equal to `y`, then `y` is equal
+to `x`. Tarski derives it from Leibniz's law. Lean: `Eq.symm`. -/
+theorem symm {I : D → D → Prop} (h_leibniz : LeibnizLaw I) {x y : D} (hxy : I x y) : I y x := by
+  sorry
+
 end Tarski.Logic.Chapter03
