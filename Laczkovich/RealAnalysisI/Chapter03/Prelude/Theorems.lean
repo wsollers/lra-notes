@@ -24,10 +24,18 @@ axioms each one needs. -/
 section AbsoluteValue
 
 variable [Add R] [Mul R] [Zero R] [One R] [LT R] [LE R] [Neg R] [Div R]
-variable (hF : IsField R) (h10 : LtTrichotomyExclusive R) (h11 : LtTrans R)
-  (h12 : AddLtAddLeft R) (h13 : MulLtMulOfPosRight R) (hle : LeIffLtOrEq R)
-  (hneg : AddNegCancel R) (hinv : MulOneDivCancel R) (hdiv : DivEqMulOneDiv R)
-include hF h10 h11 h12 h13 hle hneg hinv hdiv
+variable
+  (h_ax_field : IsField R)                         -- Axioms 1–9
+  (h_ax10_trichotomy : LtTrichotomyExclusive R)    -- Axiom 10
+  (h_ax11_lt_trans : LtTrans R)                    -- Axiom 11
+  (h_ax12_add_lt : AddLtAddLeft R)                 -- Axiom 12
+  (h_ax13_mul_lt : MulLtMulOfPosRight R)           -- Axiom 13
+  (d_le : LeIffLtOrEq R)                           -- definition of `≤` (p. 30)
+  (d_neg : AddNegCancel R)                         -- `-a` (p. 29)
+  (d_inv : MulOneDivCancel R)                      -- `1/a` (p. 29)
+  (d_div : DivEqMulOneDiv R)                       -- `a/c` (p. 29)
+include h_ax_field h_ax10_trichotomy h_ax11_lt_trans h_ax12_add_lt h_ax13_mul_lt
+  d_le d_neg d_inv d_div
 
 /-- [Laczkovich–Sós, Ch. 3, p. 30]: `|a| ≥ 0`. Lean: `abs_nonneg`. -/
 theorem abs_nonneg (a : R) : 0 ≤ abs a := by

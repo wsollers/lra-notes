@@ -154,7 +154,7 @@ structure IsField (R : Type u) [Add R] [Mul R] [Zero R] [One R] : Prop where
 
 No Lean declaration has this statement. Lean splits it in three: `lt_trichotomy`
 (at least one holds), `lt_irrefl` and `lt_asymm` (no two hold). Those are
-derived from this axiom in `Theorems.lean`. -/
+derived from this axiom in `Observations.lean`. -/
 def LtTrichotomyExclusive (R : Type u) [LT R] : Prop :=
   ∀ a b : R,
     (a < b ∧ ¬ a = b ∧ ¬ b < a) ∨
