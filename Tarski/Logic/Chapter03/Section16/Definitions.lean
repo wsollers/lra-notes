@@ -13,9 +13,11 @@ already defined, so Leibniz's law about it is a theorem (see
 **The axiom is a hypothesis, not a bundle.** As in the other notes, the law is
 a `Prop` about `I`, and a theorem that uses it takes it as a hypothesis.
 
-**Definition or axiom?** Tarski remarks that Leibniz's law could serve as a
-definition of identity, but takes identity as primitive and the law as an
-axiom. `Observations.lean` shows the two readings agree in Lean: the only
+**Definition or axiom?** Tarski states the law as Law I and remarks that it
+"may be considered as the definition of the symbol "="", as Leibniz himself
+did, but only if "=" seemed less evident than the right-hand side
+([§17, pp. 50–51](https://drive.google.com/file/d/1o98AJ7PAh5KMmiSim79q_dmaxvEVYQb9/view#page=75)). Here it is an axiom about a primitive
+`I`. `Observations.lean` shows the two readings agree in Lean: the only
 relation satisfying the law is `=`.
 -/
 
@@ -23,7 +25,7 @@ universe u
 
 namespace Tarski.Logic.Chapter03
 
-/-- **Leibniz's law** [Tarski, Ch. 3]: `x` is identical with `y` if and only
+/-- **Leibniz's law**, Law I [Tarski, §17, [p. 50](https://drive.google.com/file/d/1o98AJ7PAh5KMmiSim79q_dmaxvEVYQb9/view#page=75)]: `x` is identical with `y` if and only
 if `x` has every property that `y` has, and `y` has every property that `x`
 has. Properties are predicates `P : D → Prop`. Lean: `Eq.subst` gives the
 forward direction for `=`. -/
