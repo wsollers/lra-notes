@@ -16,7 +16,7 @@ variable {R : Type u}
 unique — if `a + b = 0` and `a + c = 0` then `b = c`. The book proves it from
 Axioms 1–3. Lean: `neg_unique`. -/
 theorem neg_unique [Add R] [Zero R]
-    (h1 : AddComm R) (h2 : AddAssoc R) (h3 : AddZero R)
+    (h_ax1_add_comm : AddComm R) (h_ax2_add_assoc : AddAssoc R) (h_ax3_add_zero : AddZero R)
     {a b c : R} (hb : a + b = 0) (hc : a + c = 0) : b = c := by
   sorry
 
