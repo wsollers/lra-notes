@@ -1,4 +1,4 @@
-import Laczkovich.RealAnalysisI.Chapter03.Section00.Theorems
+import Laczkovich.RealAnalysisI.Chapter03.Prelude.Theorems
 
 /-!
 # Laczkovich–Sós, Real Analysis: Foundations and Functions of One Variable, §3.4 First Appendix — Definitions
