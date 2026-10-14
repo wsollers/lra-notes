@@ -191,7 +191,7 @@ named_exercise Munkres_Section02_Exercise05_part2 :
    into `Bool` hitting only `true`. -/
 
 /-- **Exercise 2.5(b)** [Munkres, §2, p. 21]: a function with a left inverse but no right inverse. -/
-named_exercise Munkres_Section02_Exercise05_part3 :
+exercise :
     (∃ g : Bool → PUnit, Function.LeftInverse g (fun _ : PUnit => true)) ∧
       ¬ ∃ h : Bool → PUnit, Function.RightInverse h (fun _ : PUnit => true) := by
   sorry
@@ -200,7 +200,7 @@ named_exercise Munkres_Section02_Exercise05_part3 :
    `Bool` to `PUnit`. -/
 
 /-- **Exercise 2.5(c)** [Munkres, §2, p. 21]: a function with a right inverse but no left inverse. -/
-named_exercise Munkres_Section02_Exercise05_part4 :
+exercise :
     (∃ h : PUnit → Bool, Function.RightInverse h (fun _ : Bool => PUnit.unit)) ∧
       ¬ ∃ g : PUnit → Bool, Function.LeftInverse g (fun _ : Bool => PUnit.unit) := by
   sorry

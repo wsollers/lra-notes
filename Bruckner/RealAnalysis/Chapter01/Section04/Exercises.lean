@@ -16,7 +16,7 @@ open Real
 
 /-- **Exercise 1.4.1** [Thomson2008, §1.4, p. 10]. From the axioms alone:
 if `a < b` and `c < d` then `ad + bc < ac + bd`. -/
-named_exercise exercise_1_4_1 (a b c d : ℝ) (ha_lt_b : a < b) (hc_lt_d : c < d) :
+exercise (a b c d : ℝ) (ha_lt_b : a < b) (hc_lt_d : c < d) :
     a * d + b * c < a * c + b * d := by
 
   have h1 : 0 < b - a := sub_pos.mpr ha_lt_b
@@ -26,7 +26,7 @@ named_exercise exercise_1_4_1 (a b c d : ℝ) (ha_lt_b : a < b) (hc_lt_d : c < d
 
 /-- **Exercise 1.4.2** [Thomson2008, §1.4, p. 10]. Every natural number is at
 most its square. The book's ℕ starts at 1; Lean's includes 0, where it also holds. -/
-named_exercise exercise_1_4_2 : ∀ n : ℕ, n ≤ n ^ 2 := by
+exercise : ∀ n : ℕ, n ≤ n ^ 2 := by
   intro n
   cases n with
   | zero =>
