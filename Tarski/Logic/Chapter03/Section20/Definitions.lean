@@ -15,7 +15,7 @@ The text defines at least one, at most one, exactly one, and at least two.
 
 **Identity is the primitive `I`.** As in §17, identity is a relation
 `I : D → D → Prop`, not Lean's `=`, so each numerical quantifier is stated
-through `I`; `x ≠ y` is written `¬ I x y`. None of these definitions assumes
+through `I`; `x ≠ y` is `Different I x y` (§16). None of these definitions assumes
 `LeibnizLaw I`; theorems about them take it as a hypothesis.
 -/
 
@@ -45,9 +45,9 @@ def ExactlyOne (I : D → D → Prop) (P : D → Prop) : Prop :=
 
 /-- **At least two** [Tarski, §20, [p. 58](https://drive.google.com/file/d/1o98AJ7PAh5KMmiSim79q_dmaxvEVYQb9/view#page=83)]: "there are x and y, such
 that both x and y satisfy the given condition and x ≠ y". Tarski notes it is
-equivalent to the negation of "at most one" (p. 59). Lean: `Set.Nontrivial`
+equivalent to the negation of "at most one" (p. 59); see `Theorems.lean`. Lean: `Set.Nontrivial`
 (mathlib). -/
 def AtLeastTwo (I : D → D → Prop) (P : D → Prop) : Prop :=
-  ∃ x y : D, P x ∧ P y ∧ ¬ I x y
+  ∃ x y : D, P x ∧ P y ∧ Different I x y
 
 end Tarski.Logic.Chapter03

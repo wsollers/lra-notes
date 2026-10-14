@@ -17,7 +17,7 @@ variable {D : Type u}
 "by using exclusively Laws III and IV, thus without the use of LEIBNIZ'S law
 (or of the rule of replacement of equals)". Tarski's hint: by Law III,
 interchange the variables in `y = z`, then apply Law IV. -/
-exercise euclid_of_symm_of_trans {I : D → D → Prop}
+named_exercise euclid_of_symm_of_trans {I : D → D → Prop}
     (h_law3_symm : ∀ x y : D, I x y → I y x)
     (h_law4_trans : ∀ x y z : D, I x y → I y z → I x z)
     {x y z : D} (hxz : I x z) (hyz : I y z) : I x y := by
@@ -25,7 +25,7 @@ exercise euclid_of_symm_of_trans {I : D → D → Prop}
 
 /-- **Exercise 2** [Tarski, Ch. III, [p. 60](https://drive.google.com/file/d/1o98AJ7PAh5KMmiSim79q_dmaxvEVYQb9/view#page=85)]: prove "if x = y,
 y = z, and z = t, then x = t, using exclusively Law IV of Section 17". -/
-exercise trans_three {I : D → D → Prop}
+exercise {I : D → D → Prop}
     (h_law4_trans : ∀ x y z : D, I x y → I y z → I x z)
     {x y z t : D} (hxy : I x y) (hyz : I y z) (hzt : I z t) : I x t := by
   sorry
@@ -34,14 +34,14 @@ exercise trans_three {I : D → D → Prop}
 `=` by `≠` throughout Law III gives "if x ≠ y, then y ≠ x", which is true. It
 follows from Leibniz's law. (The extract's OCR garbles the replacement symbol;
 `≠` is our reading.) -/
-exercise ne_symm {I : D → D → Prop} (h_leibniz : LeibnizLaw I) {x y : D}
-    (hxy : ¬ I x y) : ¬ I y x := by
+named_exercise ne_symm {I : D → D → Prop} (h_leibniz : LeibnizLaw I) {x y : D}
+    (hxy : Different I x y) : Different I y x := by
   sorry
 
 /-- **Exercise 3**, Law IV [Tarski, Ch. III, [p. 60](https://drive.google.com/file/d/1o98AJ7PAh5KMmiSim79q_dmaxvEVYQb9/view#page=85)]: replacing
 `=` by `≠` throughout Law IV gives "if x ≠ y and y ≠ z, then x ≠ z", which is
 false: take `x = z` with `y` different. -/
-exercise not_ne_trans : ¬ ∀ x y z : Bool, x ≠ y → y ≠ z → x ≠ z := by
+exercise : ¬ ∀ x y z : Bool, x ≠ y → y ≠ z → x ≠ z := by
   sorry
 
 end Tarski.Logic.Chapter03

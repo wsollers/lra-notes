@@ -20,6 +20,24 @@ namespace Tarski.Logic.Chapter03
 
 variable {D : Type u}
 
+/-- **Leibniz's law, more simply** [Tarski, §17, [p. 50](https://drive.google.com/file/d/1o98AJ7PAh5KMmiSim79q_dmaxvEVYQb9/view#page=75)]: "x = y if,
+and only if, x and y have every property in common". Tarski gives it as a
+simpler wording of Law I. -/
+theorem iff_forall_iff {I : D → D → Prop} (h_leibniz : LeibnizLaw I) (x y : D) :
+    I x y ↔ ∀ P : D → Prop, (P x ↔ P y) := by
+  sorry
+
+/-- **Rule of replacement of equals** [Tarski, §17, [p. 51](https://drive.google.com/file/d/1o98AJ7PAh5KMmiSim79q_dmaxvEVYQb9/view#page=76)]: if
+\`x = y\` "has been assumed or proved, then one is allowed to replace in any
+formula or sentence occurring in this context the left side of the equation by
+its right side … and the right side by the left side". Tarski derives it as a
+consequence of Leibniz's law. Replacing only some occurrences, which Tarski
+allows, is the case where \`P\` keeps the other occurrences fixed: to turn
+\`φ x x\` into \`φ x y\`, take \`P := fun z => φ x z\`. Lean: \`Eq.subst\`, \`congrArg\`. -/
+theorem replace {I : D → D → Prop} (h_leibniz : LeibnizLaw I) {x y : D} (hxy : I x y)
+    (P : D → Prop) : P x ↔ P y := by
+  sorry
+
 /-- **Reflexivity**, Law II [Tarski, §17, [p. 51](https://drive.google.com/file/d/1o98AJ7PAh5KMmiSim79q_dmaxvEVYQb9/view#page=76)]: every object is
 equal to itself. Tarski
 derives it from Leibniz's law. Lean: `Eq.refl`. -/

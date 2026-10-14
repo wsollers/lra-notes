@@ -394,7 +394,8 @@ def envFor (kind title label body : String) : String :=
 /-- The `lra-common` environment for a theorem, from the keyword it was declared
 with in the source. `Common.lean`'s `corollary`, `proposition` and `lemma`
 expand to `theorem`, so the elaborated declaration no longer knows; the keyword
-sitting just before the name does. `exercise` and anything else map to `theorem`. -/
+sitting just before the name does. `named_exercise` and anything else map to `theorem`;
+`exercise` declares an anonymous `example`, which is not exported. -/
 def theoremKind (path : System.FilePath) (r : DeclarationRanges) : IO String := do
   unless ← path.pathExists do return "theorem"
   let lines := (← IO.FS.readFile path).splitOn "\n"

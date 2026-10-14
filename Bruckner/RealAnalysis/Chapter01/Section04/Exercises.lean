@@ -16,7 +16,7 @@ open Real
 
 /-- **Exercise 1.4.1** [Thomson2008, §1.4, p. 10]. From the axioms alone:
 if `a < b` and `c < d` then `ad + bc < ac + bd`. -/
-exercise exercise_1_4_1 (a b c d : ℝ) (ha_lt_b : a < b) (hc_lt_d : c < d) :
+named_exercise exercise_1_4_1 (a b c d : ℝ) (ha_lt_b : a < b) (hc_lt_d : c < d) :
     a * d + b * c < a * c + b * d := by
 
   have h1 : 0 < b - a := sub_pos.mpr ha_lt_b
@@ -26,7 +26,7 @@ exercise exercise_1_4_1 (a b c d : ℝ) (ha_lt_b : a < b) (hc_lt_d : c < d) :
 
 /-- **Exercise 1.4.2** [Thomson2008, §1.4, p. 10]. Every natural number is at
 most its square. The book's ℕ starts at 1; Lean's includes 0, where it also holds. -/
-exercise exercise_1_4_2 : ∀ n : ℕ, n ≤ n ^ 2 := by
+named_exercise exercise_1_4_2 : ∀ n : ℕ, n ≤ n ^ 2 := by
   intro n
   cases n with
   | zero =>
@@ -43,7 +43,7 @@ exercise exercise_1_4_2 : ∀ n : ℕ, n ≤ n ^ 2 := by
 /-- **Exercise 1.4.3** [Thomson2008, §1.4, p. 10]. The geometric mean of two
 positive reals is at most their arithmetic mean. The book asks for a proof from
 the axioms; this one uses mathlib's `Real.sqrt`. -/
-exercise exercise_1_4_3 (a b : ℝ) (ha : a > 0) (hb : b > 0) :
+named_exercise exercise_1_4_3 (a b : ℝ) (ha : a > 0) (hb : b > 0) :
     sqrt (a * b) ≤ (a + b) / 2 := by
 
   have h_sq : 0 ≤ (a - b) ^ 2 := sq_nonneg (a - b)
