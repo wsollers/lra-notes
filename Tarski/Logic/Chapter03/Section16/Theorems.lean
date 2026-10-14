@@ -26,4 +26,11 @@ to `x`. Tarski derives it from Leibniz's law. Lean: `Eq.symm`. -/
 theorem symm {I : D → D → Prop} (h_leibniz : LeibnizLaw I) {x y : D} (hxy : I x y) : I y x := by
   sorry
 
+/-- **Transitivity** [Tarski, Ch. 3]: if `x` is equal to `y` and `y` is equal
+to `z`, then `x` is equal to `z`. Tarski derives it from Leibniz's law.
+Lean: `Eq.trans`. -/
+theorem trans {I : D → D → Prop} (h_leibniz : LeibnizLaw I) {x y z : D} (hxy : I x y) (hyz : I y z) :
+    I x z := by
+  sorry
+
 end Tarski.Logic.Chapter03
