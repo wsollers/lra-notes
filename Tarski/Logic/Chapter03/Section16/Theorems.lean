@@ -5,33 +5,8 @@ import Tarski.Logic.Chapter03.Section16.Observations
 
 Reserve this file for the theorems of §16 and their proofs. Prose notes
 belong in the chapter's notes.tex.
-
-Each theorem is about a primitive identity relation `I` and takes as a
-hypothesis exactly the laws it uses (here, `LeibnizLaw I`).
 -/
 
-universe u
-
 namespace Tarski.Logic.Chapter03
-
-variable {D : Type u}
-
-/-- **Reflexivity**, Law II [Tarski, §17, [p. 51](https://drive.google.com/file/d/1o98AJ7PAh5KMmiSim79q_dmaxvEVYQb9/view#page=76)]: every object is
-equal to itself. Tarski
-derives it from Leibniz's law. Lean: `Eq.refl`. -/
-theorem refl {I : D → D → Prop} (h_leibniz : LeibnizLaw I) (x : D) : I x x := by
-  sorry
-
-/-- **Symmetry**, Law III [Tarski, §17, [p. 52](https://drive.google.com/file/d/1o98AJ7PAh5KMmiSim79q_dmaxvEVYQb9/view#page=77)]: if `x` is equal to `y`, then `y` is equal
-to `x`. Tarski derives it from Leibniz's law. Lean: `Eq.symm`. -/
-theorem symm {I : D → D → Prop} (h_leibniz : LeibnizLaw I) {x y : D} (hxy : I x y) : I y x := by
-  sorry
-
-/-- **Transitivity**, Law IV [Tarski, §17, [p. 52](https://drive.google.com/file/d/1o98AJ7PAh5KMmiSim79q_dmaxvEVYQb9/view#page=77)]: if `x` is equal to `y` and `y` is equal
-to `z`, then `x` is equal to `z`. Tarski derives it from Leibniz's law.
-Lean: `Eq.trans`. -/
-theorem trans {I : D → D → Prop} (h_leibniz : LeibnizLaw I) {x y z : D} (hxy : I x y) (hyz : I y z) :
-    I x z := by
-  sorry
 
 end Tarski.Logic.Chapter03

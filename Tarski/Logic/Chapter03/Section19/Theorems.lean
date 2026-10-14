@@ -9,7 +9,7 @@ identity" (pp. 56–58).
 Reserve this file for the theorems of §19 and their proofs. Prose notes
 belong in the chapter's notes.tex.
 
-Identity is the primitive relation `I` of §16, with `LeibnizLaw I` as a
+Identity is the primitive relation `I` of §17, with `LeibnizLaw I` as a
 hypothesis. `<` is Lean's notation class `[LT D]`; no law of `<` is assumed.
 -/
 

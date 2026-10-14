@@ -1,4 +1,4 @@
-import Tarski.Logic.Chapter03.Section16
+import Tarski.Logic.Chapter03.Section17
 
 /-!
 # Tarski, Introduction to Logic, Chapter 3 (On the Theory of Identity), §19 — Definitions
