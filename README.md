@@ -161,18 +161,22 @@ layouts:
 | sections only | `Author/Topic/SectionNN/` | Halmos, *Naive Set Theory* |
 
 Create section folders as you reach them; do not pre-scaffold empty ones.
-Material that precedes a chapter's first section (Laczkovich's axioms, for
-example) lives in the chapter-level files beside the section folders.
+In a chapter with sections, every unit is a folder and no unit files sit loose
+at chapter level. Material that precedes the chapter's first section
+(Laczkovich's axioms, for example) goes in `ChapterNN/Prelude/`.
 
 Each unit (a chapter, or a section where the book has them) holds:
 
 - `Definitions.lean` — the author's definitions, notation, and axioms;
 - `Connections.lean` — iff bridges from those definitions to mathlib, when needed;
-- `Theorems.lean` — the unit's theorems and their proofs;
+- `Observations.lean` — facts we derive that the book does not state, when needed;
+- `Theorems.lean` — the results the book states, each with its page, and their proofs;
 - `Examples.lean` — worked examples and `counterexample`s;
 - `Exercises.lean` — selected exercises.
 
-Imports run Definitions → Connections → Theorems → Examples / Exercises.
+Imports run Definitions → Connections → Observations → Theorems → Examples /
+Exercises. A statement belongs in `Theorems.lean` only if it carries a book
+page reference; everything we derive ourselves goes in `Observations.lean`.
 Prose belongs in the chapter's `notes.tex`, not in Lean.
 
 Namespaces stop at the chapter (`Bruckner.RealAnalysis.Chapter01`) — or at the
