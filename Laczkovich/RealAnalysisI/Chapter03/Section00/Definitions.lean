@@ -1,7 +1,7 @@
 import Common
 
 /-!
-# Laczkovich–Sós, Real Analysis: Foundations and Functions of One Variable, Chapter 3 — Definitions
+# Laczkovich–Sós, Real Analysis: Foundations and Functions of One Variable, Chapter 3 introduction (pp. 27–36, before §3.1) — Definitions
 
 The field axioms and the order axioms [Laczkovich–Sós, Ch. 3, p. 29], and the
 definition of `≤` (p. 30).
