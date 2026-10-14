@@ -5,8 +5,20 @@ import Tarski.Logic.Chapter03.Section16.Observations
 
 Reserve this file for the theorems of §16 and their proofs. Prose notes
 belong in the chapter's notes.tex.
+
+Each theorem is about a primitive identity relation `I` and takes as a
+hypothesis exactly the laws it uses (here, `LeibnizLaw I`).
 -/
 
+universe u
+
 namespace Tarski.Logic.Chapter03
+
+variable {D : Type u}
+
+/-- **Reflexivity** [Tarski, Ch. 3]: everything is equal to itself. Tarski
+derives it from Leibniz's law. Lean: `Eq.refl`. -/
+theorem refl {I : D → D → Prop} (h_leibniz : LeibnizLaw I) (x : D) : I x x := by
+  sorry
 
 end Tarski.Logic.Chapter03

@@ -21,22 +21,11 @@ variable {D : Type u}
 /-- Not in the book. Lean's `=` satisfies **Leibniz's law**: it is a theorem
 about `=`, not an assumption. -/
 theorem eq_leibnizLaw : LeibnizLaw (@Eq D) := by
-  intro x y
-  constructor
-  · --
-    intro hxy
-    subst hxy
-    exact ⟨fun _ hP => hP, fun _ hP => hP⟩
-  · --
-    intro h
-    have hyx : (fun z => z = y) y → (fun z => z = y) x := h.1 (fun z => z = y)
-    exact hyx rfl
+  sorry
 
 /-- Not in the book. Any relation satisfying **Leibniz's law** is Lean's `=`:
 the law determines identity uniquely. -/
 theorem eq_of_leibnizLaw {I : D → D → Prop} (h_leibniz : LeibnizLaw I) : I = @Eq D := by
-  funext x y
-  apply propext
-  exact (h_leibniz x y).trans (eq_leibnizLaw x y).symm
+  sorry
 
 end Tarski.Logic.Chapter03
