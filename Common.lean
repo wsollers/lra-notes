@@ -30,14 +30,26 @@ syntax (name := corollaryCommand) declModifiers
     stx.setKind ``Parser.Command.theorem
   pure <| stx.setKind ``Parser.Command.declaration
 
-/-- `exercise` is a textbook-facing synonym for a named `theorem`. -/
-syntax (name := exerciseCommand) declModifiers
-  group("exercise " declId ppIndent(declSig) declVal) : command
+/-- `named_exercise` is a textbook-facing synonym for a named `theorem`: an
+exercise whose result later declarations cite. -/
+syntax (name := namedExerciseCommand) declModifiers
+  group("named_exercise " declId ppIndent(declSig) declVal) : command
 
-@[macro exerciseCommand] def expandExercise : Macro := fun stx =>
+@[macro namedExerciseCommand] def expandNamedExercise : Macro := fun stx =>
   let stx := stx.modifyArg 1 fun stx =>
     let stx := stx.modifyArg 0 (mkAtomFrom · "theorem" (canonical := true))
     stx.setKind ``Parser.Command.theorem
+  pure <| stx.setKind ``Parser.Command.declaration
+
+/-- `exercise` is a textbook-facing synonym for an anonymous `example`: an
+exercise checked once and never cited. Use `named_exercise` for one that is. -/
+syntax (name := exerciseCommand) declModifiers
+  group("exercise " ppIndent(optDeclSig) declVal) : command
+
+@[macro exerciseCommand] def expandExercise : Macro := fun stx =>
+  let stx := stx.modifyArg 1 fun stx =>
+    let stx := stx.modifyArg 0 (mkAtomFrom · "example" (canonical := true))
+    stx.setKind ``Parser.Command.example
   pure <| stx.setKind ``Parser.Command.declaration
 
 /-- `counterexample` is a textbook-facing synonym for an anonymous `example`. -/
