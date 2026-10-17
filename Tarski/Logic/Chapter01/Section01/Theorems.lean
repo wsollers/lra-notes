@@ -1,4 +1,4 @@
-import Tarski.Logic.Chapter01.Definitions
+import Tarski.Logic.Chapter01.Section01.Definitions
 
 /-!
 # Tarski, Introduction to Logic, Chapter 1 Theorems

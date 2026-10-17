@@ -1,4 +1,2 @@
-import Tarski.Logic.Chapter01.Definitions
-import Tarski.Logic.Chapter01.Exercises
-import Tarski.Logic.Chapter01.Theorems
-import Tarski.Logic.Chapter01.Examples
+import Tarski.Logic.Chapter01.Section01
+import Tarski.Logic.Chapter01.Section02
