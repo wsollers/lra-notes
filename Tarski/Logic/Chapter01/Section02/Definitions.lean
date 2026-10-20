@@ -1,4 +1,4 @@
-import Common
+import Tarski.Logic.Chapter01.Section01.Definitions
 
 /-!
 # Tarski, Introduction to Logic, Chapter 1, §2 — Definitions
@@ -24,5 +24,13 @@ structure SententialFunction where
   sentence : Sentence
   containsVariable : IsSententialFunction sentence
 
+/-- Replace each variable symbol in a sentence according to a list of
+simultaneous variable-to-constant substitutions. -/
+def SentenceConstantReplacer
+    (sentence : Sentence) (replacements : List (Variable × Constant)) : Sentence :=
+  { symbols := sentence.symbols.map fun symbol =>
+      match replacements.find? (fun replacement => replacement.1.symbol == symbol) with
+      | some replacement => replacement.2.symbol
+      | none => symbol }
 
 end Tarski.Logic.Chapter01
