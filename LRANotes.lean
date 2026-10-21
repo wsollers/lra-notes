@@ -24,3 +24,4 @@ import MendelsonE
 import MendelsonB
 import Spivak
 import Apostol
+import Bridger

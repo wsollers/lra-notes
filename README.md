@@ -208,6 +208,7 @@ work on one topic takes a volume suffix: `RealAnalysisI`, `RealAnalysisII`.
 | `Tarski/Logic/` | Alfred Tarski, *Introduction to Logic and to the Methodology of the Deductive Sciences* |
 | `Su/RealAnalysis/` | Francis Su, *Real Analysis* (Harvey Mudd lectures) |
 | `Su/Topology/` | Michael Starbird and Francis Su, *Topology Through Inquiry* |
+| `Bridger/RealAnalysis/` | Mark Bridger, *Real Analysis: A First Course with Foundations* |
 | `Dieudonne/ModernAnalysis/` | Jean Dieudonné, *Foundations of Modern Analysis* |
 | `Kolmogorov/FunctionalAnalysis/` | A. N. Kolmogorov and S. V. Fomin, *Elements of the Theory of Functions and Functional Analysis* (also translated as *Introductory Real Analysis*) |
 | `Kolmogorov/Probability/` | A. N. Kolmogorov, *Foundations of the Theory of Probability* |
