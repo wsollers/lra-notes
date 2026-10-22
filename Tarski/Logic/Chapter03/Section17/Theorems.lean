@@ -25,7 +25,20 @@ and only if, x and y have every property in common". Tarski gives it as a
 simpler wording of Law I. -/
 theorem iff_forall_iff {I : D → D → Prop} (h_leibniz : LeibnizLaw I) (x y : D) :
     I x y ↔ ∀ P : D → Prop, (P x ↔ P y) := by
-  sorry
+  unfold LeibnizLaw at h_leibniz
+  have h_xyyx := h_leibniz x y
+  constructor
+  . -- mp
+    intro h_xy PP
+    rw [h_xyyx] at h_xy
+    sorry
+  . --
+    intro PP
+    let pp : PP 
+    have ii := h_xyyx
+    sorry
+
+
 
 /-- **Rule of replacement of equals** [Tarski, §17, [p. 51](https://drive.google.com/file/d/1o98AJ7PAh5KMmiSim79q_dmaxvEVYQb9/view#page=76)]: if
 \`x = y\` "has been assumed or proved, then one is allowed to replace in any
