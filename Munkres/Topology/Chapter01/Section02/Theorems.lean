@@ -33,7 +33,7 @@ theorem Munkres_2_1_BijectiveOfLeftRightInverse
   case right =>
     funext b
     calc
-      e b = e (f (g b)) := by simpa [hrI b]
+      e b = e (f (g b)) := by simp [hrI b]
       _ = g b := by simpa using hlI (g b)
 
 end Munkres.Topology.Chapter01
