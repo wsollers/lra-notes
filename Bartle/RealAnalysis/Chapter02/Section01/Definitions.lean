@@ -97,10 +97,10 @@ theorem Theoreom_2_1_3_b (a b : F) (ha : a ≠ 0) (h : a * b = 1) : b = 1/a := b
     _ = 1 / a             := one_mul (1 / a)
 
 /-!
-### Bartle Theorem 2.1.4: Irrationality of √2
+**### Bartle Theorem 2.1.4: Irrationality of √2**
 -/
 
-/-! ### Step 1: Parity on ℕ (Clean and cast-free) -/
+/-!** ### Step 1: Parity on ℕ (Clean and cast-free) **-/
 
 /-- If 2 divides n^2 for n : ℕ, then 2 divides n. -/
 lemma nat_even_of_sq_even {n : ℕ} (h : 2 ∣ n ^ 2) : 2 ∣ n := by
@@ -110,47 +110,39 @@ lemma nat_even_of_sq_even {n : ℕ} (h : 2 ∣ n ^ 2) : 2 ∣ n := by
   | inl h1 => exact h1
   | inr h2 => exact h2
 
-/-- Theorem: No coprime pair of integers p and q satisfies p^2 = 2 * q^2. -/
-theorem no_coprime_sq_eq_two (p q : ℤ) (h_coprime : p.natAbs.Coprime q.natAbs) :
+/-- Helper lemma: No coprime pair of integers p and q satisfies p^2 = 2 * q^2. -/
+lemma no_coprime_sq_eq_two (p q : ℤ) (h_coprime : p.natAbs.Coprime q.natAbs) :
     p ^ 2 ≠ 2 * q ^ 2 := by
   intro h_eq
 
-  -- Translate the equation p^2 = 2 * q^2 entirely to Nat:
   have h_nat_eq : p.natAbs ^ 2 = 2 * q.natAbs ^ 2 := by
     have h_abs := congrArg Int.natAbs h_eq
     simpa [Int.natAbs_pow, Int.natAbs_mul] using h_abs
 
-  -- 1. 2 ∣ p.natAbs^2 ==> 2 ∣ p.natAbs
   have hp_even : 2 ∣ p.natAbs := by
     apply nat_even_of_sq_even
     use q.natAbs ^ 2
 
-  -- Write p.natAbs = 2 * k
   rcases hp_even with ⟨k, hk⟩
 
-  -- 2. Substitute into (2 * k)^2 = 2 * q.natAbs^2
   have h_subst : (2 * k) ^ 2 = 2 * q.natAbs ^ 2 := by
     rwa [hk] at h_nat_eq
 
-  -- Expand (2 * k)^2 to 2 * (2 * k^2)
   have h_expand : (2 * k) ^ 2 = 2 * (2 * k ^ 2) := by
     ring
 
   have h_mul_eq : 2 * (2 * k ^ 2) = 2 * q.natAbs ^ 2 := by
     rwa [h_expand] at h_subst
 
-  -- Cancel the leading 2 using core Lean's Nat.mul_left_cancel
   have h_two_pos : 0 < 2 := by decide
   have hq2_eq : 2 * k ^ 2 = q.natAbs ^ 2 :=
     Nat.mul_left_cancel h_two_pos h_mul_eq
 
-  -- 3. 2 ∣ q.natAbs^2 ==> 2 ∣ q.natAbs
   have hq_even : 2 ∣ q.natAbs := by
     apply nat_even_of_sq_even
     use k ^ 2
     exact hq2_eq.symm
 
-  -- 4. Contradiction with Coprime (gcd = 1)
   have hp_dvd : 2 ∣ p.natAbs := by
     rw [hk]
     exact dvd_mul_right 2 k
@@ -163,4 +155,32 @@ theorem no_coprime_sq_eq_two (p q : ℤ) (h_coprime : p.natAbs.Coprime q.natAbs)
   revert h_dvd_gcd
   decide
 
+/-- 2.1.4 Theorem: There does not exist a rational number r such that r^2 = 2. -/
+theorem Theorem_2_1_4 : ¬ ∃ (r : ℚ), r ^ 2 = 2 := by
+  rintro ⟨r, hr⟩
+
+  have h_cleared : (r.num : ℤ) ^ 2 = 2 * (r.den : ℤ) ^ 2 := by
+    have h_eval : (r.num : ℚ) / (r.den : ℚ) = r :=
+      Rat.num_div_den r
+
+    have h_sq : ((r.num : ℚ) / (r.den : ℚ)) ^ 2 = 2 := by
+      rwa [h_eval]
+
+    have h_den_ne : (r.den : ℚ) ≠ 0 :=
+      Nat.cast_ne_zero.mpr r.den_nz
+
+    have h_mul : (r.num : ℚ) ^ 2 = 2 * (r.den : ℚ) ^ 2 := by
+      calc
+        (r.num : ℚ) ^ 2 =
+            ((r.num : ℚ) / (r.den : ℚ)) ^ 2 * (r.den : ℚ) ^ 2 := by
+              rw [div_pow, div_mul_cancel₀ _ (pow_ne_zero 2 h_den_ne)]
+        _ = 2 * (r.den : ℚ) ^ 2 := by
+              rw [h_sq]
+
+    exact_mod_cast h_mul
+
+  have h_coprime : r.num.natAbs.Coprime (r.den : ℤ).natAbs := by
+    simpa using r.reduced
+
+  exact no_coprime_sq_eq_two r.num (r.den : ℤ) h_coprime h_cleared
 end Bartle.RealAnalysis.Chapter02
