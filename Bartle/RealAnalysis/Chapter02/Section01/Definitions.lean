@@ -1,95 +1,107 @@
 import Common
-import Mathlib.Tactic.Use
-import Mathlib.Algebra.Field.Defs
-import Mathlib.Algebra.GroupWithZero.Units.Basic
-import Mathlib.Tactic.Ring
-import Mathlib.Data.Rat.Defs
-import Mathlib.Data.Int.GCD
-import Mathlib.Data.Nat.Prime.Basic
-import Mathlib.Data.Nat.GCD.Basic
+import Mathlib
 
 namespace Bartle.RealAnalysis.Chapter02
 
--- Note: 'Type*' without a space, and '[Field F]' to provide 0, -, +, *, and lemmas
 variable {F : Type*} [Field F]
 
 def addition (x y : F) : F := x + y
 
 def multiplication (x y : F) : F := x * y
 
-/-- (A1) Commutativity of Addition: a + b = b + a -/
-theorem A1_add_comm (a b : F) : a + b = b + a :=
-  add_comm a b
+/-!
+### Field axioms
+-/
 
-/-- (A2) Associativity of Addition: (a + b) + c = a + (b + c) -/
-theorem A2_add_assoc (a b c : F) : (a + b) + c = a + (b + c) :=
-  add_assoc a b c
+/-- The field axioms, grouped under Bartle's labels. -/
+structure FieldAxiom (F : Type*) [Field F] : Prop where
+  /-- (A1) Commutativity of addition. -/
+  A1 : ∀ a b : F, a + b = b + a
 
-/-- (A3) Existence of a Zero Element -/
-theorem A3_add_zero (a : F) : 0 + a = a ∧ a + 0 = a :=
-  ⟨zero_add a, add_zero a⟩
+  /-- (A2) Associativity of addition. -/
+  A2 : ∀ a b c : F, (a + b) + c = a + (b + c)
 
-/-- (A4) Existence of Negative Elements -/
-theorem A4_add_neg (a : F) : a + (-a) = 0 ∧ (-a) + a = 0 :=
-  ⟨add_neg_cancel a, neg_add_cancel a⟩
+  /-- (A3) Additive identity. -/
+  A3 : ∀ a : F, 0 + a = a ∧ a + 0 = a
 
-/-- (M1) Commutativity of Multiplication: a * b = b *+* a -/
-theorem M1_mul_comm (a b : F) : a * b = b * a :=
-  mul_comm a b
+  /-- (A4) Additive inverses. -/
+  A4 : ∀ a : F, a + (-a) = 0 ∧ (-a) + a = 0
 
-/-- (M2) Associativity of Multiplication: (a * b) * c = a * (b * c) -/
-theorem M2_mul_assoc (a b c : F) : (a * b) * c = a * (b * c) :=
-  mul_assoc a b c
+  /-- (M1) Commutativity of multiplication. -/
+  M1 : ∀ a b : F, a * b = b * a
 
-theorem M3_mul_ident (a : F) : 1 * a = a ∧ a * 1 = a :=
-  ⟨one_mul a, mul_one a⟩
+  /-- (M2) Associativity of multiplication. -/
+  M2 : ∀ a b c : F, (a * b) * c = a * (b * c)
 
-theorem M4_mul_recip (a : F) (hanezero : a ≠ 0) :
-    ∃ b : F, a * b = 1 ∧ b * a = 1 := by
-  use 1 / a
-  constructor
-  · exact mul_one_div_cancel hanezero
-  · exact one_div_mul_cancel hanezero
+  /-- (M3) Multiplicative identity. -/
+  M3 : ∀ a : F, 1 * a = a ∧ a * 1 = a
 
-theorem D_distrib_mul_over_add ( a b c: F) : a * ( b + c) = (a*b) + (a*c) := by
-  ring
+  /-- (M4) Multiplicative inverses for nonzero elements. -/
+  M4 : ∀ a : F, a ≠ 0 → ∃ b : F, a * b = 1 ∧ b * a = 1
 
-/-- Bartle & Sherbert 2.1.2 (a): If z + a = a, then z = 0 -/
-theorem Theoreom_2_1_2_a (z a : F) (h : z + a = a) : z = 0 := by
+  /-- (D) Distributivity of multiplication over addition. -/
+  D : ∀ a b c : F, a * (b + c) = a * b + a * c
+
+/-- Every Mathlib field satisfies the bundled field axioms. -/
+theorem fieldAxiom (F : Type*) [Field F] : FieldAxiom F :=
+  {
+    A1 := add_comm
+    A2 := add_assoc
+    A3 := fun a => ⟨zero_add a, add_zero a⟩
+    A4 := fun a => ⟨add_neg_cancel a, neg_add_cancel a⟩
+    M1 := mul_comm
+    M2 := mul_assoc
+    M3 := fun a => ⟨one_mul a, mul_one a⟩
+    M4 := by
+      intro a ha
+      exact ⟨1 / a, mul_one_div_cancel ha, one_div_mul_cancel ha⟩
+    D := mul_add
+  }
+
+/-!
+### Bartle & Sherbert Theorem 2.1.2
+-/
+
+/-- Bartle & Sherbert 2.1.2 (a): If z + a = a, then z = 0. -/
+theorem Theoreom_2_1_2_a
+    (z a : F) (h : z + a = a) : z = 0 := by
   calc
-    z = z            := rfl
-    _ = z + 0        := (add_zero z).symm
-    _ = z + (a + -a) := by rw [← add_neg_cancel a]
+    z = z + 0        := (add_zero z).symm
+    _ = z + (a + -a) := by rw [add_neg_cancel]
     _ = (z + a) + -a := (add_assoc z a (-a)).symm
     _ = a + -a       := by rw [h]
     _ = 0            := add_neg_cancel a
 
-/-- Theorem 2.1.2 (b): Uniqueness of identity -/
-theorem Theoreom_2_1_2_b (u b : F) (hb : b ≠ 0) (h : u * b = b) : u = 1 := by
+/-- Bartle & Sherbert 2.1.2 (b): Uniqueness of multiplicative identity. -/
+theorem Theoreom_2_1_2_b
+    (u b : F) (hb : b ≠ 0) (h : u * b = b) : u = 1 := by
   calc
-    u = u                 := rfl
-    _ = u * 1             := (mul_one u).symm
+    u = u * 1             := (mul_one u).symm
     _ = u * (b * (1 / b)) := by rw [mul_one_div_cancel hb]
     _ = (u * b) * (1 / b) := (mul_assoc u b (1 / b)).symm
     _ = b * (1 / b)       := by rw [h]
     _ = 1                 := mul_one_div_cancel hb
 
-/-- Bartle & Sherbert 2.1.3 (a) -/
-theorem Theoreom_2_1_3_a (a b : F) (h : a + b = 0) : b = -a := by
+/-!
+### Bartle & Sherbert Theorem 2.1.3
+-/
+
+/-- Bartle & Sherbert 2.1.3 (a): Uniqueness of additive inverse. -/
+theorem Theoreom_2_1_3_a
+    (a b : F) (h : a + b = 0) : b = -a := by
   calc
-    b = b            := rfl
-    _ = b + 0        := (add_zero b).symm
+    b = b + 0        := (add_zero b).symm
     _ = b + (a + -a) := by rw [add_neg_cancel]
     _ = (b + a) + -a := (add_assoc b a (-a)).symm
     _ = (a + b) + -a := by rw [add_comm b a]
     _ = 0 + -a       := by rw [h]
     _ = -a           := zero_add (-a)
 
-/-- Bartle & Sherbert 2.1.3 (b) -/
-theorem Theoreom_2_1_3_b (a b : F) (ha : a ≠ 0) (h : a * b = 1) : b = 1/a := by
+/-- Bartle & Sherbert 2.1.3 (b): Uniqueness of multiplicative inverse. -/
+theorem Theoreom_2_1_3_b
+    (a b : F) (ha : a ≠ 0) (h : a * b = 1) : b = 1 / a := by
   calc
-    b = b                 := rfl
-    _ = b * 1             := (mul_one b).symm
+    b = b * 1             := (mul_one b).symm
     _ = b * (a * (1 / a)) := by rw [mul_one_div_cancel ha]
     _ = (b * a) * (1 / a) := (mul_assoc b a (1 / a)).symm
     _ = (a * b) * (1 / a) := by rw [mul_comm b a]
@@ -97,12 +109,10 @@ theorem Theoreom_2_1_3_b (a b : F) (ha : a ≠ 0) (h : a * b = 1) : b = 1/a := b
     _ = 1 / a             := one_mul (1 / a)
 
 /-!
-**### Bartle Theorem 2.1.4: Irrationality of √2**
+### Bartle & Sherbert Theorem 2.1.4: Irrationality of √2
 -/
 
-/-!** ### Step 1: Parity on ℕ (Clean and cast-free) **-/
-
-/-- If 2 divides n^2 for n : ℕ, then 2 divides n. -/
+/-- If 2 divides n² for n : ℕ, then 2 divides n. -/
 lemma nat_even_of_sq_even {n : ℕ} (h : 2 ∣ n ^ 2) : 2 ∣ n := by
   have hp : Nat.Prime 2 := Nat.prime_two
   rw [sq] at h
@@ -110,8 +120,10 @@ lemma nat_even_of_sq_even {n : ℕ} (h : 2 ∣ n ^ 2) : 2 ∣ n := by
   | inl h1 => exact h1
   | inr h2 => exact h2
 
-/-- Helper lemma: No coprime pair of integers p and q satisfies p^2 = 2 * q^2. -/
-lemma no_coprime_sq_eq_two (p q : ℤ) (h_coprime : p.natAbs.Coprime q.natAbs) :
+/-- No coprime pair of integers p and q satisfies p² = 2q². -/
+lemma no_coprime_sq_eq_two
+    (p q : ℤ)
+    (h_coprime : p.natAbs.Coprime q.natAbs) :
     p ^ 2 ≠ 2 * q ^ 2 := by
   intro h_eq
 
@@ -121,7 +133,7 @@ lemma no_coprime_sq_eq_two (p q : ℤ) (h_coprime : p.natAbs.Coprime q.natAbs) :
 
   have hp_even : 2 ∣ p.natAbs := by
     apply nat_even_of_sq_even
-    use q.natAbs ^ 2
+    exact ⟨q.natAbs ^ 2, h_nat_eq⟩
 
   rcases hp_even with ⟨k, hk⟩
 
@@ -134,29 +146,25 @@ lemma no_coprime_sq_eq_two (p q : ℤ) (h_coprime : p.natAbs.Coprime q.natAbs) :
   have h_mul_eq : 2 * (2 * k ^ 2) = 2 * q.natAbs ^ 2 := by
     rwa [h_expand] at h_subst
 
-  have h_two_pos : 0 < 2 := by decide
-  have hq2_eq : 2 * k ^ 2 = q.natAbs ^ 2 :=
-    Nat.mul_left_cancel h_two_pos h_mul_eq
+  have hq2_eq : 2 * k ^ 2 = q.natAbs ^ 2 := by
+    exact mul_left_cancel₀ (by decide : (2 : ℕ) ≠ 0) h_mul_eq
 
   have hq_even : 2 ∣ q.natAbs := by
     apply nat_even_of_sq_even
-    use k ^ 2
-    exact hq2_eq.symm
+    exact ⟨k ^ 2, hq2_eq.symm⟩
 
   have hp_dvd : 2 ∣ p.natAbs := by
-    rw [hk]
-    exact dvd_mul_right 2 k
+    exact ⟨k, hk⟩
 
   have h_dvd_gcd : 2 ∣ Nat.gcd p.natAbs q.natAbs :=
     Nat.dvd_gcd hp_dvd hq_even
 
-  rw [Nat.Coprime] at h_coprime
-  rw [h_coprime] at h_dvd_gcd
-  revert h_dvd_gcd
-  decide
+  have h_gcd_eq_one : Nat.gcd p.natAbs q.natAbs = 1 := h_coprime
+  rw [h_gcd_eq_one] at h_dvd_gcd
+  norm_num at h_dvd_gcd
 
-/-- 2.1.4 Theorem: There does not exist a rational number r such that r^2 = 2. -/
-theorem Theorem_2_1_4 : ¬ ∃ (r : ℚ), r ^ 2 = 2 := by
+/-- There does not exist a rational number r such that r² = 2. -/
+theorem Theorem_2_1_4 : ¬ ∃ r : ℚ, r ^ 2 = 2 := by
   rintro ⟨r, hr⟩
 
   have h_cleared : (r.num : ℤ) ^ 2 = 2 * (r.den : ℤ) ^ 2 := by
@@ -174,8 +182,7 @@ theorem Theorem_2_1_4 : ¬ ∃ (r : ℚ), r ^ 2 = 2 := by
         (r.num : ℚ) ^ 2 =
             ((r.num : ℚ) / (r.den : ℚ)) ^ 2 * (r.den : ℚ) ^ 2 := by
               rw [div_pow, div_mul_cancel₀ _ (pow_ne_zero 2 h_den_ne)]
-        _ = 2 * (r.den : ℚ) ^ 2 := by
-              rw [h_sq]
+        _ = 2 * (r.den : ℚ) ^ 2 := by rw [h_sq]
 
     exact_mod_cast h_mul
 
@@ -183,4 +190,143 @@ theorem Theorem_2_1_4 : ¬ ∃ (r : ℚ), r ^ 2 = 2 := by
     simpa using r.reduced
 
   exact no_coprime_sq_eq_two r.num (r.den : ℤ) h_coprime h_cleared
+
+/-!
+### 2.1.5 Order axioms
+-/
+
+namespace Order
+
+/-- Order axioms on the same field F, expressed through a positive cone. -/
+structure Axioms (F : Type*) [Field F] where
+  /-- The postulated positive cone. -/
+  P : Set F
+
+  /-- The positive cone is nonempty. -/
+  P_nonempty : P.Nonempty
+
+  /-- (i) Closure under addition in positive cone. -/
+  add_closed :
+    ∀ a b : F, a ∈ P → b ∈ P → a + b ∈ P
+
+  /-- (ii) Closure under multiplication in positive cone. -/
+  mul_closed :
+    ∀ a b : F, a ∈ P → b ∈ P → a * b ∈ P
+
+  /-- (iii) Exactly one of positivity, zero, or negativity holds. -/
+  trichotomy :
+    ∀ a : F,
+      (a ∈ P ∧ a ≠ 0 ∧ -a ∉ P) ∨
+      (a ∉ P ∧ a = 0 ∧ -a ∉ P) ∨
+      (a ∉ P ∧ a ≠ 0 ∧ -a ∈ P)
+
+/-!
+### Sign predicates
+-/
+namespace Predicates
+
+/-- An element is positive if it belongs to the positive cone. -/
+def Positive (o : Order.Axioms F) (a : F) : Prop :=
+  a ∈ o.P
+
+/-- An element is nonnegative if it is positive or zero. -/
+def Nonnegative (o : Order.Axioms F) (a : F) : Prop :=
+  a ∈ o.P ∨ a = 0
+
+/-- An element is negative if its additive inverse is positive. -/
+def Negative (o : Order.Axioms F) (a : F) : Prop :=
+  -a ∈ o.P
+
+/-- An element is nonpositive if it is negative or zero. -/
+def Nonpositive (o : Order.Axioms F) (a : F) : Prop :=
+  -a ∈ o.P ∨ a = 0
+
+end Predicates
+
+/-!
+### 2.1.6 Order relations
+-/
+namespace Relations
+
+/-- a < b means b - a is positive. -/
+def LessThan (o : Order.Axioms F) (a b : F) : Prop :=
+  b - a ∈ o.P
+
+/-- a > b means a - b is positive. -/
+def GreaterThan (o : Order.Axioms F) (a b : F) : Prop :=
+  a - b ∈ o.P
+
+/-- a ≤ b means b - a is positive or zero. -/
+def LessEqual (o : Order.Axioms F) (a b : F) : Prop :=
+  b - a ∈ o.P ∨ b - a = 0
+
+/-- a ≥ b means a - b is positive or zero. -/
+def GreaterEqual (o : Order.Axioms F) (a b : F) : Prop :=
+  a - b ∈ o.P ∨ a - b = 0
+
+end Relations
+
+end Order
+/-!
+### Bartle & Sherbert Theorem 2.1.7
+-/
+open Order.Relations Order.Predicates
+
+/-- Bartle & Sherbert 2.1.7 (a): Transitivity. -/
+theorem Theorem_2_1_7_a
+    (o : Order.Axioms F) (a b c : F)
+    (hab : GreaterThan o a b)
+    (hbc : GreaterThan o b c) :
+    GreaterThan o a c := by
+  change a - b ∈ o.P at hab
+  change b - c ∈ o.P at hbc
+  have hagtc := o.add_closed (a-b) (b-c) hab hbc
+  have hcancel : (a - b) + (b - c) = a - c := by
+    ring
+  rw [hcancel] at hagtc
+  exact hagtc
+
+/-- Bartle & Sherbert 2.1.7 (b): Addition preserves strict inequality. -/
+theorem Theorem_2_1_7_b
+    (o : Order.Axioms F) (a b c : F)
+    (hab : GreaterThan o a b) :
+    GreaterThan o (a + c) (b + c) := by
+  unfold GreaterThan at hab
+  unfold GreaterThan
+  have hcancel : (a + c) - (b + c) = a - b := by
+    ring
+  rw [hcancel]
+  exact hab
+
+/-- Bartle & Sherbert 2.1.7 (c): Multiplication by a positive element
+preserves strict inequality. -/
+theorem Theorem_2_1_7_c_positive
+    (o : Order.Axioms F) (a b c : F)
+    (hab : GreaterThan o a b)
+    (hc : GreaterThan o c 0) :
+    GreaterThan o (c * a) (c * b) := by
+  unfold GreaterThan at hab
+  unfold GreaterThan
+  have hcP : c ∈ o.P := by
+    simpa [GreaterThan] using hc
+  have hac := o.mul_closed c a
+  have hbc := o.mul_closed c b
+  have hcancel : (c * a) - (c * b) = c * a - c * b := by
+    ring
+  have hfactor : c * a - c * b = c * (a - b) := by
+    ring
+  rw [hfactor]
+  exact o.mul_closed c (a - b) hcP hab
+
+/-- Bartle & Sherbert 2.1.7 (c): Multiplication by a negative element
+reverses strict inequality. -/
+theorem Theorem_2_1_7_c_negative
+    (o : Order.Axioms F) (a b c : F)
+    (hab : GreaterThan o a b)
+    (hc : LessThan o c 0) :
+    LessThan o (c * a) (c * b) := by
+  sorry
+
+
+
 end Bartle.RealAnalysis.Chapter02
