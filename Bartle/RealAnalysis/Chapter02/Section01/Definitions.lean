@@ -1,5 +1,12 @@
 import Common
-import Mathlib
+import Mathlib.Tactic.Use
+import Mathlib.Algebra.Field.Defs
+import Mathlib.Algebra.GroupWithZero.Units.Basic
+import Mathlib.Tactic.Ring
+import Mathlib.Data.Rat.Defs
+import Mathlib.Data.Int.GCD
+import Mathlib.Data.Nat.Prime.Basic
+import Mathlib.Data.Nat.GCD.Basic
 
 namespace Bartle.RealAnalysis.Chapter02
 
