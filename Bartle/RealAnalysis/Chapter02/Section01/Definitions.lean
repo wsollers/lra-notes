@@ -325,8 +325,118 @@ theorem Theorem_2_1_7_c_negative
     (hab : GreaterThan o a b)
     (hc : LessThan o c 0) :
     LessThan o (c * a) (c * b) := by
+  unfold GreaterThan at hab
+  unfold LessThan at hc
+  unfold LessThan
+  have hncp : (-c) ∈ o.P := by
+    simpa [sub_eq_add_neg] using hc
+  have hfactor : (c * b) - (c * a) = (-c) * (a - b) := by
+    ring
+  rw [hfactor]
+  exact o.mul_closed (-c) (a - b) hncp hab
+
+/-- Bartle & Sherbert 2.1.8 (a): Every nonzero square is positive. -/
+theorem Theorem_2_1_8_a
+    (o : Order.Axioms F) (a : F) (ha : a ≠ 0) :
+    GreaterThan o (a ^ 2) 0 := by
+  rcases o.trichotomy a with
+    ⟨hpos, hne, hnotneg⟩ |
+    ⟨hnotpos, hzero, hnotneg⟩ |
+    ⟨hnotpos, hne, hneg⟩
+  · -- Positive case: you have hpos : a ∈ o.P.
+    have h2pos := o.mul_closed a a
+    have haa : a * a ∈ o.P := h2pos hpos hpos
+    simpa [GreaterThan, pow_two] using haa
+  · -- Zero case: you have hzero : a = 0.
+    exact False.elim (ha hzero)
+  · -- Negative case: you have hneg : -a ∈ o.P.
+    have h2pos := o.mul_closed (-a) (-a)
+    have haa : (-a) * (-a) ∈ o.P := h2pos hneg hneg
+    simpa [GreaterThan, pow_two] using haa
+
+/-- Bartle & Sherbert 2.1.8 (b): One is positive. -/
+theorem Theorem_2_1_8_b
+    (o : Order.Axioms F) :
+    GreaterThan o (1 : F) 0 := by
+  have h := Theorem_2_1_8_a o (1 : F)
+  have hnn := h one_ne_zero
+  simpa using hnn
+
+/-- Bartle & Sherbert 2.1.8 (c): Every positive natural number
+is positive when embedded in F. -/
+theorem Theorem_2_1_8_c
+    (o : Order.Axioms F) (n : ℕ) (h_nonzero : n ≠ 0) :
+    GreaterThan o (n : F) 0 := by
+  have h_one_mem : (1 : F) ∈ o.P := by
+    simpa [GreaterThan] using Theorem_2_1_8_b o
+  induction n with
+  | zero =>
+      exact False.elim (h_nonzero rfl)
+  | succ n induction_hypothesis =>
+      by_cases h_n_zero : n = 0
+      · -- If n = 0, its successor is 1.
+        have h_one_positive := Theorem_2_1_8_b o
+        simpa [h_n_zero] using h_one_positive
+      · -- If n ≠ 0, both n and 1 belong to the positive cone.
+        have h_n_positive := induction_hypothesis h_n_zero
+        have h_n_mem : (n : F) ∈ o.P := by
+          simpa [GreaterThan] using h_n_positive
+        have h_successor_mem : (n : F) + 1 ∈ o.P :=
+          o.add_closed (n : F) 1 h_n_mem h_one_mem
+        simpa [GreaterThan, Nat.cast_succ] using h_successor_mem
+
+/-- Bartle & Sherbert 2.1.9: A nonnegative element smaller than
+every positive element is zero. -/
+theorem Theorem_2_1_9
+    (o : Order.Axioms F) (a : F)
+    (ha : LessEqual o 0 a)
+    (hε : ∀ ε : F, GreaterThan o ε 0 → LessThan o a ε) :
+    a = 0 := by
+  by_cases h_a_zero : a = 0
+  · --
+    exact h_a_zero
+  · -- Here h_a_zero : a ≠ 0.
+    have h_a_positive : GreaterThan o a 0 := by
+      rcases ha with h_positive | h_zero
+      · --
+        exact h_positive
+      · --
+        exact False.elim (h_a_zero (by simpa using h_zero))
+
+    -- Continue with the a > 0 case.
+    have hae := hε a h_a_positive
+    have h_zero_mem : (0 : F) ∈ o.P := by
+      simpa [LessThan] using hae
+    have h_zero_not_mem : (0 : F) ∉ o.P := by
+      rcases o.trichotomy (0 : F) with h_positive | h_zero | h_negative
+      · exact False.elim (h_positive.2.1 rfl)
+      · exact h_zero.1
+      · exact h_negative.1
+    exact False.elim (h_zero_not_mem h_zero_mem)
+
+/-- Bartle & Sherbert 2.1.10: A positive product has factors
+of the same sign. -/
+theorem Theorem_2_1_10
+    (o : Order.Axioms F) (a b : F)
+    (hab : GreaterThan o (a * b) 0) :
+    (GreaterThan o a 0 ∧ GreaterThan o b 0) ∨
+    (LessThan o a 0 ∧ LessThan o b 0) := by
+  constructor
+  . --
+    constructor
+    . --
+      sorry
+    . --
+      sorry
+
+
+/-- Bartle & Sherbert 2.1.11: A negative product has factors
+of opposite signs. -/
+theorem Corollary_2_1_11
+    (o : Order.Axioms F) (a b : F)
+    (hab : LessThan o (a * b) 0) :
+    (LessThan o a 0 ∧ GreaterThan o b 0) ∨
+    (GreaterThan o a 0 ∧ LessThan o b 0) := by
   sorry
-
-
 
 end Bartle.RealAnalysis.Chapter02
