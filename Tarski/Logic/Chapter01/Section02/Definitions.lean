@@ -23,6 +23,7 @@ evidence that it contains at least one variable.
 structure SententialFunction where
   sentence : Sentence
   containsVariable : IsSententialFunction sentence
+  deriving Repr, DecidableEq
 
 /-- Replace each variable symbol in a sentence according to a list of
 simultaneous variable-to-constant substitutions. -/

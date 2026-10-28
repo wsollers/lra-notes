@@ -34,7 +34,6 @@ theorem iff_forall_iff {I : D → D → Prop} (h_leibniz : LeibnizLaw I) (x y : 
     sorry
   . --
     intro PP
-    let pp : PP 
     have ii := h_xyyx
     sorry
 

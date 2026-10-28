@@ -36,7 +36,7 @@ A universal quantifier consists of the universal quantifier symbol
 together with a bound variable (e.g., "for every x").
 -/
 structure UniversalQuantifier where
-  variable : Variable
+  boundVariable : Variable
   deriving Repr, DecidableEq
 
 /--
@@ -44,7 +44,7 @@ An existential quantifier consists of the existential quantifier symbol
 together with a bound variable (e.g., "there exists an x").
 -/
 structure ExistentialQuantifier where
-  variable : Variable
+  boundVariable : Variable
   deriving Repr, DecidableEq
 
 
@@ -62,7 +62,7 @@ are called universal sentences (or general sentences)."
 -/
 structure UniversalSentence where
   /-- The variable bound by the universal quantifier. -/
-  variable : Variable
+  boundVariable : Variable
   /-- The underlying sentential function (the matrix or scope of the quantifier). -/
   matrix : SententialFunction
   deriving Repr, DecidableEq
@@ -72,7 +72,7 @@ Render a `UniversalSentence` into a concrete `Sentence` by prefixing
 the universal quantifier symbol and the variable symbol to the matrix symbols.
 -/
 def UniversalSentence.toSentence (u : UniversalSentence) : Sentence :=
-  ⟨universalQuantifierSymbol :: u.variable.symbol :: u.matrix.sentence.symbols⟩
+  ⟨universalQuantifierSymbol :: u.boundVariable.symbol :: u.matrix.sentence.symbols⟩
 
 /--
 A sentence is universal if it is the concrete expansion of some
@@ -94,7 +94,7 @@ such phrases are called existential sentences."
 -/
 structure ExistentialSentence where
   /-- The variable bound by the existential quantifier. -/
-  variable : Variable
+  boundVariable : Variable
   /-- The underlying sentential function. -/
   matrix : SententialFunction
   deriving Repr, DecidableEq
@@ -104,7 +104,7 @@ Render an `ExistentialSentence` into a concrete `Sentence` by prefixing
 the existential quantifier symbol and the variable symbol to the matrix symbols.
 -/
 def ExistentialSentence.toSentence (e : ExistentialSentence) : Sentence :=
-  ⟨existentialQuantifierSymbol :: e.variable.symbol :: e.matrix.sentence.symbols⟩
+  ⟨existentialQuantifierSymbol :: e.boundVariable.symbol :: e.matrix.sentence.symbols⟩
 
 /--
 A sentence is existential if it is the concrete expansion of some
