@@ -432,8 +432,13 @@ theorem Theorem_2_1_10
   . --
     constructor
     . --
+      have haP := a ∈ o.P
+      have hbP := b ∈ o.P
+     --have habP := o.mul_closed a b haP hbP
+
       sorry
     . --
+
       sorry
 
 
